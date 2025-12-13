@@ -8,6 +8,11 @@
     background: #48C0FF;
 }
 
+.header img{
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
 .sidebar {
     position: fixed;
     font-size: 40px;
