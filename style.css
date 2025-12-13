@@ -1,0 +1,22 @@
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 60px;
+    width: 100%;
+    background: #48C0FF;
+}
+
+.sidebar {
+    position: fixed;
+    top: 60px;
+    left: -220px;
+    width: 220px;
+    height: calc(100vh - 60px);
+    background: #F7FC66;
+    transition: left 0.3s ease;
+}
+
+#sidemenu:checked ~ .sidebar {
+  left: 0;
+}
