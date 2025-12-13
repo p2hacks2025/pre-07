@@ -19,6 +19,17 @@
     transition: left 0.3s ease;
 }
 
+.sidebar a {
+    text-decoration-color: #3F4D03;
+    background-color: #F7FC66;
+    color: #66DAFC;
+    margin-bottom:4px;
+}
+
+.sidebar a:hover{
+    background: #5CFCD355;
+}
+
 #sidemenu:checked ~ .sidebar {
   left: 0;
 }
