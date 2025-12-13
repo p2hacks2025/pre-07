@@ -1,15 +1,17 @@
 .header{
+    font-size: 60px;
     position: fixed;
     top: 0;
     left: 0;
-    height: 60px;
+    height: 100px;
     width: 100%;
     background: #48C0FF;
 }
 
 .sidebar {
     position: fixed;
-    top: 60px;
+    font-size: 40px;
+    top: 100px;
     left: -220px;
     width: 220px;
     height: calc(100vh - 60px);
