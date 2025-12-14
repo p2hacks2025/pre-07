@@ -27,6 +27,7 @@ fn Header() -> impl IntoView {
             <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/> 
         </header> 
         <input type="checkbox" id="sidemenu" hidden/> 
+        <div class="overlay"></div>
         <nav class="sidebar"> 
             <a>"ホーム"<br/></a>
             <a>"投稿"<br/></a>
