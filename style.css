@@ -37,11 +37,14 @@
         margin-top: 100px;
     }
     .tag-space{
+        position:relative;
         text-align: center;
         border: 2px dotted rgb(255, 167, 66);
         height: 60px;
         margin-top: 10px;
         margin-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
         width: 90%;
     }
     .text-area-space{
@@ -103,3 +106,16 @@
         height: 100%;
         width: 100%;
     }
+
+.form-check{
+    position:absolute;
+    top: 140px;
+    left: 87%;
+    width: 110px;
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    font-weight: bold;
+    background: #FFF;
+    border: solid 3px #6091d3;
+    border-radius: 10px;
+}

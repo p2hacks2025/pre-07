@@ -39,5 +39,15 @@ fn PostScreen() -> impl IntoView{
                     </div>
                 </div>
         </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
+            <label class="form-check-label" for="flexRadioDefault1">
+                初心者
+            </label>
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked></input>
+            <label class="form-check-label" for="flexRadioDefault2">
+                上級者
+            </label>
+        </div>
     }
 }
