@@ -10,6 +10,17 @@
     background: #7EFFBB;
 }
 
+.searchbar{
+    font-size: 20px;
+    padding: 8px;
+    width: 30%;
+    height: 30px;
+    margin: 0 auto;
+    border: 3px solid #27714A;
+    border-radius: 25px;
+    color: black;
+}
+
 .divider {
   width: 2px;
   height: 60px;
@@ -50,26 +61,27 @@
 }
 
 .sidebar a {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 20px;
-  text-decoration: none;
-  color: #66DAFC;
+    font-family: sidefont;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #66DAFC;
 }
 
 .sidebar a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 1.2em;
-  width: 0%;
-  height: 3px;
-  background: #464839;
-  transition: width 0.3s ease;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1.2em;
+    width: 0%;
+    height: 3px;
+    background: #464839;
+    transition: width 0.3s ease;
 }
 
 .sidebar a:hover::after {
-  width: 100%;
+    width: 100%;
 }
 
 #sidemenu:checked ~ .sidebar {

@@ -17,9 +17,12 @@ fn App() -> impl IntoView {
 fn Header() -> impl IntoView {
     view! {
         <header class="header"> 
-            <label for="sidemenu" style="margin-left: 10px">"☰"</label>
+            <label for="sidemenu" style="margin-left: 10px">
+                <img src="./images/menu_line72.png" alt="メニュー" height="40px"/>
+            </label>
             <div class="divider"></div>
             <img src="./images/tabicon.JPG" alt="アイコン" class="logo" height="40px"/> 
+            <input type="text" class="searchbar" placeholder="🔎タグ検索"></input>
             <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/> 
             <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/> 
         </header> 
