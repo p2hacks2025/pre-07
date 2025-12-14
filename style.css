@@ -36,5 +36,5 @@
 }
 
 #sidemenu:checked ~ .sidebar {
-  left: 0;
+    left: 0;
 }
