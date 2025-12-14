@@ -11,7 +11,7 @@
 }
 
 .logo{
-    margin-top: 10px;
+    margin-top: 5px;
     margin-left: 20px;
     box-shadow: 0 0 12px #FAFAFA22;
     border-radius: 12px;
@@ -37,7 +37,13 @@
     transition: left 0.3s ease;
 }
 
-.sidebar a {
+@font-face {
+    font-family: sidefont;
+    src: url(./fonts/ShinRetroMaruGothic-Medium.ttf) format("truetype");
+}
+
+.sidebar a{
+    font-family: sidefont;
     text-decoration-color: #3F4D03;
     background-color: #F7FC66;
     color: #66DAFC;
