@@ -1,24 +1,26 @@
 .header{
-    font-size: 60px;
+    font-size: 40px;
     position: fixed;
     top: 0;
     left: 0;
-    height: 100px;
+    height: 60px;
     width: 100%;
-    background: #48C0FF;
+    background: #7EFFBB;
 }
 
 .header img{
     margin-top: 10px;
     margin-left: 20px;
+    box-shadow: 0 0 12px #FAFAFA22;
+    border-radius: 12px;
 }
 
 .sidebar {
     position: fixed;
     font-size: 40px;
-    top: 100px;
+    top: 60px;
     left: -220px;
-    width: 220px;
+    width: 180px;
     height: calc(100vh - 60px);
     background: #F7FC66;
     transition: left 0.3s ease;
