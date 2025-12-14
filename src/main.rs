@@ -1,51 +1,38 @@
-use console_error_panic_hook;
-use leptos::prelude::*;
+#[cfg(feature = "ssr")]
+#[tokio::main]
+async fn main() {
+    use axum::Router;
+    use leptos::logging::log;
+    use leptos::prelude::*;
+    use leptos_axum::{generate_route_list, LeptosRoutes};
+    use pre_07::app::*;
 
-fn main() {
-    leptos::mount::mount_to_body(App);
-    console_error_panic_hook::set_once();
+    let conf = get_configuration(None).unwrap();
+    let addr = conf.leptos_options.site_addr;
+    let leptos_options = conf.leptos_options;
+    // Generate the list of routes in your Leptos App
+    let routes = generate_route_list(App);
+
+    let app = Router::new()
+        .leptos_routes(&leptos_options, routes, {
+            let leptos_options = leptos_options.clone();
+            move || shell(leptos_options.clone())
+        })
+        .fallback(leptos_axum::file_and_error_handler(shell))
+        .with_state(leptos_options);
+
+    // run our app with hyper
+    // `axum::Server` is a re-export of `hyper::Server`
+    log!("listening on http://{}", &addr);
+    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+    axum::serve(listener, app.into_make_service())
+        .await
+        .unwrap();
 }
 
-#[component]
-fn App() -> impl IntoView {
-    view! {
-        <Header/>
-    }
-}
-
-#[component]
-fn Header() -> impl IntoView {
-    view! {
-        <header class="header">
-            <label for="sidemenu" style="margin-left: 10px">
-                <img src="./images/menu_line72.png" alt="メニュー" height="40px"/>
-            </label>
-            <div class="divider"></div>
-            <img src="./images/tabicon.JPG" alt="アイコン" class="logo" height="40px"/>
-            <div class="search-wrap">
-                <img src="./images/search_fill48.png" class="search-icon" />
-                <input type="text" class="searchbar" placeholder="タブ検索"/>
-            </div>
-            <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/> 
-            <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/> 
-        </header> 
-        <input type="checkbox" id="sidemenu" hidden/> 
-        <label for="sidemenu" class="overlay"></label>
-        <nav class="sidebar"> 
-            <a>"ホーム"<br/></a>
-            <a>"投稿"<br/></a>
-            <a>"プロフ"<br/></a> 
-        </nav>
-
-        /*<div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
-            <label class="form-check-label" for="flexRadioDefault1">
-                初心者
-            </label>
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked></input>
-            <label class="form-check-label" for="flexRadioDefault2">
-                上級者
-            </label>
-        </div>*/
-    }
+#[cfg(not(feature = "ssr"))]
+pub fn main() {
+    // no client-side main function
+    // unless we want this to work with e.g., Trunk for pure client-side testing
+    // see lib.rs for hydration function instead
 }
