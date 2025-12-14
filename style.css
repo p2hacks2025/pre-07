@@ -85,6 +85,29 @@ body{
     transition: width 0.3s ease;
 }
 
+.overlay {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+
+.sidebar {
+    z-index: 10;
+}
+
+#sidemenu:checked ~ .overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
 .sidebar a:hover::after {
     width: 100%;
 }
