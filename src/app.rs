@@ -1,8 +1,8 @@
 use leptos::prelude::*;
-use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
+use leptos_meta::{MetaTags, Stylesheet, Title, provide_meta_context};
 use leptos_router::{
-    components::{Route, Router, Routes},
     StaticSegment,
+    components::{Route, Router, Routes},
 };
 
 pub fn shell(options: LeptosOptions) -> impl IntoView {
@@ -37,25 +37,32 @@ pub fn App() -> impl IntoView {
         <Title text="Welcome to Leptos"/>
 
         // content for this welcome page
-        <Router>
-            <main>
-                <Routes fallback=|| "Page not found.".into_view()>
-                    <Route path=StaticSegment("") view=HomePage/>
-                </Routes>
-            </main>
-        </Router>
+        <Header/>
     }
 }
 
-/// Renders the home page of your application.
 #[component]
-fn HomePage() -> impl IntoView {
-    // Creates a reactive value to update the button
-    let count = RwSignal::new(0);
-    let on_click = move |_| *count.write() += 1;
-
+fn Header() -> impl IntoView {
     view! {
-        <h1>"Welcome to Leptos!"</h1>
-        <button on:click=on_click>"Click Me: " {count}</button>
+        <header class="header">
+            <label for="sidemenu" style="margin-left: 10px">
+                <img src="./images/menu_line72.png" alt="メニュー" height="40px"/>
+            </label>
+            <div class="divider"></div>
+            <img src="./images/tabicon.JPG" alt="アイコン" class="logo" height="40px"/>
+            <div class="search-wrap">
+                <img src="./images/search_fill48.png" class="search-icon" />
+                <input type="text" class="searchbar" placeholder="タブ検索"/>
+            </div>
+            <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/>
+            <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/>
+        </header>
+        <input type="checkbox" id="sidemenu" hidden/>
+        <label for="sidemenu" class="overlay"></label>
+        <nav class="sidebar">
+            <a>"ホーム"<br/></a>
+            <a>"投稿"<br/></a>
+            <a>"プロフ"<br/></a>
+        </nav>
     }
 }
