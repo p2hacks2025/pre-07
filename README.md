@@ -53,7 +53,8 @@ biestar
 
 ### 利用したフレームワーク・ライブラリ
 
-- Leptos
+Webフレームワーク: Leptos  
+その他詳しいことは、Cargo.tomlに書いています。
 
 ### その他開発に使用したツール・サービス
 
@@ -62,4 +63,4 @@ biestar
 - ChatGPT
 - copilot
 - gemini
-- (フォント 【フリーフォント】新レトロ丸ゴシック)https://booth.pm/ja/items/4607768
+- (フォント 【フリーフォント】新レトロ丸ゴシック) <https://booth.pm/ja/items/4607768>
