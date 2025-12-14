@@ -1,4 +1,6 @@
 .header{
+    display: flex;
+    align-items: center;
     font-size: 40px;
     position: fixed;
     top: 0;
@@ -8,11 +10,15 @@
     background: #7EFFBB;
 }
 
-.header img{
+.logo{
     margin-top: 10px;
     margin-left: 20px;
     box-shadow: 0 0 12px #FAFAFA22;
     border-radius: 12px;
+}
+
+.beru{
+    margin-left: auto;
 }
 
 .sidebar {
