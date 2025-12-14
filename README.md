@@ -58,4 +58,8 @@ biestar
 ### その他開発に使用したツール・サービス
 
 - Nginx
+- MongoDB
 - ChatGPT
+- copilot
+- gemini
+- (フォント 【フリーフォント】新レトロ丸ゴシック)https://booth.pm/ja/items/4607768
