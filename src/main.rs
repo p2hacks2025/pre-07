@@ -11,3 +11,10 @@ fn App() -> impl IntoView{
     view!{
     }
 }
+
+#[component]
+fn PostScreen() -> impl IntoView{
+    view!{
+        
+    }
+}
