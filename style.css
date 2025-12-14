@@ -10,9 +10,16 @@
     background: #7EFFBB;
 }
 
+.divider {
+  width: 2px;
+  height: 60px;
+  background: #5e6460;
+  margin: 0 12px;
+}
+
 .logo{
     margin-top: 5px;
-    margin-left: 20px;
+    margin-left: 5px;
     box-shadow: 0 0 12px #FAFAFA22;
     border-radius: 12px;
 }
@@ -42,16 +49,27 @@
     src: url(./fonts/ShinRetroMaruGothic-Medium.ttf) format("truetype");
 }
 
-.sidebar a{
-    font-family: sidefont;
-    text-decoration-color: #3F4D03;
-    background-color: #F7FC66;
-    color: #66DAFC;
-    margin-bottom:4px;
+.sidebar a {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: #66DAFC;
 }
 
-.sidebar a:hover{
-    background: #5CFCD355;
+.sidebar a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.2em;
+  width: 0%;
+  height: 3px;
+  background: #464839;
+  transition: width 0.3s ease;
+}
+
+.sidebar a:hover::after {
+  width: 100%;
 }
 
 #sidemenu:checked ~ .sidebar {
