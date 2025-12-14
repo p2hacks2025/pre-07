@@ -17,9 +17,10 @@ fn App() -> impl IntoView {
 fn Header() -> impl IntoView {
     view! {
         <header class="header"> 
-            <label for="sidemenu" class="menu-btn">"☰"</label> 
+            <label for="sidemenu">"☰"</label> 
             <img src="./images/tabicon.JPG" alt="アイコン" class="logo" height="40px"/> 
             <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/> 
+            <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/> 
         </header> 
         <input type="checkbox" id="sidemenu" hidden/> 
         <nav class="sidebar"> 
