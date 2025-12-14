@@ -31,7 +31,7 @@
     font-size: 40px;
     top: 60px;
     left: -220px;
-    width: 180px;
+    width: 12%;
     height: calc(100vh - 60px);
     background: #F7FC66;
     transition: left 0.3s ease;
