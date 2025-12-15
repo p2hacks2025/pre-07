@@ -41,6 +41,9 @@ body{
     pointer-events: none;
 }
 
+.line {
+    display: block;
+}
 
 .divider {
     width: 2px;
@@ -72,7 +75,7 @@ body{
     position: fixed;
     font-size: 40px;
     top: 60px;
-    left: -220px;
+    left: -12%;
     width: 12%;
     height: calc(100vh - 60px);
     background: #F7FC66;
@@ -87,7 +90,7 @@ body{
 .sidebar a {
     font-family: sidefont;
     position: relative;
-    display: inline-block;
+    display: block;
     margin-bottom: 20px;
     text-decoration: none;
     color: #66DAFC;
