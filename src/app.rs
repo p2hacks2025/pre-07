@@ -55,9 +55,9 @@ fn Header() -> impl IntoView {
         <input type="checkbox" id="sidemenu" hidden/> 
         <label for="sidemenu" class="overlay"></label>
         <nav class="sidebar"> 
-            <a><span class="line">"ホーム"</span></a>
-            <a><span class="line">"投稿"</span></a>
-            <a><span class="line">"プロフ"</span></a>
+            <a>"ホーム"</a>
+            <a>"投稿"</a>
+            <a>"プロフ"</a>
         </nav>
     }
 }
