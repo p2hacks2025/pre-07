@@ -31,6 +31,27 @@ pub fn App() -> impl IntoView {
 
         // sets the document title
         //<Title text="Welcome to Leptos"/>
+        <Login/>
+    }
+}
 
+#[component]
+fn Login() -> impl IntoView{
+    let (visible, set_visible) = signal(true);
+    let password = move || if visible.get() {"password"} else {"input"}; 
+
+    view!{
+        <img class="backpicture" src="./images/IMG_0257.JPG" alt="Background Image"/>
+            <div class="login-board">
+            <input type="email" class="mail" autocomplete="username" placeholder="メールアドレス"/>
+            <div class="password-wrap">
+                <input type={password} class="password" placeholder="パスワード"/>
+                <img src="./images/eye_transparent.png" class="eye-icon"
+                    on:click={move |_| *set_visible.write() = !visible.get()}/>
+            </div>
+            <button class="loginbtn">"ログイン"</button>
+            <p class="wrongpassword">"passwordが間違っています"</p>
+            <button class="signupbtn">"新規登録"</button>
+            </div>
     }
 }
