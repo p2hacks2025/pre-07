@@ -1,4 +1,121 @@
-body {
-	font-family: sans-serif;
-	text-align: center;
+.flex{
+    display: flex;
+}
+*{
+    box-sizing: border-box;
+}
+.box{
+    width: 12%;
+    height: 100%;
+    background: red;
+    color: white;
+}
+
+#side-space-left{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: blue;
+}
+
+
+.outer{
+    height: 80%;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post-function{
+    text-align: center;
+    .title-space{
+        padding: 10px;
+        border-radius: 15px;
+        border-color: black;
+        height: 50px;
+        width: 300px;
+        margin-top: 100px;
+    }
+    .tag-space{
+        position:relative;
+        text-align: center;
+        border: 2px dotted rgb(255, 167, 66);
+        height: 60px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+    }
+    .text-area-space{
+        border: 2px solid black;
+        border-radius: 15px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        overflow: hidden;
+        .text-space{
+            padding: 10px;
+            border: none;
+            height: 250px;
+            width: 100%;
+            resize: none;
+            outline: none;
+            border-bottom: 1px solid black;
+        }
+        .text-function{
+            text-align:left;
+            margin-left: 5px;
+            height: 50px;
+            width: 100%;
+        }
+    }
+    .button-container{
+        margin-right: -10%;
+        text-align: right;
+    }
+    .post-button{
+        border-radius: 30px;
+        background-color: rgb(255, 244, 146);
+        height: 70px;
+        width: 80px;
+    }
+    .post-button:hover{
+        border-radius: 30px;
+        background-color: #e4d65a;
+        height: 70px;
+        width: 80px;
+    }
+    .post-button img{
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+    }
+    .post-button img:hover{
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+    }
+}
+
+    button.picture {
+        height: 45px;
+    }
+    button.picture img  {
+        display: inline-block;
+        height: 100%;
+        width: 100%;
+    }
+
+.form-check{
+    position:absolute;
+    top: 140px;
+    left: 87%;
+    width: 110px;
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    font-weight: bold;
+    background: #FFF;
+    border: solid 3px #6091d3;
+    border-radius: 10px;
 }
