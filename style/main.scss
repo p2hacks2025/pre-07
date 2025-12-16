@@ -1,4 +1,10 @@
+@font-face {
+    font-family: mainfont;
+    src: url(/NotoSansJP-VariableFont_wght.ttf) format("truetype");
+}
+
 body{
+    font-family: mainfont;
     background-color: #defdec;
     font-size: 20px;
 }
