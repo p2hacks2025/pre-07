@@ -25,3 +25,11 @@ async fn get_db_client() -> Client{
 struct Tag{
     tag: String
 }
+
+#[cfg(feature = "ssr")]
+#[derive(Deserialize, Serialize)]
+struct User{
+    name: String,
+    password_hash: String,
+    icon: Option<String>,
+}
