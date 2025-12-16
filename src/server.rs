@@ -25,18 +25,3 @@ async fn get_db_client() -> Client{
 struct Tag{
     tag: String
 }
-
-
-#[server]
-pub async fn test() -> Result<String, ServerFnError>{
-    let tag_collection = get_db_client().await.database("biestar").collection::<Tag>("tags");
-    let mut cursor = tag_collection.find(doc!{}).await?;
-    let mut out: Vec<String> = vec![];
-
-    while let Some(t) = cursor.next().await{
-        let t = t?;
-        out.push(t.tag);
-    }
-    
-    Ok(out.join(" "))
-}

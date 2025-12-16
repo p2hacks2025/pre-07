@@ -26,24 +26,9 @@ pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
 
-    let (text, set_text) = signal(String::new());
-    let click = move |_| {
-        task::spawn_local(async move {
-            let s = server::test().await.unwrap();
-            log!("{}", s);
-
-            set_text.set(s);
-        })
-    };
-
     view! {
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
         <Stylesheet id="leptos" href="/pkg/pre-07.css"/>
-
-        // sets the document title
-        //<Title text="Welcome to Leptos"/>
-        <p> {move || text.get()} </p>
-        <button on:click={click}> "test" </button>
     }
 }
