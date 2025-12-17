@@ -38,11 +38,11 @@ pub fn App() -> impl IntoView {
 }
 
 #[component]
-fn Login() -> impl IntoView{
+fn Login() -> impl IntoView {
     let (visible, set_visible) = signal(true);
-    let change_visible = move || if visible.get() {"password"} else {"input"};
+    let change_visible = move || if visible.get() { "password" } else { "input" };
 
-    fn check_password_length(password: String) -> bool{
+    fn check_password_length(password: String) -> bool {
         password.chars().count() >= 8
     }
 
@@ -51,16 +51,28 @@ fn Login() -> impl IntoView{
 
     let login = move || {
         task::spawn_local(async move {
-            log!("{}", server::log_in(name.get_untracked(), password.get_untracked()).await.unwrap().unwrap());
+            log!(
+                "{}",
+                server::log_in(name.get_untracked(), password.get_untracked())
+                    .await
+                    .unwrap()
+                    .unwrap()
+            );
         });
     };
     let signup = move || {
         task::spawn_local(async move {
-            log!("{}", server::sign_up(name.get_untracked(), password.get_untracked()).await.unwrap().unwrap());
+            log!(
+                "{}",
+                server::sign_up(name.get_untracked(), password.get_untracked())
+                    .await
+                    .unwrap()
+                    .unwrap()
+            );
         });
     };
 
-    view!{
+    view! {
         <img class="backpicture" src="./images/IMG_0257.JPG" alt="Background Image"/>
             <div class="login-board">
             <input type="text" class="user-name" autocomplete="username" placeholder="ユーザーネーム" on:input:target=move |ev| set_password.set(ev.target().value())/>
