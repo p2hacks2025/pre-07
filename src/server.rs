@@ -6,6 +6,7 @@ use {
     serde::{Deserialize, Serialize},
     std::fs,
     tokio::sync,
+    jsonwebtoken::{encode, decode, EncodingKey, Header}
 };
 
 // DBの設定
@@ -28,20 +29,20 @@ async fn get_db() -> Database {
 }
 
 #[cfg(feature = "ssr")]
-static DB_SETTING: sync::OnceCell<Db_setting> = sync::OnceCell::const_new();
+static DB_SETTING: sync::OnceCell<DbSetting> = sync::OnceCell::const_new();
 
 #[cfg(feature = "ssr")]
 #[derive(Serialize, Deserialize, Clone)]
-struct Db_setting{
-    jwt_key: String,
-    password_salt: String
+struct DbSetting{
+    password_salt: String,
+    jwt: String,
 }
 
 
 #[cfg(feature = "ssr")]
-async fn get_db_setting() -> Db_setting{
+async fn get_db_setting() -> DbSetting{
     DB_SETTING.get_or_init(|| async {
-        let collection = get_db().await.collection::<Db_setting>("config");
+        let collection = get_db().await.collection::<DbSetting>("config");
         collection.find_one(doc!{}).await.unwrap().unwrap()
     }).await.clone()
 }
@@ -62,12 +63,37 @@ struct User {
     icon: Option<String>,
 }
 
+// 関数
+
+#[cfg(feature = "ssr")]
+static JWT_ENCODE_KEY: sync::OnceCell<EncodingKey> = sync::OnceCell::const_new();
+
+#[cfg(feature = "ssr")]
+static JWT_DECODE_KEY: sync::OnceCell<EncodingKey> = sync::OnceCell::const_new(); 
+
+#[cfg(feature = "ssr")]
+#[derive(Serialize, Deserialize)]
+struct Claims{
+    sub: String
+}
+
+#[cfg(feature = "ssr")]
+async fn make_jwt(name: String) -> String{
+    let key = JWT_ENCODE_KEY.get_or_init(|| async {
+        let setting = get_db_setting().await;
+        EncodingKey::from_secret(setting.jwt.as_bytes())
+    }).await;
+    encode(&Header::default(), &Claims{sub: name}, key).unwrap()
+}
+
 // API関数
 
+#[server]
 pub async fn sign_up(name: String, password: String) -> Result<Option<String>, ServerFnError> {
     todo!()
 }
 
+#[server]
 pub async fn log_in(name: String, password: String) -> Result<Option<String>, ServerFnError> {
-    todo! {}
+    todo!()
 }
