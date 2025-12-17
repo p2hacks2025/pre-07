@@ -41,7 +41,7 @@ pub fn App() -> impl IntoView {
 fn Login() -> impl IntoView {
     let (visible, set_visible) = signal(true);
     let change_visible = move || if visible.get() { "password" } else { "input" };
-    let (wrong_password_flag, set_wrong_password_flag) = signal(false);
+    let (wrong_password_flag, set_wrong_password_flag) = signal(true);
 
     fn check_password_length(password: String) -> bool {
         password.chars().count() >= 8
