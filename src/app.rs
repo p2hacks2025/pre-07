@@ -1,5 +1,6 @@
 use leptos::{logging::log, prelude::*, task};
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet};
+use serde::{Deserialize, Serialize};
 
 use crate::server;
 
@@ -37,46 +38,50 @@ pub fn App() -> impl IntoView {
     }
 }
 
+#[derive(Eq, PartialEq, Clone, Deserialize, Serialize)]
+pub enum LoginScreenState {
+    Ok,
+    InvalidAccount,
+    TooShortPassword,
+    NameExists,
+    Logining,
+    SigningUp,
+}
+
 #[component]
 fn Login() -> impl IntoView {
     let (visible, set_visible) = signal(true);
     let change_visible = move || if visible.get() { "password" } else { "input" };
-    let (wrong_password_flag, set_wrong_password_flag) = signal(true);
-
-    fn check_password_length(password: String) -> bool {
-        password.chars().count() >= 8
-    }
+    let (login_state, set_login_state) = signal(LoginScreenState::Ok);
 
     let (password, set_password) = signal(String::new());
     let (name, set_name) = signal(String::new());
 
     let login = move || {
+        set_login_state.set(LoginScreenState::Logining);
         task::spawn_local(async move {
-            log!(
-                "{}",
-                server::log_in(name.get_untracked(), password.get_untracked())
-                    .await
-                    .unwrap()
-                    .unwrap()
-            );
+            let api = server::log_in(name.get_untracked(), password.get_untracked())
+                .await
+                .unwrap()
+                .unwrap();
+            log!("{}", api);
         });
     };
     let signup = move || {
+        set_login_state.set(LoginScreenState::SigningUp);
         task::spawn_local(async move {
-            log!(
-                "{}",
-                server::sign_up(name.get_untracked(), password.get_untracked())
-                    .await
-                    .unwrap()
-                    .unwrap()
-            );
+            let api = server::sign_up(name.get_untracked(), password.get_untracked())
+                .await
+                .unwrap()
+                .unwrap();
+            log!("{}", api);
         });
     };
 
     view! {
         <img class="backpicture" src="./images/IMG_0257.JPG" alt="Background Image"/>
             <div class="login-board">
-            <input type="text" class="user-name" autocomplete="username" placeholder="ユーザーネーム" on:input:target=move |ev| set_password.set(ev.target().value())/>
+            <input type="text" class="user-name" autocomplete="username" placeholder="ユーザーネーム" on:input:target=move |ev| set_name.set(ev.target().value())/>
             <div class="password-wrap">
                 <input type={change_visible} class="password" placeholder="パスワード" on:input:target=move |ev| set_password.set(ev.target().value())/>
                 <img src="./images/eye_transparent.png" class="eye-icon"
@@ -84,7 +89,17 @@ fn Login() -> impl IntoView {
             </div>
             <button class="loginbtn" on:click={move |_| login()}>"ログイン"</button>
             <Show
-                when=move || wrong_password_flag.get()> <p class="wrongpassword">"パスワードかユーザーネームが間違っています"</p>
+                when=move || login_state.get() != LoginScreenState::Ok> <p class="wrongpassword">{move || {
+                    match login_state.get(){
+                        LoginScreenState::Ok => unreachable!(),
+                        LoginScreenState::InvalidAccount => "パスワードかユーザーネームが間違っています",
+                        LoginScreenState::Logining => "ログイン中です",
+                        LoginScreenState::SigningUp => "サインイン中です",
+                        LoginScreenState::NameExists => "その名前は存在しています",
+                        LoginScreenState::TooShortPassword => "パスワードは8文字以上にしてください",
+                    }
+                }
+            }</p>
             </Show>
             <button class="signupbtn" on:click={move |_| signup()}>"新規登録"</button>
             </div>
