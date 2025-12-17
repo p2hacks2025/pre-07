@@ -33,3 +33,15 @@ struct User{
     password_hash: String,
     icon: Option<String>,
 }
+
+
+// API関数
+
+
+pub async fn sign_up(name: String, password: String) -> Result<Option<String>, ServerFnError>{
+    todo!()
+}
+
+pub async fn log_in(name: String, password: String) -> Result<Option<String>, ServerFnError>{
+    todo!{}
+}
