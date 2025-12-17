@@ -41,6 +41,7 @@ pub fn App() -> impl IntoView {
 fn Login() -> impl IntoView {
     let (visible, set_visible) = signal(true);
     let change_visible = move || if visible.get() { "password" } else { "input" };
+    let (wrong_password_flag, set_wrong_password_flag) = signal(false);
 
     fn check_password_length(password: String) -> bool {
         password.chars().count() >= 8
@@ -82,7 +83,9 @@ fn Login() -> impl IntoView {
                     on:click={move |_| *set_visible.write() = !visible.get()}/>
             </div>
             <button class="loginbtn" on:click={move |_| login()}>"ログイン"</button>
-            <p class="wrongpassword">"passwordが間違っています"</p>
+            <Show
+                when=move || wrong_password_flag.get()> <p class="wrongpassword">"パスワードかユーザーネームが間違っています"</p>
+            </Show>
             <button class="signupbtn" on:click={move |_| signup()}>"新規登録"</button>
             </div>
     }
