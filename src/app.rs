@@ -52,7 +52,7 @@ pub enum LoginScreenState {
 fn Login() -> impl IntoView {
     let (visible, set_visible) = signal(true);
     let change_visible = move || if visible.get() { "password" } else { "input" };
-    let (login_state, set_login_state) = signal(LoginScreenState::Ok);
+    let (login_state, set_login_state) = signal(LoginScreenState::InvalidAccount);
 
     let (name, set_name) = signal(String::new());
     let (password, set_password) = signal(String::new());
