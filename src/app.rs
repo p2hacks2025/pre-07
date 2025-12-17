@@ -38,7 +38,7 @@ pub fn App() -> impl IntoView {
     }
 }
 
-#[derive(Eq, PartialEq, Clone, Deserialize, Serialize)]
+#[derive(Debug, Eq, PartialEq, Clone, Deserialize, Serialize)]
 pub enum LoginScreenState {
     Ok,
     InvalidAccount,
@@ -54,27 +54,35 @@ fn Login() -> impl IntoView {
     let change_visible = move || if visible.get() { "password" } else { "input" };
     let (login_state, set_login_state) = signal(LoginScreenState::Ok);
 
-    let (password, set_password) = signal(String::new());
     let (name, set_name) = signal(String::new());
+    let (password, set_password) = signal(String::new());
 
-    let login = move || {
+    let login = move |(name, password)| {
         set_login_state.set(LoginScreenState::Logining);
         task::spawn_local(async move {
-            let api = server::log_in(name.get_untracked(), password.get_untracked())
-                .await
-                .unwrap()
-                .unwrap();
-            log!("{}", api);
+            let api = server::log_in(name, password).await.unwrap();
+            match api {
+                Ok(token) => {
+                    log!("{}", token);
+                    set_login_state.set(LoginScreenState::Ok)
+                }
+                Err(state) => set_login_state.set(state),
+            }
         });
     };
-    let signup = move || {
+    let signup = move |(name, password)| {
         set_login_state.set(LoginScreenState::SigningUp);
+        log!("{}", password);
         task::spawn_local(async move {
-            let api = server::sign_up(name.get_untracked(), password.get_untracked())
-                .await
-                .unwrap()
-                .unwrap();
-            log!("{}", api);
+            let api = server::sign_up(name, password).await.unwrap();
+            log!("{:?}", api);
+            match api {
+                Ok(token) => {
+                    log!("{}", token);
+                    set_login_state.set(LoginScreenState::Ok)
+                }
+                Err(state) => set_login_state.set(state),
+            }
         });
     };
 
@@ -87,7 +95,7 @@ fn Login() -> impl IntoView {
                 <img src="./images/eye_transparent.png" class="eye-icon"
                     on:click={move |_| *set_visible.write() = !visible.get()}/>
             </div>
-            <button class="loginbtn" on:click={move |_| login()}>"ログイン"</button>
+            <button class="loginbtn" on:click={move |_| login((name.get(), password.get()))}>"ログイン"</button>
             <Show
                 when=move || login_state.get() != LoginScreenState::Ok> <p class="wrongpassword">{move || {
                     match login_state.get(){
@@ -101,7 +109,7 @@ fn Login() -> impl IntoView {
                 }
             }</p>
             </Show>
-            <button class="signupbtn" on:click={move |_| signup()}>"新規登録"</button>
+            <button class="signupbtn" on:click={move |_| signup((name.get(), password.get()))}>"新規登録"</button>
             </div>
     }
 }

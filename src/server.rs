@@ -1,17 +1,22 @@
-use leptos::prelude::*;
+use leptos::{prelude::*, logging::log};
+use serde::{Deserialize, Serialize};
+use crate::app::LoginScreenState;
+
 #[cfg(feature = "ssr")]
 use {
+    argon2::Argon2,
     futures::StreamExt,
+    jsonwebtoken::{
+        decode, encode, Algorithm::HS256, DecodingKey, EncodingKey, Header, Validation,
+    },
     mongodb::{bson::doc, Client, Database},
-    serde::{Deserialize, Serialize},
-    std::fs,
-    tokio::sync,
-    jsonwebtoken::{encode, decode, EncodingKey, Header}
+    std::{fs, sync::LazyLock},
+    tokio::sync::OnceCell,
 };
 
 // DBの設定
 #[cfg(feature = "ssr")]
-static DB: sync::OnceCell<Database> = sync::OnceCell::const_new();
+static DB: OnceCell<Database> = OnceCell::const_new();
 
 #[cfg(feature = "ssr")]
 async fn get_db() -> Database {
@@ -29,22 +34,24 @@ async fn get_db() -> Database {
 }
 
 #[cfg(feature = "ssr")]
-static DB_SETTING: sync::OnceCell<DbSetting> = sync::OnceCell::const_new();
+static DB_SETTING: OnceCell<DbSetting> = OnceCell::const_new();
 
 #[cfg(feature = "ssr")]
 #[derive(Serialize, Deserialize, Clone)]
-struct DbSetting{
+struct DbSetting {
     password_salt: String,
     jwt: String,
 }
 
-
 #[cfg(feature = "ssr")]
-async fn get_db_setting() -> DbSetting{
-    DB_SETTING.get_or_init(|| async {
-        let collection = get_db().await.collection::<DbSetting>("config");
-        collection.find_one(doc!{}).await.unwrap().unwrap()
-    }).await.clone()
+async fn get_db_setting() -> DbSetting {
+    DB_SETTING
+        .get_or_init(|| async {
+            let collection = get_db().await.collection::<DbSetting>("config");
+            collection.find_one(doc! {}).await.unwrap().unwrap()
+        })
+        .await
+        .clone()
 }
 
 // DBに乗せるレコードを表すstruct
@@ -66,34 +73,64 @@ struct User {
 // 関数
 
 #[cfg(feature = "ssr")]
-static JWT_ENCODE_KEY: sync::OnceCell<EncodingKey> = sync::OnceCell::const_new();
+static JWT_ENCODE_KEY: OnceCell<EncodingKey> = OnceCell::const_new();
 
 #[cfg(feature = "ssr")]
-static JWT_DECODE_KEY: sync::OnceCell<EncodingKey> = sync::OnceCell::const_new(); 
+static JWT_DECODE_KEY: OnceCell<DecodingKey> = OnceCell::const_new();
 
 #[cfg(feature = "ssr")]
 #[derive(Serialize, Deserialize)]
-struct Claims{
-    sub: String
+struct Claims {
+    sub: String,
 }
 
 #[cfg(feature = "ssr")]
-async fn make_jwt(name: String) -> String{
-    let key = JWT_ENCODE_KEY.get_or_init(|| async {
-        let setting = get_db_setting().await;
-        EncodingKey::from_secret(setting.jwt.as_bytes())
-    }).await;
-    encode(&Header::default(), &Claims{sub: name}, key).unwrap()
+async fn make_jwt(name: String) -> String {
+    let key = JWT_ENCODE_KEY
+        .get_or_init(|| async {
+            let setting = get_db_setting().await;
+            EncodingKey::from_secret(setting.jwt.as_bytes())
+        })
+        .await;
+    encode(&Header::default(), &Claims { sub: name }, key).unwrap()
 }
+
+#[cfg(feature = "ssr")]
+async fn check_jwt(name: String, jwt: String) -> bool {
+    let key = JWT_DECODE_KEY
+        .get_or_init(|| async {
+            let setting = get_db_setting().await;
+            DecodingKey::from_secret(setting.jwt.as_bytes())
+        })
+        .await;
+    let d: Result<jsonwebtoken::TokenData<Claims>, _> = decode(jwt, key, &Validation::new(HS256));
+    match d {
+        Ok(token) => token.claims.sub == name,
+        Err(_) => false,
+    }
+}
+
+#[cfg(feature = "ssr")]
+static ARGON2: LazyLock<Argon2<'static>> = LazyLock::new(Argon2::default);
 
 // API関数
 
 #[server]
-pub async fn sign_up(name: String, password: String) -> Result<Option<String>, ServerFnError> {
+pub async fn sign_up(name: String, password: String) -> Result<Result<String, LoginScreenState>, ServerFnError> {
+    /* 
+    戻り値の意図    
+    1つ目のResult => サーバーの処理エラー
+    2つ目のResult => Signinの処理がうまくいったかどうか
+    */
+    log!("{}\n", password);
+    if password.chars().count() <= 8{
+        return Ok(Err(LoginScreenState::TooShortPassword));
+    }
+    return Ok(Ok("test".to_string()));
     todo!()
 }
 
 #[server]
-pub async fn log_in(name: String, password: String) -> Result<Option<String>, ServerFnError> {
+pub async fn log_in(name: String, password: String) -> Result<Result<String, LoginScreenState>, ServerFnError> {
     todo!()
 }
