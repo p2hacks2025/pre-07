@@ -15,7 +15,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background: blue;
+    background: rgba(255, 230, 0, 0.993);
 }
 
 
@@ -38,7 +38,7 @@
     }
     .tag-space{
         position:relative;
-        text-align: center;
+        text-align: left;
         border: 2px dotted rgb(255, 167, 66);
         height: 60px;
         margin-top: 10px;
@@ -76,7 +76,7 @@
     }
     .post-button{
         border-radius: 30px;
-        background-color: rgb(255, 244, 146);
+        background-color: #fffac9;
         height: 70px;
         width: 80px;
     }
@@ -98,14 +98,16 @@
     }
 }
 
-    button.picture {
-        height: 45px;
-    }
-    button.picture img  {
-        display: inline-block;
-        height: 100%;
-        width: 100%;
-    }
+button.picture {
+    height: 45px;
+}
+button.picture img  {
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+}
+
+
 
 .form-check{
     position:absolute;
@@ -118,4 +120,33 @@
     background: #FFF;
     border: solid 3px #6091d3;
     border-radius: 10px;
+}
+
+#side-space-left .tag-function{
+    margin-top: 110px;
+    text-align: center;
+    .tag-search-window{
+        border-radius: 100px;
+        height: 50px;
+        width: 90%;
+        padding-left: 5px;
+
+    }
+    .tag-object{
+        border-radius: 20px;
+        height: 20px;
+        width: 90%;
+    }
+    .tag-predict{
+        border: 1px dashed black;
+        width: 90%;
+        height: 450px;
+        border-radius: 10px;
+        background: rgb(255, 243, 176);
+        margin: 0 auto;
+        p{
+            margin-top: 5px;
+            color: rgb(73, 73, 73);
+        }
+    }
 }

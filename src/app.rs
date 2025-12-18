@@ -39,24 +39,31 @@ pub fn App() -> impl IntoView {
 fn PostScreen() -> impl IntoView{
     view!{
         <div class="flex"></div>
-        <div class="box" id="side-space-left">One</div>
+        <div class="box" id="side-space-left">
+            <div class="tag-function">
+                <input class="tag-search-window" type="text" placeholder="タグを検索"/>
+                <div class="tag-predict">
+                    <p>"タグ候補"</p>
+                </div>
+            </div>
+        </div>
         <div class="outer">
                 <div class="post-function">
                     <input class="title-space" type="text" placeholder="タイトルを入力"/> <br/>
                     <div class="tag-space">
-                        <p>"asfd"</p>
+
                     </div>
                     <div class="text-area-space">
                         <textarea class="text-space" placeholder="内容を入力"/> <br/>
                         <div class="text-function">
                             <button type="button" class="picture">
-                                <img src="../../images/seal_certificate_line72.png"/>
+                                <img src="/images/seal_certificate_line72.png"/>
                             </button>
                         </div>
                     </div>
                     <div class="button-container">
                         <button type="button" class="post-button">
-                            <img src="../../images/mailing_fill72.png"/>
+                            <img src="/images/mailing_fill72.png"/>
                         </button>
                     </div>
                 </div>
