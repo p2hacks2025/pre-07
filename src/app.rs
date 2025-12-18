@@ -1,6 +1,6 @@
 use leptos::{logging::log, prelude::*, task};
-use leptos_router::{components::*, path};
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
+use leptos_router::{components::*, path};
 use serde::{Deserialize, Serialize};
 
 use crate::server;
@@ -28,7 +28,6 @@ struct User {
     jwt: String,
     name: String,
 }
-
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -81,12 +80,12 @@ fn Header() -> impl IntoView {
                 <img src="./images/search_fill48.png" class="search-icon" />
                 <input type="text" class="searchbar" placeholder="タブ検索"/>
             </div>
-            <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/> 
-            <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/> 
-        </header> 
-        <input type="checkbox" id="sidemenu" hidden/> 
+            <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/>
+            <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/>
+        </header>
+        <input type="checkbox" id="sidemenu" hidden/>
         <label for="sidemenu" class="overlay"></label>
-        <nav class="sidebar"> 
+        <nav class="sidebar">
             <a>"ホーム"</a>
             <a>"投稿"</a>
             <a>"プロフ"</a>
@@ -95,29 +94,30 @@ fn Header() -> impl IntoView {
 }
 
 #[component]
-fn MainScreen() -> impl IntoView{
-    view!{<div class="timeline">
-  <div class="post">
-    <div class="post-icon"></div>
+fn MainScreen() -> impl IntoView {
+    view! {
+        <div class="timeline">
+        <div class="post">
+            <div class="post-icon"></div>
 
-    <div class="post-content">
-      <div class="post-header">
-        <span class="post-name">るびす</span>
-        <span class="post-username">rubis</span>
-      </div>
+            <div class="post-content">
+            <div class="post-header">
+                <span class="post-name">るびす</span>
+                <span class="post-username">rubis</span>
+            </div>
 
-      <div class="post-text">
-        "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
-その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
-また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
-その強さを表現する語彙力がないことが実に口惜しい…！
-まさに銀河１のアイドルはあくたんしかいないと思っています！"
-      </div>
+            <div class="post-text">
+                "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
+        その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
+        また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
+        その強さを表現する語彙力がないことが実に口惜しい…！
+        まさに銀河１のアイドルはあくたんしかいないと思っています！"
+            </div>
 
-    </div>
-  </div>
-</div>
-}
+            </div>
+        </div>
+        </div>
+    }
 }
 
 //ログイン画面
