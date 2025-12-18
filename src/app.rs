@@ -96,7 +96,28 @@ fn Header() -> impl IntoView {
 
 #[component]
 fn MainScreen() -> impl IntoView{
-    view!{}
+    view!{<div class="timeline">
+  <div class="post">
+    <div class="post-icon"></div>
+
+    <div class="post-content">
+      <div class="post-header">
+        <span class="post-name">るびす</span>
+        <span class="post-username">rubis</span>
+      </div>
+
+      <div class="post-text">
+        "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
+その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
+また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
+その強さを表現する語彙力がないことが実に口惜しい…！
+まさに銀河１のアイドルはあくたんしかいないと思っています！"
+      </div>
+
+    </div>
+  </div>
+</div>
+}
 }
 
 //ログイン画面
