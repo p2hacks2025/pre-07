@@ -44,6 +44,7 @@ fn PostScreen() -> impl IntoView{
                 <input class="tag-search-window" type="text" placeholder="タグを検索"/>
                 <div class="tag-predict">
                     <p>"タグ候補"</p>
+                    <TagSelect tag="test_tag".to_string()/>
                 </div>
             </div>
         </div>
@@ -78,5 +79,19 @@ fn PostScreen() -> impl IntoView{
                 "経験者"
             </label>
         </div>
+    }
+}
+
+#[component]
+fn TagSelect(tag: String) -> impl IntoView{
+    view!{
+        <p> {tag} </p>
+    }
+}
+
+#[component]
+fn TagPreview(tag: String) -> impl IntoView{
+    view!{
+        <p> {tag} </p>
     }
 }
