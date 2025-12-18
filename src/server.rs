@@ -1,10 +1,15 @@
-use leptos::{prelude::*, logging::log};
-use serde::{Deserialize, Serialize};
 use crate::app::LoginScreenState;
+use leptos::{logging::log, prelude::*};
+use serde::{Deserialize, Serialize};
 
 #[cfg(feature = "ssr")]
 use {
-    argon2::{Argon2, password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString, rand_core::OsRng}},
+    argon2::{
+        password_hash::{
+            rand_core::OsRng, PasswordHash, PasswordHasher, PasswordVerifier, SaltString,
+        },
+        Argon2,
+    },
     futures::StreamExt,
     jsonwebtoken::{
         decode, encode, Algorithm::HS256, DecodingKey, EncodingKey, Header, Validation,
@@ -116,34 +121,50 @@ static ARGON2: LazyLock<Argon2<'static>> = LazyLock::new(Argon2::default);
 // API関数
 
 #[server]
-pub async fn sign_up(name: String, password: String) -> Result<Result<String, LoginScreenState>, ServerFnError> {
-    /* 
-    戻り値の意図    
+pub async fn sign_up(
+    name: String,
+    password: String,
+) -> Result<Result<String, LoginScreenState>, ServerFnError> {
+    /*
+    戻り値の意図
     1つ目のResult => サーバーの処理エラー
     2つ目のResult => Signinの処理がうまくいったかどうか
     */
-    if password.chars().count() < 8{
+    if password.chars().count() < 8 {
         return Ok(Err(LoginScreenState::TooShortPassword));
     }
 
     let db_user = get_db().await.collection::<User>("users");
-    if let Err(_) = db_user.find_one(doc!{"name": &name}).await{
+    if let Err(_) = db_user.find_one(doc! {"name": &name}).await {
         return Ok(Err(LoginScreenState::NameExists));
     }
 
     let salt = SaltString::generate(&mut OsRng);
     let argon2 = ARGON2.clone();
-    let account = User{name: name.clone(), password_hash: argon2.hash_password(password.as_bytes(), &salt).unwrap().to_string(), icon: None};
+    let account = User {
+        name: name.clone(),
+        password_hash: argon2
+            .hash_password(password.as_bytes(), &salt)
+            .unwrap()
+            .to_string(),
+        icon: None,
+    };
     let _ = db_user.insert_one(account).await.unwrap();
     Ok(Ok(make_jwt(name).await))
 }
 
 #[server]
-pub async fn log_in(name: String, password: String) -> Result<Result<String, LoginScreenState>, ServerFnError> {
+pub async fn log_in(
+    name: String,
+    password: String,
+) -> Result<Result<String, LoginScreenState>, ServerFnError> {
     let db_user = get_db().await.collection::<User>("users");
-    if let Some(user) = db_user.find_one(doc!{"name": &name}).await.unwrap(){
+    if let Some(user) = db_user.find_one(doc! {"name": &name}).await.unwrap() {
         let argon2 = ARGON2.clone();
-        if let Ok(_) = argon2.verify_password(password.as_bytes(), &PasswordHash::new(&user.password_hash).unwrap()){
+        if let Ok(_) = argon2.verify_password(
+            password.as_bytes(),
+            &PasswordHash::new(&user.password_hash).unwrap(),
+        ) {
             return Ok(Ok(make_jwt(name).await));
         }
     }

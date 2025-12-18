@@ -35,7 +35,7 @@ pub fn App() -> impl IntoView {
 
         // sets the document title
         <Title text="Biestar"/>
-        
+
         <Router>
             <Routes fallback=|| "NotFound">
                 <Route path=path!("/") view=Login/>
@@ -70,9 +70,7 @@ fn Login() -> impl IntoView {
         task::spawn_local(async move {
             let api = server::log_in(name, password).await.unwrap();
             match api {
-                Ok(token) => {
-                    set_login_state.set(LoginScreenState::Ok)
-                }
+                Ok(token) => set_login_state.set(LoginScreenState::Ok),
                 Err(state) => set_login_state.set(state),
             }
         });
@@ -83,9 +81,7 @@ fn Login() -> impl IntoView {
         task::spawn_local(async move {
             let api = server::sign_up(name, password).await.unwrap();
             match api {
-                Ok(token) => {
-                    set_login_state.set(LoginScreenState::Ok)
-                }
+                Ok(token) => set_login_state.set(LoginScreenState::Ok),
                 Err(state) => set_login_state.set(state),
             }
         });
