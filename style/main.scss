@@ -28,74 +28,75 @@
 
 .post-function{
     text-align: center;
-    .title-space{
+}
+.title-space{
+    padding: 10px;
+    border-radius: 15px;
+    border-color: black;
+    height: 50px;
+    width: 300px;
+    margin-top: 100px;
+}
+.tag-space{
+    position:relative;
+    text-align: left;
+    border: 2px dotted rgb(255, 167, 66);
+    height: 60px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+.text-area-space{
+    border: 2px solid black;
+    border-radius: 15px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+.text-area-space .text-space{
         padding: 10px;
-        border-radius: 15px;
-        border-color: black;
+        border: none;
+        height: 250px;
+        width: 100%;
+        resize: none;
+        outline: none;
+        border-bottom: 1px solid black;
+}
+.text-area-space .text-function{
+        text-align:left;
+        margin-left: 5px;
         height: 50px;
-        width: 300px;
-        margin-top: 100px;
-    }
-    .tag-space{
-        position:relative;
-        text-align: left;
-        border: 2px dotted rgb(255, 167, 66);
-        height: 60px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 90%;
-    }
-    .text-area-space{
-        border: 2px solid black;
-        border-radius: 15px;
-        width: 90%;
-        margin-left: auto;
-        margin-right: auto;
-        overflow: hidden;
-        .text-space{
-            padding: 10px;
-            border: none;
-            height: 250px;
-            width: 100%;
-            resize: none;
-            outline: none;
-            border-bottom: 1px solid black;
-        }
-        .text-function{
-            text-align:left;
-            margin-left: 5px;
-            height: 50px;
-            width: 100%;
-        }
-    }
-    .button-container{
-        margin-right: -10%;
-        text-align: right;
-    }
-    .post-button{
-        border-radius: 30px;
-        background-color: #fffac9;
-        height: 70px;
-        width: 80px;
-    }
-    .post-button:hover{
-        border-radius: 30px;
-        background-color: #e4d65a;
-        height: 70px;
-        width: 80px;
-    }
-    .post-button img{
-        display: inline-block;
-        height: 100%;
         width: 100%;
-    }
-    .post-button img:hover{
-        display: inline-block;
-        height: 100%;
-        width: 100%;
-    }
+}
+
+.button-container{
+    margin-right: -10%;
+    text-align: right;
+}
+.post-button{
+    border-radius: 30px;
+    background-color: #fffac9;
+    height: 70px;
+    width: 80px;
+}
+.post-button:hover{
+    border-radius: 30px;
+    background-color: #e4d65a;
+    height: 70px;
+    width: 80px;
+}
+.post-button img{
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+}
+.post-button img:hover{
+    display: inline-block;
+    height: 100%;
+    width: 100%;
 }
 
 button.picture {
@@ -125,28 +126,31 @@ button.picture img  {
 #side-space-left .tag-function{
     margin-top: 110px;
     text-align: center;
-    .tag-search-window{
-        border-radius: 100px;
-        height: 50px;
-        width: 90%;
-        padding-left: 5px;
-
-    }
-    .tag-object{
-        border-radius: 20px;
-        height: 20px;
-        width: 90%;
-    }
-    .tag-predict{
-        border: 1px dashed black;
-        width: 90%;
-        height: 450px;
-        border-radius: 10px;
-        background: rgb(255, 243, 176);
-        margin: 0 auto;
-        p{
-            margin-top: 5px;
-            color: rgb(73, 73, 73);
-        }
-    }
 }
+.tag-search-window{
+    border-radius: 100px;
+    height: 50px;
+    width: 90%;
+    padding-left: 5px;
+
+}
+.tag-object{
+    border-radius: 20px;
+    height: 20px;
+    width: 90%;
+}
+.tag-predict{
+    border: 1px dashed black;
+    width: 90%;
+    height: 450px;
+    border-radius: 10px;
+    background: rgb(255, 243, 176);
+    margin: 0 auto;
+}
+
+.tag-predict p{
+    margin-top: 5px;
+    color: rgb(73, 73, 73);
+}
+
+
