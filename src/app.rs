@@ -53,7 +53,7 @@ pub fn App() -> impl IntoView {
                 Some(_) => true
             }
         } fallback=Login>
-        
+
         <Router>
             <Routes fallback=|| "NotFound">
                 <Route path=path!("/test") view=Test/>
@@ -61,8 +61,6 @@ pub fn App() -> impl IntoView {
         </Router>
 
         </Show>
-
-
 
     }
 }
@@ -120,7 +118,7 @@ fn Login() -> impl IntoView {
                     set_login_state.set(LoginScreenState::Ok);
                     let user_write = use_context::<WriteSignal<Option<User>>>().unwrap();
                     user_write.set(Some(User { jwt: token, name }))
-                },
+                }
                 Err(state) => set_login_state.set(state),
             }
         });
