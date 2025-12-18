@@ -5,8 +5,6 @@ use serde::{Deserialize, Serialize};
 
 use crate::server;
 
-use crate::server;
-
 pub fn shell(options: LeptosOptions) -> impl IntoView {
     view! {
         <!DOCTYPE html>
