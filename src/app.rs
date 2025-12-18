@@ -1,5 +1,6 @@
 use leptos::{logging::log, prelude::*, task};
-use leptos_meta::{provide_meta_context, MetaTags, Stylesheet};
+use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
+use leptos_router::{components::*, path};
 use serde::{Deserialize, Serialize};
 
 use crate::server;
@@ -33,8 +34,15 @@ pub fn App() -> impl IntoView {
         <Stylesheet id="leptos" href="/pkg/pre-07.css"/>
 
         // sets the document title
-        //<Title text="Welcome to Leptos"/>
-        <Login/>
+        <Title text="Biestar"/>
+        
+        <Router>
+            <Routes fallback=|| "NotFound">
+                <Route path=path!("/") view=Login/>
+            </Routes>
+        </Router>
+
+
     }
 }
 
