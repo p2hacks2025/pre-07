@@ -244,81 +244,112 @@ body{
 // メイン画面
 
 .timeline {
-  max-width: 600px;
-  margin: 80px auto 0;
+    max-width: 800px;
+    margin: 80px auto 0;
 }
 
 .post {
-  display: flex;
-  gap: 12px;
+    display: flex;
+    gap: 12px;
 
-  padding: 16px;
-  margin-bottom: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
 
-  background: #ffffff;
-  border: 1px solid #e6ecf0;
-  border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #e6ecf0;
+    border-radius: 16px;
 
-  transition: background 0.2s ease;
+    transition: background 0.2s ease;
 }
 
 .post:hover {
-  background: #f7f9f9;
+    background: #e4ede3;
 }
 
 .post-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: #cfd9de;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #cfd9de;
 
-  flex-shrink: 0;
+    flex-shrink: 0;
 }
 
 .post-content {
-  flex: 1;
+    flex: 1;
 }
 
 .post-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
 }
 
-.post-name {
-  font-weight: 700;
+.post-title {
+    font-weight: 700;
 }
 
 .post-username {
-  color: #536471;
+    color: #536471;
 }
 
 .post-text {
-  margin-top: 6px;
-  font-size: 15px;
-  line-height: 1.6;
+    margin-top: 6px;
+    font-size: 15px;
+    line-height: 1.6;
 
-  white-space: pre-wrap;
-  word-break: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.post-tug {
+    margin-top: 8px;
+    font-size: 14px;
+    background: #b4efd8;
+    color: rgb(3, 190, 223);
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.post-tug::before {
+    content: "#";
+    margin-right: 2px;
 }
 
 .post-actions {
-  display: flex;
-  justify-content: space-between;
-
-  max-width: 320px;
-  margin-top: 12px;
-
-  color: #536471;
-  font-size: 14px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .post-actions span {
-  cursor: pointer;
-  transition: color 0.15s ease;
+    cursor: pointer;
+    transition: color 0.15s ease;
 }
 
 .post-actions span:hover {
-  color: #1d9bf0;
+    color: #0d52e8;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: flex-end; /* 右寄せ */
+    margin-top: 12px;
+}
+
+.reply-btn {
+    font-size: 13px;
+    color: #1d9bf0;
+    cursor: pointer;
+
+    padding: 6px 12px;
+    border-radius: 999px;
+
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.reply-btn:hover {
+    background: rgba(29, 155, 240, 0.15);
 }
