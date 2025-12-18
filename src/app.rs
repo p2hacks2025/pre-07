@@ -59,7 +59,7 @@ pub fn App() -> impl IntoView {
 
         <Router>
             <Routes fallback=|| "NotFound">
-                <Route path=path!("/test") view=Test/>
+                <Route path=path!("/") view=MainScreen/>
             </Routes>
         </Router>
 
@@ -95,11 +95,8 @@ fn Header() -> impl IntoView {
 }
 
 #[component]
-fn Test() -> impl IntoView {
-    // 後で消してください
-    view! {
-        <h1> "TEST" </h1>
-    }
+fn MainScreen() -> impl IntoView{
+    view!{}
 }
 
 //ログイン画面
