@@ -67,7 +67,6 @@ struct Tag {
 struct User {
     name: String,
     password_hash: String,
-    password_salt: String,
     icon: Option<String>,
 }
 
@@ -127,20 +126,26 @@ pub async fn sign_up(name: String, password: String) -> Result<Result<String, Lo
         return Ok(Err(LoginScreenState::TooShortPassword));
     }
 
-    let db = get_db().await;
-    let user = db.collection::<User>("users");
-    if let Err(_) = user.find_one(doc!{"name": &name}).await{
+    let db_user = get_db().await.collection::<User>("users");
+    if let Err(_) = db_user.find_one(doc!{"name": &name}).await{
         return Ok(Err(LoginScreenState::NameExists));
     }
 
     let salt = SaltString::generate(&mut OsRng);
     let argon2 = ARGON2.clone();
-    let account = User{name: name.clone(), password_hash: argon2.hash_password(password.as_bytes(), &salt).unwrap().to_string(), password_salt: salt.to_string(), icon: None};
-    let _ = user.insert_one(account).await.unwrap();
+    let account = User{name: name.clone(), password_hash: argon2.hash_password(password.as_bytes(), &salt).unwrap().to_string(), icon: None};
+    let _ = db_user.insert_one(account).await.unwrap();
     Ok(Ok(make_jwt(name).await))
 }
 
 #[server]
 pub async fn log_in(name: String, password: String) -> Result<Result<String, LoginScreenState>, ServerFnError> {
-    todo!()
+    let db_user = get_db().await.collection::<User>("users");
+    if let Some(user) = db_user.find_one(doc!{"name": &name}).await.unwrap(){
+        let argon2 = ARGON2.clone();
+        if let Ok(_) = argon2.verify_password(password.as_bytes(), &PasswordHash::new(&user.password_hash).unwrap()){
+            return Ok(Ok(make_jwt(name).await));
+        }
+    }
+    Ok(Err(LoginScreenState::InvalidAccount))
 }
