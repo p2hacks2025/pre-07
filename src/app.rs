@@ -23,10 +23,22 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
     }
 }
 
+// 画面制御用のstruct
+
+#[derive(Clone)]
+struct User {
+    jwt: String,
+    name: String,
+}
+
 #[component]
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
     provide_meta_context();
+
+    let (user, user_write) = signal(None as Option<User>);
+    provide_context(user);
+    provide_context(user_write);
 
     view! {
         // injects a stylesheet into the document <head>
@@ -35,16 +47,35 @@ pub fn App() -> impl IntoView {
 
         // sets the document title
         <Title text="Biestar"/>
-
+        <Show when=move || {
+            match user.get(){
+                None => false,
+                Some(_) => true
+            }
+        } fallback=Login>
+        
         <Router>
             <Routes fallback=|| "NotFound">
-                <Route path=path!("/") view=Login/>
+                <Route path=path!("/test") view=Test/>
             </Routes>
         </Router>
+
+        </Show>
+
 
 
     }
 }
+
+#[component]
+fn Test() -> impl IntoView {
+    // 後で消してください
+    view! {
+        <h1> "TEST" </h1>
+    }
+}
+
+//ログイン画面
 
 #[derive(Debug, Eq, PartialEq, Clone, Deserialize, Serialize)]
 pub enum LoginScreenState {
@@ -65,23 +96,31 @@ fn Login() -> impl IntoView {
     let (name, set_name) = signal(String::new());
     let (password, set_password) = signal(String::new());
 
-    let login = move |(name, password)| {
+    let login = move |(name, password): (String, String)| {
         set_login_state.set(LoginScreenState::Logining);
         task::spawn_local(async move {
-            let api = server::log_in(name, password).await.unwrap();
+            let api = server::log_in(name.clone(), password).await.unwrap();
             match api {
-                Ok(token) => set_login_state.set(LoginScreenState::Ok),
+                Ok(token) => {
+                    set_login_state.set(LoginScreenState::Ok);
+                    let user_write = use_context::<WriteSignal<Option<User>>>().unwrap();
+                    user_write.set(Some(User { jwt: token, name }))
+                }
                 Err(state) => set_login_state.set(state),
             }
         });
     };
-    let signup = move |(name, password)| {
+    let signup = move |(name, password): (String, String)| {
         set_login_state.set(LoginScreenState::SigningUp);
         log!("{}", password);
         task::spawn_local(async move {
-            let api = server::sign_up(name, password).await.unwrap();
+            let api = server::sign_up(name.clone(), password).await.unwrap();
             match api {
-                Ok(token) => set_login_state.set(LoginScreenState::Ok),
+                Ok(token) => {
+                    set_login_state.set(LoginScreenState::Ok);
+                    let user_write = use_context::<WriteSignal<Option<User>>>().unwrap();
+                    user_write.set(Some(User { jwt: token, name }))
+                },
                 Err(state) => set_login_state.set(state),
             }
         });
