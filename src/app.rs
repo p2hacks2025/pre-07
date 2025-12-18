@@ -63,7 +63,6 @@ fn Login() -> impl IntoView {
             let api = server::log_in(name, password).await.unwrap();
             match api {
                 Ok(token) => {
-                    log!("{}", token);
                     set_login_state.set(LoginScreenState::Ok)
                 }
                 Err(state) => set_login_state.set(state),
@@ -75,10 +74,8 @@ fn Login() -> impl IntoView {
         log!("{}", password);
         task::spawn_local(async move {
             let api = server::sign_up(name, password).await.unwrap();
-            log!("{:?}", api);
             match api {
                 Ok(token) => {
-                    log!("{}", token);
                     set_login_state.set(LoginScreenState::Ok)
                 }
                 Err(state) => set_login_state.set(state),
