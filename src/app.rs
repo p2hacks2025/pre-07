@@ -52,7 +52,7 @@ pub enum LoginScreenState {
 fn Login() -> impl IntoView {
     let (visible, set_visible) = signal(true);
     let change_visible = move || if visible.get() { "password" } else { "input" };
-    let (login_state, set_login_state) = signal(LoginScreenState::InvalidAccount);
+    let (login_state, set_login_state) = signal(LoginScreenState::Ok);
 
     let (name, set_name) = signal(String::new());
     let (password, set_password) = signal(String::new());
@@ -102,7 +102,7 @@ fn Login() -> impl IntoView {
                         LoginScreenState::Ok => unreachable!(),
                         LoginScreenState::InvalidAccount => "パスワードかユーザーネームが間違っています",
                         LoginScreenState::Logining => "ログイン中です",
-                        LoginScreenState::SigningUp => "サインイン中です",
+                        LoginScreenState::SigningUp => "登録中です",
                         LoginScreenState::NameExists => "その名前は存在しています",
                         LoginScreenState::TooShortPassword => "パスワードは8文字以上にしてください",
                     }
