@@ -4,7 +4,7 @@ use crate::app::LoginScreenState;
 
 #[cfg(feature = "ssr")]
 use {
-    argon2::Argon2,
+    argon2::{Argon2, password_hash::{PasswordHash, PasswordHasher, PasswordVerifier, SaltString, rand_core::OsRng}},
     futures::StreamExt,
     jsonwebtoken::{
         decode, encode, Algorithm::HS256, DecodingKey, EncodingKey, Header, Validation,
@@ -67,6 +67,7 @@ struct Tag {
 struct User {
     name: String,
     password_hash: String,
+    password_salt: String,
     icon: Option<String>,
 }
 
@@ -122,12 +123,21 @@ pub async fn sign_up(name: String, password: String) -> Result<Result<String, Lo
     1つ目のResult => サーバーの処理エラー
     2つ目のResult => Signinの処理がうまくいったかどうか
     */
-    log!("{}\n", password);
-    if password.chars().count() <= 8{
+    if password.chars().count() < 8{
         return Ok(Err(LoginScreenState::TooShortPassword));
     }
-    return Ok(Ok("test".to_string()));
-    todo!()
+
+    let db = get_db().await;
+    let user = db.collection::<User>("users");
+    if let Err(_) = user.find_one(doc!{"name": &name}).await{
+        return Ok(Err(LoginScreenState::NameExists));
+    }
+
+    let salt = SaltString::generate(&mut OsRng);
+    let argon2 = ARGON2.clone();
+    let account = User{name: name.clone(), password_hash: argon2.hash_password(password.as_bytes(), &salt).unwrap().to_string(), password_salt: salt.to_string(), icon: None};
+    let _ = user.insert_one(account).await.unwrap();
+    Ok(Ok(make_jwt(name).await))
 }
 
 #[server]
