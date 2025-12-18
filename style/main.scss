@@ -38,22 +38,18 @@
     margin-top: 100px;
 }
 .tag-space{
-    position:relative;
-    text-align: left;
+    display: flex;
+    align-items: center;
     border: 2px dotted rgb(255, 167, 66);
     height: 60px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 10px auto 10px;
     width: 90%;
 }
 .text-area-space{
     border: 2px solid black;
     border-radius: 15px;
     width: 90%;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
     overflow: hidden;
 }
 .text-area-space .text-space{
@@ -76,27 +72,17 @@
     margin-right: -10%;
     text-align: right;
 }
-.post-button{
+.post-button img{
     border-radius: 30px;
     background-color: #fffac9;
     height: 70px;
     width: 80px;
 }
-.post-button:hover{
+.post-button img:hover{
     border-radius: 30px;
     background-color: #e4d65a;
     height: 70px;
     width: 80px;
-}
-.post-button img{
-    display: inline-block;
-    height: 100%;
-    width: 100%;
-}
-.post-button img:hover{
-    display: inline-block;
-    height: 100%;
-    width: 100%;
 }
 
 button.picture {
@@ -134,18 +120,14 @@ button.picture img  {
     padding-left: 5px;
 
 }
-.tag-object{
-    border-radius: 20px;
-    height: 20px;
-    width: 90%;
-}
+
 .tag-predict{
     border: 1px dashed black;
     width: 90%;
     height: 450px;
     border-radius: 10px;
     background: rgb(255, 243, 176);
-    margin: 0 auto;
+    margin: 10px auto;
 }
 
 .tag-predict p{
@@ -153,4 +135,70 @@ button.picture img  {
     color: rgb(73, 73, 73);
 }
 
+.tag-predict .tag-object{
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 15px;
+    height: 40px;
+    width: 90%;
+    background-color: white;
+}
+.tag-predict .tag-object:hover{
+    background-color: lightgray;
+}
+.tag-predict .tag-object:active{
+    transform: translateY(1px);
+}
+.tag-predict .tag-object p{
+    color: black;
+}
 
+.tag-space .tag-object{
+
+    border: 1px solid black;
+    border-radius: 15px;
+    height: 40px;
+    width: 150px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    overflow: hidden;
+}
+.tag-space .tag-object p{
+    margin: 0;
+}
+.tag-space .tag-object .tag-name{
+    text-align: center;
+    justify-content: center;
+    width: 50%;
+}
+.tag-space .tag-object .tag-status{
+    align-items: center;
+    justify-content: center;
+    width: 30%;
+}
+.tag-space .tag-object .tag-cancel{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+}
+.tag-space .tag-object .tag-cancel:hover{
+    background-color: lightgray;
+}
+
+
+.tag-status select{
+    justify-content: center;
+    border-radius: 20px;
+    width: 90%;
+    height: 35px;
+    margin: 0;
+}
+.tag-status option{
+    text-align: center;
+}

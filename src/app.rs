@@ -44,7 +44,9 @@ fn PostScreen() -> impl IntoView{
                 <input class="tag-search-window" type="text" placeholder="タグを検索"/>
                 <div class="tag-predict">
                     <p>"タグ候補"</p>
-                    <TagSelect tag="test_tag".to_string()/>
+                    <div class="tag-object">
+                        <TagSelect tag="test_tag".to_string()/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -52,7 +54,25 @@ fn PostScreen() -> impl IntoView{
                 <div class="post-function">
                     <input class="title-space" type="text" placeholder="タイトルを入力"/> <br/>
                     <div class="tag-space">
-
+                        <div class="tag-object">//タグひとまとまり
+                            <div class="tag-name">
+                                <TagSelect tag="test1_tag".to_string()/>
+                            </div>
+                            <div class="tag-status">
+                            <form>
+                                <label>
+                                    <select>
+                                        <option>"A"</option>
+                                        <option>"B"</option>
+                                        <option>"C"</option>
+                                    </select>
+                                </label>
+                                </form>
+                            </div>
+                            <div class="tag-cancel">
+                            "×"
+                            </div>
+                        </div>
                     </div>
                     <div class="text-area-space">
                         <textarea class="text-space" placeholder="内容を入力"/> <br/>
@@ -62,19 +82,17 @@ fn PostScreen() -> impl IntoView{
                             </button>
                         </div>
                     </div>
-                    <div class="button-container">
-                        <button type="button" class="post-button">
-                            <img src="/images/mailing_fill72.png"/>
-                        </button>
+                    <div class="post-button">
+                        <img src="/images/mailing_fill72.png"/>
                     </div>
                 </div>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked></input>
             <label class="form-check-label" for="flexRadioDefault1">
                 "初心者"
             </label>
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked></input>
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"></input>
             <label class="form-check-label" for="flexRadioDefault2">
                 "経験者"
             </label>
