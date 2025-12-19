@@ -79,7 +79,7 @@ fn Header() -> impl IntoView {
             <img src="./images/tabicon.JPG" alt="アイコン" class="logo" height="40px"/>
             <div class="search-wrap">
                 <img src="./images/search_fill48.png" class="search-icon" />
-                <input type="text" class="searchbar" placeholder="タブ検索"/>
+                <input type="text" class="searchbar" placeholder="タグ検索"/>
             </div>
             <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/> 
             <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/> 
