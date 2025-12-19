@@ -243,9 +243,36 @@ body{
 
 // メイン画面
 
+.main-layout {
+  display: flex;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 80px auto 0;
+}
+
 .timeline {
-    max-width: 800px;
-    margin: 80px auto 0;
+  flex: 3;
+  max-width: 700px;
+  margin-left:15%;
+}
+
+.post-right {
+  flex: 2;
+  background: #ffffff;
+  border: 1px solid #e6ecf0;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.post-text-preview {
+  margin-top: 6px;
+  font-size: 15px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
 }
 
 .post {
@@ -263,7 +290,7 @@ body{
 }
 
 .post:hover {
-    background: #e4ede3;
+    background: #f6faf5;
 }
 
 .post-icon {
@@ -336,7 +363,7 @@ body{
     margin-top: 12px;
 }
 
-.reply-btn {
+.check-btn {
     font-size: 13px;
     color: #1d9bf0;
     cursor: pointer;
@@ -347,6 +374,6 @@ body{
     transition: background 0.15s ease, color 0.15s ease;
 }
 
-.reply-btn:hover {
+.check-btn:hover {
     background: rgba(29, 155, 240, 0.15);
 }
