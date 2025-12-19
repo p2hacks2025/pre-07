@@ -95,57 +95,63 @@ fn Header() -> impl IntoView {
 
 #[component]
 fn MainScreen() -> impl IntoView{
-    view!{<div class="timeline">
-    <div class="post">
-        <div class="post-icon"></div>
+    view!{
+        <div class="timeline">
+            <div class="post">
+                <div class="post-icon"></div>
 
-        <div class="post-content">
-            <div class="post-header">
-                <span class="post-title">最高の推し</span>
-                <span class="post-username">ルビス</span>
-            </div>
+                <div class="post-content">
+                    <div class="post-header">
+                        <span class="post-title">最高の推し</span>
+                        <span class="post-username">ルビス</span>
+                    </div>
 
-            <div class="post-text">
-            "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
-その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
-また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
-その強さを表現する語彙力がないことが実に口惜しい…！
-まさに銀河１のアイドルはあくたんしかいないと思っています！"
+                    <div class="post-text">
+                    "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
+        その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
+        また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
+        その強さを表現する語彙力がないことが実に口惜しい…！
+        まさに銀河１のアイドルはあくたんしかいないと思っています！"
+                    </div>
+                    <div class="post-actions">
+                        <span class="post-tug">"推し活"</span>
+                        <span class="post-tug">"hololive"</span>
+                    </div>
+                    <div class="post-footer">
+                        <span class="reply-btn">返信</span>
+                    </div>
+                </div>
             </div>
-            <div class="post-actions">
-                <span class="post-tug">"推し活"</span>
-                <span class="post-tug">"hololive"</span>
+            <div class="post">
+                <div class="post-icon"></div>
+                <div class="post-content">
+                    <div class="post-header">
+                        <span class="post-title">最強の推し</span>
+                        <span class="post-username">ルビス</span>
+                    </div>
+
+                    <div class="post-text">
+                    "最近はまっているのはツクリちゃん！
+        ツクリちゃんの歌うロミオとシンデレラを初めて聞いたときは脳を打ち抜かれました…！
+        マルチクリエイティブVtuberということもあり、作曲、歌唱、MIX、動画制作などすべてできるものすごいお方！
+        落ち着いた声もかっこいい歌声も最高なので１度聞いてみてほしいです！"
+                    </div>
+                    <div class="post-actions">
+                        <span class="post-tug">"推し活"</span>
+                        <span class="post-tug">"ミリプロ"</span>
+                    </div>
+                    <div class="post-footer">
+                        <span class="reply-btn">返信</span>
+                    </div>
+                </div>
             </div>
-            <div class="post-footer">
-                <span class="reply-btn">返信</span>
-            </div>
-        </div>
     </div>
-    <div class="post">
-        <div class="post-icon"></div>
-        <div class="post-content">
-            <div class="post-header">
-                <span class="post-title">最強の推し</span>
-                <span class="post-username">ルビス</span>
-            </div>
-
-            <div class="post-text">
-            "最近はまっているのはツクリちゃん！
-ツクリちゃんの歌うロミオとシンデレラを初めて聞いたときは脳を打ち抜かれました…！
-マルチクリエイティブVtuberということもあり、作曲、歌唱、MIX、動画制作などすべてできるものすごいお方！
-落ち着いた声もかっこいい歌声も最高なので１度聞いてみてほしいです！"
-            </div>
-            <div class="post-actions">
-                <span class="post-tug">"推し活"</span>
-                <span class="post-tug">"ミリプロ"</span>
-            </div>
-            <div class="post-footer">
-                <span class="reply-btn">返信</span>
-            </div>
-        </div>
-    </div>
-  </div>
 }
+}
+
+#[component]
+fn MainScreenPost() -> impl IntoView{
+
 }
 
 //ログイン画面
