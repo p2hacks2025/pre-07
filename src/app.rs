@@ -77,9 +77,9 @@ fn PostScreen() -> impl IntoView{
                     <div class="text-area-space">
                         <textarea class="text-space" placeholder="内容を入力"/> <br/>
                         <div class="text-function">
-                            <button type="button" class="picture">
+                            <div class="picture-button">
                                 <img src="/images/seal_certificate_line72.png"/>
-                            </button>
+                            </div>
                         </div>
                     </div>
                     <div class="post-button">

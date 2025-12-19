@@ -49,7 +49,7 @@
     border: 2px solid black;
     border-radius: 15px;
     width: 90%;
-    margin: auto;
+    margin: 0 auto 0;
     overflow: hidden;
 }
 .text-area-space .text-space{
@@ -62,8 +62,9 @@
         border-bottom: 1px solid black;
 }
 .text-area-space .text-function{
-        text-align:left;
-        margin-left: 5px;
+        display: flex;
+        align-items: center;
+        //justify-content: left;
         height: 50px;
         width: 100%;
 }
@@ -72,28 +73,46 @@
     margin-right: -10%;
     text-align: right;
 }
+.post-button{
+    display: flex;
+    justify-content: right;
+}
 .post-button img{
+    right: 0;
     border-radius: 30px;
     background-color: #fffac9;
     height: 70px;
     width: 80px;
 }
 .post-button img:hover{
-    border-radius: 30px;
     background-color: #e4d65a;
-    height: 70px;
-    width: 80px;
+}
+.post-button img:active{
+    transform: translateY(1px);
 }
 
-button.picture {
-    height: 45px;
+.picture-button{
+    margin-left: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    background-color: lightgray;
+    height: 50px;
+    width: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-button.picture img  {
-    display: inline-block;
-    height: 100%;
-    width: 100%;
+.picture-button img  {
+    border-radius: 10px;
+    height: 90%;
+    width: 90%;
 }
-
+.picture-button:hover{
+    background-color: gray;
+}
+.picture-button:active{
+    transform: translateY(1px);
+}
 
 
 .form-check{
