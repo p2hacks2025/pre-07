@@ -170,3 +170,10 @@ pub async fn log_in(
     }
     Ok(Err(LoginScreenState::InvalidAccount))
 }
+
+#[server]
+pub async fn search_tag_with_exact(tag: String) -> Result<Option<String>, ServerFnError>{
+    let db_tag = get_db().await.collection::<Tag>("tags");
+    let result = db_tag.find_one(doc!{"tag": tag}).await?.map(|t| t.tag);
+    Ok(result)
+}
