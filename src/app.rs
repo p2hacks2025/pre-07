@@ -98,7 +98,7 @@ fn Header() -> impl IntoView {
 fn MainScreen() -> impl IntoView{
     view!{<div class="timeline">
     <div class="post">
-        <div class="post-icon"></div>
+        <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
 
         <div class="post-content">
             <div class="post-header">
@@ -123,7 +123,7 @@ fn MainScreen() -> impl IntoView{
         </div>
     </div>
     <div class="post">
-        <div class="post-icon"></div>
+        <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
         <div class="post-content">
             <div class="post-header">
                 <span class="post-title">最強の推し</span>
