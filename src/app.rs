@@ -1,6 +1,6 @@
 use leptos::{logging::log, prelude::*, task};
-use leptos_router::{components::*, path};
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
+use leptos_router::{components::*, path};
 use serde::{Deserialize, Serialize};
 
 use crate::server;
@@ -28,7 +28,6 @@ struct User {
     jwt: String,
     name: String,
 }
-
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -81,12 +80,12 @@ fn Header() -> impl IntoView {
                 <img src="./images/search_fill48.png" class="search-icon" />
                 <input type="text" class="searchbar" placeholder="タブ検索"/>
             </div>
-            <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/> 
-            <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/> 
-        </header> 
-        <input type="checkbox" id="sidemenu" hidden/> 
+            <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/>
+            <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/>
+        </header>
+        <input type="checkbox" id="sidemenu" hidden/>
         <label for="sidemenu" class="overlay"></label>
-        <nav class="sidebar"> 
+        <nav class="sidebar">
             <a>"ホーム"</a>
             <a>"投稿"</a>
             <a>"プロフ"</a>
