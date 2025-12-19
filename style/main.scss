@@ -269,9 +269,6 @@ body{
 .post-icon {
     width: 48px;
     height: 48px;
-    border-radius: 50%;
-    background: #cfd9de;
-
     flex-shrink: 0;
 }
 
@@ -306,7 +303,7 @@ body{
 .post-tug {
     margin-top: 8px;
     font-size: 14px;
-    background: #b4efd8;
+    background: #e8f9f3;
     color: rgb(3, 190, 223);
     cursor: pointer;
     transition: color 0.15s ease;
