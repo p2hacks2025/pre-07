@@ -214,18 +214,11 @@ fn ResponceScreen() -> impl IntoView{
         </div>
             //仮　かいとの投稿文プレビュー　ここまで
         <div class="outer">
-                <div class="post-function">
-                    <div class="text-area-space">
-                        <textarea class="text-space" placeholder="内容を入力"/> <br/>
-                        <div class="text-function">
-                            <div class="picture-button">
-                                <img src="/images/seal_certificate_line72.png"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post-button">
-                        <img src="/images/mailing_fill72.png"/>
-                    </div>
+                <div class="text-area-space">
+                    <textarea class="text-space" placeholder="内容を入力"/> <br/>
+                </div>
+                <div class="post-button">
+                    <img src="/images/mailing_fill72.png"/>
                 </div>
         </div>
         <div class="form-check">
