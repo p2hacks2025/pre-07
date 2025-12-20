@@ -58,6 +58,7 @@ fn Header() -> impl IntoView {
             <a>"ホーム"</a>
             <a>"投稿"</a>
             <a>"プロフ"</a>
+            <img src="./images/bear.png" alt="熊" width="150px"/>
         </nav>
     }
 }
