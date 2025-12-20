@@ -140,7 +140,6 @@ async fn check_jwt(name: String, jwt: String) -> bool {
         .await;
 
     let d: Result<jsonwebtoken::TokenData<Claims>, _> = decode(jwt, key, &Validation::new(HS256));
-    log!("{:?}", d);
     match d {
         Ok(token) => token.claims.sub == name,
         Err(_) => false,
@@ -179,7 +178,6 @@ pub async fn sign_up(
             .hash_password(password.as_bytes(), &salt)
             .unwrap()
             .to_string(),
-        icon: None,
     };
     let _ = db_user.insert_one(account).await.unwrap();
     Ok(Ok(make_jwt(name).await))
