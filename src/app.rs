@@ -1,6 +1,6 @@
 use leptos::{logging::log, prelude::*, task};
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
-use leptos_router::{components::*, path};
+use leptos_router::{components::*, path, hooks::use_navigate};
 use serde::{Deserialize, Serialize};
 
 use crate::server;
@@ -54,9 +54,8 @@ pub fn App() -> impl IntoView {
             }
         } fallback=Login>
 
-        <Header/>
-
         <Router>
+            <Header/>
             <Routes fallback=|| "NotFound">
                 <Route path=path!("/post") view=PostScreen/>
             </Routes>
@@ -186,6 +185,7 @@ fn TagSearch(tag: String, set_select_tag: WriteSignal<Vec<String>>) -> impl Into
 
 #[component]
 fn Header() -> impl IntoView {
+    let navigate = use_navigate();
     view! {
         <header class="header">
             <label for="sidemenu" style="margin-left: 10px">
@@ -202,9 +202,10 @@ fn Header() -> impl IntoView {
         </header>
         <input type="checkbox" id="sidemenu" hidden/>
         <label for="sidemenu" class="overlay"></label>
+
         <nav class="sidebar">
-            <a>"ホーム"</a>
-            <a>"投稿"</a>
+            <A href="/">"ホーム"</A>
+            <A href="/post">"投稿"</A>
             <a>"プロフ"</a>
             <img src="./images/bear.png" alt="熊" width="150px"/>
         </nav>
