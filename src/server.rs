@@ -177,3 +177,14 @@ pub async fn search_tag_with_exact(tag: String) -> Result<Option<String>, Server
     let result = db_tag.find_one(doc!{"tag": tag}).await?.map(|t| t.tag);
     Ok(result)
 }
+
+#[server]
+pub async fn search_tag_with_prefix(tag: String, amount: i64) -> Result<Vec<String>, ServerFnError>{
+    let db_tag = get_db().await.collection::<Tag>("tags");
+    let mut result = db_tag.find(doc!{"tag": {"$regex": format!("^{}", tag)}}).limit(amount).await?;
+    let mut out = vec![];
+    while let Some(result) = result.next().await{
+        out.push(result.unwrap().tag);
+    }
+    Ok(out)
+}
