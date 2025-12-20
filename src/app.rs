@@ -95,17 +95,17 @@ fn Header() -> impl IntoView {
 
 #[component]
 fn MainScreen() -> impl IntoView{
-    view!{<div class="main-layout">
-        
-    <div class="timeline">
+    view!{
+        <div class="main-layout">
+        <div class="timeline">
     <div class="post">
         <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
 
-        <div class="post-content">
-            <div class="post-header">
-                <span class="post-title">最高の推し</span>
-                <span class="post-username">ルビス</span>
-            </div>
+            <div class="post-content">
+                <div class="post-header">
+                    <span class="post-title">最高の推し</span>
+                    <span class="post-username">ルビス</span>
+                </div>
 
             <div class="post-text-preview">
             "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
@@ -145,17 +145,17 @@ fn MainScreen() -> impl IntoView{
                 <span class="check-btn">全文表示</span>
             </div>
         </div>
-    </div>
+        </div>
     </div>
     <div class="post-right">
-        <div class="post">
+    <div class="post">
         <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
 
-        <div class="post-content">
-            <div class="post-header">
-                <span class="post-title">最高の推し</span>
-                <span class="post-username">ルビス</span>
-            </div>
+            <div class="post-content">
+                <div class="post-header">
+                    <span class="post-title">最高の推し</span>
+                    <span class="post-username">ルビス</span>
+                </div>
 
             <div class="post-text">
             "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
@@ -174,7 +174,7 @@ fn MainScreen() -> impl IntoView{
         </div>
     </div>
     </div>
-    </div>
+  </div>
 }
 }
 

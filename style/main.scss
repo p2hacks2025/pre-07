@@ -247,13 +247,17 @@ body{
   display: flex;
   gap: 24px;
   max-width: 1200px;
-  margin: 80px auto 0;
+  margin: 0px auto 0;
+  padding-top: 60px;
+  height: 100vh;
+  box-sizing: border-box;
 }
 
 .timeline {
   flex: 3;
   max-width: 700px;
   margin-left:15%;
+  overflow-y: auto;
 }
 
 .post-right {
