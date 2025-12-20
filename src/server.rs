@@ -14,7 +14,10 @@ use {
     jsonwebtoken::{
         decode, encode, Algorithm::HS256, DecodingKey, EncodingKey, Header, Validation,
     },
-    mongodb::{bson::{doc, oid::ObjectId}, Client, Database},
+    mongodb::{
+        bson::{doc, oid::ObjectId, Document},
+        Client, Database,
+    },
     std::{fs, sync::LazyLock},
     tokio::sync::OnceCell,
 };
@@ -74,28 +77,43 @@ struct User {
     password_hash: String,
 }
 
-#[derive(Deserialize, Serialize, Clone)]
+#[derive(Deserialize, Serialize, Clone, Debug)]
 pub struct Post {
     pub name: String,
     pub body: String,
-    pub tags: Vec<String>,
+    pub tag: Vec<String>,
     pub title: String,
     pub comment: Vec<(String, String)>,
     pub is_advanced: bool,
-    pub id: String
+    pub id: String,
 }
 
 #[cfg(feature = "ssr")]
 #[derive(Deserialize, Serialize)]
-pub struct ServerPost{
+pub struct ServerPost {
     pub name: String,
     pub body: String,
-    pub tags: Vec<String>,
+    pub tag: Vec<String>,
     pub title: String,
     pub comment: Vec<(String, String)>,
     pub is_advanced: bool,
     #[serde(rename = "_id", skip_serializing)]
     pub id: Option<ObjectId>,
+}
+
+#[cfg(feature = "ssr")]
+impl From<ServerPost> for Post {
+    fn from(from: ServerPost) -> Post {
+        Post {
+            name: from.name,
+            body: from.body,
+            tag: from.tag,
+            title: from.title,
+            comment: from.comment,
+            id: from.id.unwrap().to_string(),
+            is_advanced: from.is_advanced,
+        }
+    }
 }
 
 // 関数
@@ -114,9 +132,9 @@ struct Claims {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub enum PostResult{
+pub enum PostResult {
     Ok,
-    Refuse
+    Refuse,
 }
 
 #[cfg(feature = "ssr")]
@@ -127,7 +145,15 @@ async fn make_jwt(name: String) -> String {
             EncodingKey::from_secret(setting.jwt.as_bytes())
         })
         .await;
-    encode(&Header::default(), &Claims { sub: name, exp:1893423600}, key).unwrap() //2030年まで セキュリティ的にはあまりよろしくない
+    encode(
+        &Header::default(),
+        &Claims {
+            sub: name,
+            exp: 1893423600,
+        },
+        key,
+    )
+    .unwrap() //2030年まで セキュリティ的にはあまりよろしくない
 }
 
 #[cfg(feature = "ssr")]
@@ -202,30 +228,71 @@ pub async fn log_in(
 }
 
 #[server]
-pub async fn search_tag_with_exact(tag: String) -> Result<Option<String>, ServerFnError>{
+pub async fn search_tag_with_exact(tag: String) -> Result<Option<String>, ServerFnError> {
     let db_tag = get_db().await.collection::<Tag>("tags");
-    let result = db_tag.find_one(doc!{"tag": tag}).await?.map(|t| t.tag);
+    let result = db_tag.find_one(doc! {"tag": tag}).await?.map(|t| t.tag);
     Ok(result)
 }
 
 #[server]
-pub async fn search_tag_with_prefix(tag: String, amount: i64) -> Result<Vec<String>, ServerFnError>{
+pub async fn search_tag_with_prefix(
+    tag: String,
+    amount: i64,
+) -> Result<Vec<String>, ServerFnError> {
     let db_tag = get_db().await.collection::<Tag>("tags");
-    let mut result = db_tag.find(doc!{"tag": {"$regex": format!("^{}", tag), "$options": "i"}}).limit(amount).await?;
+    let mut result = db_tag
+        .find(doc! {"tag": {"$regex": format!("^{}", tag), "$options": "i"}})
+        .limit(amount)
+        .await?;
     let mut out = vec![];
-    while let Some(result) = result.next().await{
+    while let Some(result) = result.next().await {
         out.push(result.unwrap().tag);
     }
     Ok(out)
 }
 
 #[server]
-pub async fn do_post(name: String, jwt: String, title:String, body: String, tag: Option<Vec<String>>, is_advanced: bool) -> Result<PostResult, ServerFnError>{
-    if !check_jwt(name.clone(), jwt).await{
+pub async fn do_post(
+    name: String,
+    jwt: String,
+    title: String,
+    body: String,
+    tag: Option<Vec<String>>,
+    is_advanced: bool,
+) -> Result<PostResult, ServerFnError> {
+    if !check_jwt(name.clone(), jwt).await {
         return Ok(PostResult::Refuse);
     }
     let db_post = get_db().await.collection::<ServerPost>("posts");
-    let post = ServerPost{name, body, tags: tag.unwrap(), is_advanced, title, comment: vec![], id: Some(ObjectId::new())};
+    let post = ServerPost {
+        name,
+        body,
+        tag: tag.unwrap(),
+        is_advanced,
+        title,
+        comment: vec![],
+        id: Some(ObjectId::new()),
+    };
     db_post.insert_one(post).await.unwrap();
     Ok(PostResult::Ok)
+}
+
+#[server]
+pub async fn search(tag: Option<String>) -> Result<Vec<Post>, ServerFnError> {
+    let db_post = get_db().await.collection::<ServerPost>("posts");
+    let filter: Document;
+    if let Some(t) = tag {
+        filter = doc! {"tag": { "$in": [t] }};
+    } else {
+        filter = doc! {}
+    }
+
+    let mut out: Vec<Post> = vec![];
+    let mut result = db_post.find(filter).limit(10).await?;
+
+    while let Some(result) = result.next().await {
+        out.push(result.unwrap().into())
+    }
+
+    Ok(out)
 }

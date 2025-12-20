@@ -49,11 +49,20 @@ img{
 }
 
 .search-icon {
+    display: inline-block;
     position: absolute;
     top: 40%;
     left: 12px;
     width: 24px;
-    pointer-events: none;
+    border-radius: 6px;
+    background-color: transparent;
+    transition: background-color 160ms ease;
+}
+
+.search-icon:hover,
+.search-icon:focus-visible {
+  cursor: pointer;
+  background-color: rgba(0, 123, 255, 0.256); /* 微かな色付き */
 }
 
 .divider {
@@ -261,12 +270,15 @@ img{
 }
 
 .timeline {
-  flex: 3;
-  max-width: 700px;
+  display: column;
+  flex-direction: column;
+  flex: 6;
   overflow-y: auto;
+  width: 700px;
 }
 
 .post-right {
+  display: block;
   flex: 5;
   background: #ffffff;
   border: 1px solid #e6ecf0;
@@ -626,17 +638,18 @@ img{
     background-color: rgb(211, 211, 211);
 }
 
-.cant-look {
+.cantlook {
   position: relative;
-  width: 500px;
+  background-color: #fff;
+  border-radius: 30px;
+  width: 700px;
   height: 300px;
 }
 
-.cant-look-text {
+.cantlook span {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2em;
-  color: #000;
+  font-size: 50px;
+  transform: translate(-50%, -50%); /* 真ん中に寄せる */
 }
