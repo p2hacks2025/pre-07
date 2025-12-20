@@ -59,7 +59,7 @@ pub fn App() -> impl IntoView {
 
         <Router>
             <Routes fallback=|| "NotFound">
-                <Route path=path!("/test") view=Test/>
+                <Route path=path!("/") view=ResponceScreen/>
             </Routes>
         </Router>
 
@@ -177,5 +177,11 @@ fn Login() -> impl IntoView {
             </Show>
             <button class="signupbtn" on:click={move |_| signup((name.get(), password.get()))}>"新規登録"</button>
             </div>
+    }
+}
+
+#[component]
+fn ResponceScreen() -> impl IntoView{
+    view!{
     }
 }
