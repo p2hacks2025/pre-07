@@ -15,7 +15,7 @@ use {
         decode, encode, Algorithm::HS256, DecodingKey, EncodingKey, Header, Validation,
     },
     mongodb::{
-        bson::{doc, oid::ObjectId, Document},
+        bson::{doc, oid::ObjectId, Document, to_bson},
         Client, Database,
     },
     std::{fs, sync::LazyLock},
@@ -83,10 +83,17 @@ pub struct Post {
     pub body: String,
     pub tag: Vec<String>,
     pub title: String,
-    pub comment: Vec<(String, String)>,
+    pub comment: Vec<Comment>,
     pub is_advanced: bool,
     pub id: String,
 }
+
+#[derive(Deserialize, Serialize, Clone, Debug)]
+pub struct Comment{
+    name: String,
+    body: String,
+}
+
 
 #[cfg(feature = "ssr")]
 #[derive(Deserialize, Serialize)]
@@ -95,7 +102,7 @@ pub struct ServerPost {
     pub body: String,
     pub tag: Vec<String>,
     pub title: String,
-    pub comment: Vec<(String, String)>,
+    pub comment: Vec<Comment>,
     pub is_advanced: bool,
     #[serde(rename = "_id", skip_serializing)]
     pub id: Option<ObjectId>,
@@ -296,4 +303,14 @@ pub async fn search(tag: Option<String>) -> Result<Vec<Post>, ServerFnError> {
     }
 
     Ok(out)
+}
+
+#[server]
+pub async fn add_comment(id: String, name: String, jwt: String, body: String) -> Result<(), ServerFnError> {
+    check_jwt(name.clone(), jwt).await;
+    let id = ObjectId::parse_str(id)?;
+    let db_post = get_db().await.collection::<ServerPost>("post");
+    db_post.update_one(doc! {"_id": id}, doc!{"$push": {"comment": to_bson(&Comment{body, name}).unwrap()}}).await.unwrap();
+    leptos_axum::redirect("/");
+    Ok(())
 }

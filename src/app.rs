@@ -85,7 +85,7 @@ fn PostScreen() -> impl IntoView {
             set_is_sending.set(true);
             task::spawn_local(async move {
             if let Some(u) = user {
-                let x = server::do_post(u.name, u.jwt, title, body, Some(tag), is_advanced)
+                server::do_post(u.name, u.jwt, title, body, Some(tag), is_advanced)
                     .await
                     .unwrap();
             }
