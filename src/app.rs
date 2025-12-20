@@ -208,3 +208,42 @@ fn Profile() -> impl IntoView {
 
     }
 }
+
+#[component]
+fn ProfilePost(post: server::ClientPost) -> impl IntoView {
+    let tags = post
+        .tags
+        .iter()
+        .map(|t| view! {<span class="post-tag"> "#" {t.to_string()} </span>})
+        .collect_view();
+
+    view! {
+        <div class="main-layout">
+            <div class="timeline">
+                <div class="post">
+                    <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
+
+                    <div class="post-content">
+                        <div class="post-header">
+                            <span class="post-title"> {post.title}</span>
+                            <span class="post-username"> {post.name} </span>
+                            <span class="post-attribute">初心者</span>/*経験者の時post-attribute-experience*/
+                        </div>
+
+                        <div class="post-text-preview">
+                            {post.body}
+                        </div>
+                        <div class="post-actions">
+                            {
+                                tags.collect_view()
+                            }
+                        </div>
+                        <div class="post-footer">
+                            <span class="check-btn">全文表示</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
