@@ -75,6 +75,16 @@ struct User {
     icon: Option<String>,
 }
 
+#[cfg(feature = "ssr")]
+#[derive(Deserialize, Serialize)]
+pub struct Post {
+    name: String,
+    body: String,
+    tag: Vec<String>,
+    comment: Vec<(String, String)>,
+    is_advanced: bool
+}
+
 // 関数
 
 #[cfg(feature = "ssr")]
@@ -87,6 +97,12 @@ static JWT_DECODE_KEY: OnceCell<DecodingKey> = OnceCell::const_new();
 #[derive(Serialize, Deserialize)]
 struct Claims {
     sub: String,
+}
+
+#[derive(Serialize, Deserialize)]
+pub enum PostResult{
+    Ok,
+    Refuse
 }
 
 #[cfg(feature = "ssr")]
@@ -187,4 +203,15 @@ pub async fn search_tag_with_prefix(tag: String, amount: i64) -> Result<Vec<Stri
         out.push(result.unwrap().tag);
     }
     Ok(out)
+}
+
+#[server]
+pub async fn do_post(name: String, jwt: String, body: String, tag: Vec<String>, is_advanced: bool) -> Result<PostResult, ServerFnError>{
+    if !check_jwt(name.clone(), jwt).await{
+        return Ok(PostResult::Refuse);
+    }
+    let db_post = get_db().await.collection::<Post>("posts");
+    let post = Post{name, body, tag, is_advanced, comment: vec![]};
+    db_post.insert_one(post).await.unwrap();
+    Ok(PostResult::Ok)
 }
