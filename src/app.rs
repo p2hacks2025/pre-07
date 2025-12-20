@@ -1,6 +1,6 @@
 use leptos::{logging::log, prelude::*, task};
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
-use leptos_router::{components::*, path};
+use leptos_router::{components::*, path, hooks::use_navigate};
 use serde::{Deserialize, Serialize};
 
 use crate::server;
@@ -23,7 +23,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 struct User {
     jwt: String,
     name: String,
@@ -54,21 +54,139 @@ pub fn App() -> impl IntoView {
             }
         } fallback=Login>
 
-        <Header/>
-
         <Router>
+            <Header/>
             <Routes fallback=|| "NotFound">
                 <Route path=path!("/") view=MainScreen/>
+                <Route path=path!("/post") view=PostScreen/>
             </Routes>
         </Router>
 
         </Show>
+    }
+}
 
+#[component]
+fn PostScreen() -> impl IntoView {
+    let (search_tag, set_search_tag) = signal(Vec::<String>::new());
+    let (select_tag, set_select_tag) = signal(Vec::<String>::new());
+
+    let (search_string, set_search_string) = signal(String::new());
+
+    let (title, set_title) = signal(String::new());
+    let (body, set_body) = signal(String::new());
+    let (advanced, set_advanced) = signal(false);
+
+    let post = |title, body, tag, is_advanced, user:Option<User>| {
+        task::spawn_local(async move {
+            if let Some(u) = user {
+                let x = server::do_post(u.name, u.jwt, title, body, Some(tag), is_advanced)
+                    .await
+                    .unwrap();
+            }
+        })
+    };
+
+    Resource::new(
+        move || search_string.get(),
+        move |s| async move {
+            if !s.is_empty() {
+                task::spawn_local(async move {
+                    set_search_tag.set(server::search_tag_with_prefix(s, 3).await.unwrap());
+                });
+            } else {
+                set_search_tag.set(vec![]);
+            }
+        },
+    );
+
+    view! {
+        <div class="box" id="side-space-left">
+            <div class="tag-function">
+                <input class="tag-search-window" type="text" placeholder="タグを検索" on:input:target=move |ev| {set_search_string.set(ev.target().value())}/>
+                <div class="tag-predict">
+                    <p>"タグ候補"</p>
+                    <For
+                        each=move || search_tag.get()
+                        key=|tag| tag.clone()
+                        let(tag)
+                    >
+                        <TagSelect tag=tag set_select_tag=set_select_tag/>
+                    </For>
+                </div>
+            </div>
+        </div>
+        <div class="outer">
+                <div class="post-function">
+                    <input class="title-space" type="text" placeholder="タイトル" on:input:target=move |ev| {set_title.set(ev.target().value())}/> <br/>
+                    <div class="tag-space">
+                        <For
+                            each=move || select_tag.get()
+                            key=|tag| tag.clone()
+                            let(tag)
+                        >
+                            <TagSearch tag=tag set_select_tag=set_select_tag/>
+                        </For>
+                    </div>
+                        <textarea class="text-area-space" placeholder="内容を入力" on:input:target=move |ev| {set_body.set(ev.target().value())}/>
+                    <div class="post-button">
+                        <img src="/images/mailing_fill72.png" on:click=move |_| {post(title.get(), body.get(), select_tag.get(), advanced.get(), use_context::<ReadSignal<Option<User>>>().unwrap().get())}/>
+                    </div>
+                </div>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio"
+                prop:checked=move || !advanced.get()
+                on:change=move |_| set_advanced.set(false)
+                ></input>
+            <label class="form-check-label" on:click=move |_| set_advanced.set(false)>
+                "初心者"
+            </label>
+            <input class="form-check-input" type="radio"
+                prop:checked=move || advanced.get()
+                on:change=move |_| set_advanced.set(true)
+            ></input>
+            <label class="form-check-label" on:click=move |_| set_advanced.set(true)>
+                "経験者"
+            </label>
+        </div>
+    }
+}
+
+#[component]
+fn TagSelect(tag: String, set_select_tag: WriteSignal<Vec<String>>) -> impl IntoView {
+    view! {
+        <div class="tag-object" on:click=move |_| {
+            let mut l = set_select_tag.write();
+            if !l.contains(&tag) {
+                l.push(tag.clone());
+            }
+            log!("{:?}", *l);
+        }>
+            <p> {tag.clone()} </p>
+        </div>
+    }
+}
+
+#[component]
+fn TagSearch(tag: String, set_select_tag: WriteSignal<Vec<String>>) -> impl IntoView {
+    view! {
+        <div class="tag-object">//タグひとまとまり
+            <div class="tag-name">
+                <p> {tag.clone()} </p>
+            </div>
+            <div class="tag-cancel" on:click=move |_| {
+                set_select_tag.write().retain(|x| *x != tag);
+            }>
+                "×"
+            </div>
+        </div>
     }
 }
 
 #[component]
 fn Header() -> impl IntoView {
+    let navigate = use_navigate();
     view! {
         <header class="header">
             <label for="sidemenu" style="margin-left: 10px">
@@ -78,17 +196,19 @@ fn Header() -> impl IntoView {
             <img src="./images/tabicon.JPG" alt="アイコン" class="logo" height="40px"/>
             <div class="search-wrap">
                 <img src="./images/search_fill48.png" class="search-icon" />
-                <input type="text" class="searchbar" placeholder="タブ検索"/>
+                <input type="text" class="searchbar" placeholder="タグ検索"/>
             </div>
             <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/>
             <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/>
         </header>
         <input type="checkbox" id="sidemenu" hidden/>
         <label for="sidemenu" class="overlay"></label>
+
         <nav class="sidebar">
-            <a>"ホーム"</a>
-            <a>"投稿"</a>
+            <A href="/">"ホーム"</A>
+            <A href="/post">"投稿"</A>
             <a>"プロフ"</a>
+            <img src="./images/bear.png" alt="熊" width="150px"/>
         </nav>
     }
 }
@@ -212,7 +332,6 @@ fn Login() -> impl IntoView {
     };
     let signup = move |(name, password): (String, String)| {
         set_login_state.set(LoginScreenState::SigningUp);
-        log!("{}", password);
         task::spawn_local(async move {
             let api = server::sign_up(name.clone(), password).await.unwrap();
             match api {
