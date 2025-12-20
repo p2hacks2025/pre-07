@@ -331,7 +331,7 @@ body{
     word-break: break-word;
 }
 
-.post-tug {
+.post-tag {
     margin-top: 8px;
     font-size: 14px;
     background: #e8f9f3;
@@ -340,7 +340,7 @@ body{
     transition: color 0.15s ease;
 }
 
-.post-tug::before {
+.post-tag::before {
     content: "#";
     margin-right: 2px;
 }

@@ -123,8 +123,8 @@ fn MainScreen() -> impl IntoView{
 まさに銀河１のアイドルはあくたんしかいないと思っています！"
             </div>
             <div class="post-actions">
-                <span class="post-tug">"推し活"</span>
-                <span class="post-tug">"hololive"</span>
+                <span class="post-tag">"推し活"</span>
+                <span class="post-tag">"hololive"</span>
             </div>
             <div class="post-footer">
                 <span class="check-btn">全文表示</span>
@@ -146,8 +146,8 @@ fn MainScreen() -> impl IntoView{
 落ち着いた声もかっこいい歌声も最高なので１度聞いてみてほしいです！"
             </div>
             <div class="post-actions">
-                <span class="post-tug">"推し活"</span>
-                <span class="post-tug">"ミリプロ"</span>
+                <span class="post-tag">"推し活"</span>
+                <span class="post-tag">"ミリプロ"</span>
             </div>
             <div class="post-footer">
                 <span class="check-btn">全文表示</span>
@@ -173,8 +173,8 @@ fn MainScreen() -> impl IntoView{
 まさに銀河１のアイドルはあくたんしかいないと思っています！"
             </div>
             <div class="post-actions">
-                <span class="post-tug">"推し活"</span>
-                <span class="post-tug">"hololive"</span>
+                <span class="post-tag">"推し活"</span>
+                <span class="post-tag">"hololive"</span>
             </div>
             <div class="post-footer">
                 <span class="check-btn">返信</span>
@@ -195,7 +195,32 @@ fn MainScreenPost(post: server::ClientPost) -> impl IntoView {
         .collect_view();
 
     view! {
+        <div class="main-layout">
         <div class="timeline">
+            <div class="post">
+                <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
+
+                <div class="post-content">
+                    <div class="post-header">
+                        <span class="post-title"> {post.title}</span>
+                        <span class="post-username"> {post.name} </span>
+                    </div>
+
+                    <div class="post-text-preview">
+                        {post.body}
+                    </div>
+                    <div class="post-actions">
+                        {
+                            tags.collect_view()
+                        }
+                    </div>
+                    <div class="post-footer">
+                        <span class="check-btn">全文表示</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="post-right">
             <div class="post">
                 <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
 
@@ -214,7 +239,7 @@ fn MainScreenPost(post: server::ClientPost) -> impl IntoView {
                         }
                     </div>
                     <div class="post-footer">
-                        <span class="reply-btn">返信</span>
+                        <span class="check-btn">返信</span>
                     </div>
                 </div>
             </div>
