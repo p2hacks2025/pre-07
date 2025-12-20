@@ -304,7 +304,6 @@ fn MainScreenPost(post: server::Post, is_preview: bool) -> impl IntoView {
                         }
                     }</span>/*経験者の時post-attribute-experience*/
                 </div>
-
                 <div class:post-text-preview = is_preview class:post-text = !is_preview>
                     {post.body}
                 </div>
@@ -312,9 +311,6 @@ fn MainScreenPost(post: server::Post, is_preview: bool) -> impl IntoView {
                     {
                         tags.collect_view()
                     }
-                </div>
-                <div class="post-footer">
-                    <span class="check-btn">全文表示</span>
                 </div>
             </div>
         </div>
