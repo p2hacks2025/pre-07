@@ -81,6 +81,7 @@ pub struct Post {
     name: String,
     body: String,
     tag: Vec<String>,
+    title: String,
     comment: Vec<(String, String)>,
     is_advanced: bool
 }
@@ -94,12 +95,13 @@ static JWT_ENCODE_KEY: OnceCell<EncodingKey> = OnceCell::const_new();
 static JWT_DECODE_KEY: OnceCell<DecodingKey> = OnceCell::const_new();
 
 #[cfg(feature = "ssr")]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 struct Claims {
     sub: String,
+    exp: i64,
 }
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 pub enum PostResult{
     Ok,
     Refuse
@@ -113,7 +115,7 @@ async fn make_jwt(name: String) -> String {
             EncodingKey::from_secret(setting.jwt.as_bytes())
         })
         .await;
-    encode(&Header::default(), &Claims { sub: name }, key).unwrap()
+    encode(&Header::default(), &Claims { sub: name, exp:1893423600}, key).unwrap() //2030年まで セキュリティ的にはあまりよろしくない
 }
 
 #[cfg(feature = "ssr")]
@@ -124,7 +126,9 @@ async fn check_jwt(name: String, jwt: String) -> bool {
             DecodingKey::from_secret(setting.jwt.as_bytes())
         })
         .await;
+
     let d: Result<jsonwebtoken::TokenData<Claims>, _> = decode(jwt, key, &Validation::new(HS256));
+    log!("{:?}", d);
     match d {
         Ok(token) => token.claims.sub == name,
         Err(_) => false,
@@ -206,12 +210,12 @@ pub async fn search_tag_with_prefix(tag: String, amount: i64) -> Result<Vec<Stri
 }
 
 #[server]
-pub async fn do_post(name: String, jwt: String, body: String, tag: Vec<String>, is_advanced: bool) -> Result<PostResult, ServerFnError>{
+pub async fn do_post(name: String, jwt: String, title:String, body: String, tag: Option<Vec<String>>, is_advanced: bool) -> Result<PostResult, ServerFnError>{
     if !check_jwt(name.clone(), jwt).await{
         return Ok(PostResult::Refuse);
     }
     let db_post = get_db().await.collection::<Post>("posts");
-    let post = Post{name, body, tag, is_advanced, comment: vec![]};
+    let post = Post{name, body, tag: tag.unwrap(), is_advanced, title, comment: vec![]};
     db_post.insert_one(post).await.unwrap();
     Ok(PostResult::Ok)
 }

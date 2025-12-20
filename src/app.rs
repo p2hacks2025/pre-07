@@ -23,7 +23,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 struct User {
     jwt: String,
     name: String,
@@ -77,18 +77,28 @@ fn PostScreen() -> impl IntoView {
     let (body, set_body) = signal(String::new());
     let (advanced, set_advanced) = signal(false);
 
+    let post = |title, body, tag, is_advanced, user:Option<User>| {
+        task::spawn_local(async move {
+            if let Some(u) = user {
+                let x = server::do_post(u.name, u.jwt, title, body, Some(tag), is_advanced)
+                    .await
+                    .unwrap();
+            }
+        })
+    };
 
-    Resource::new(move || search_string.get(), move |s| async move {
-        log!("{:?}", &s);
-        if !s.is_empty(){
+    Resource::new(
+        move || search_string.get(),
+        move |s| async move {
+            if !s.is_empty() {
                 task::spawn_local(async move {
                     set_search_tag.set(server::search_tag_with_prefix(s, 3).await.unwrap());
-                }
-            );
-        } else {
-            set_search_tag.set(vec![]);
-        }
-    });
+                });
+            } else {
+                set_search_tag.set(vec![]);
+            }
+        },
+    );
 
     view! {
         <div class="box" id="side-space-left">
@@ -120,7 +130,7 @@ fn PostScreen() -> impl IntoView {
                     </div>
                         <textarea class="text-area-space" placeholder="内容を入力" on:input:target=move |ev| {set_body.set(ev.target().value())}/>
                     <div class="post-button">
-                        <img src="/images/mailing_fill72.png"/>
+                        <img src="/images/mailing_fill72.png" on:click=move |_| {post(title.get(), body.get(), select_tag.get(), advanced.get(), use_context::<ReadSignal<Option<User>>>().unwrap().get())}/>
                     </div>
                 </div>
         </div>
