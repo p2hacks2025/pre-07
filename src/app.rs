@@ -96,7 +96,7 @@ fn PostScreen() -> impl IntoView {
                         key=|tag| tag.clone()
                         let(tag)
                     >
-                    <TagSelect tag=tag/>
+                    <TagSelect tag=tag set_select_tag=set_select_tag/>
                     </For>
                 </div>
             </div>
@@ -134,10 +134,16 @@ fn PostScreen() -> impl IntoView {
 }
 
 #[component]
-fn TagSelect(tag: String) -> impl IntoView {
+fn TagSelect(tag: String, set_select_tag: WriteSignal<Vec<String>>) -> impl IntoView {
     view! {
-        <div class="tag-object">
-            <p> {tag} </p>
+        <div class="tag-object" on:click=move |_| {
+            let mut l = set_select_tag.write();
+            if !l.contains(&tag) {
+                l.push(tag.clone());
+            }
+            log!("{:?}", *l);
+        }>
+            <p> {tag.clone()} </p>
         </div>
     }
 }
