@@ -242,6 +242,12 @@ fn MainScreen() -> impl IntoView {
     });
     view! {
         <div class="main-layout">
+            <Show
+            when=move || {posts.get().is_empty()}>
+            <div class="cantlook">
+                    <span>記事が見つかりませんでした</span>
+            </div>
+        </Show>
             <div class="timeline">
                 <For
                     each=move || posts.get()
@@ -251,14 +257,6 @@ fn MainScreen() -> impl IntoView {
                     <MainScreenPost on:click=move |_| {set_right_post.set(Some(post.clone()));} post=post.clone() is_preview=true />
                 </For>
             </div>
-            <Show
-            when=move || {posts.get().is_empty()}>
-            <div class="cantlook">
-                <div class="cantlook-text">
-                    記事が見つかりませんでした
-                </div>
-            </div>
-        </Show>
             <Show when=move || {right_post.get().is_some()}>
                 <div class="post-right">
                     <MainScreenPost post=(|| {right_post.get().unwrap()})() is_preview=false/>
