@@ -72,7 +72,6 @@ struct Tag {
 struct User {
     name: String,
     password_hash: String,
-    icon: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Clone)]
