@@ -137,6 +137,9 @@ img{
 
 #sidemenu:checked ~ .sidebar {
     left: 0;
+*{
+    box-sizing: border-box;
+}
 }
 
 // ログイン画面
@@ -315,6 +318,7 @@ img{
 }
 
 .post-title {
+    color: black;
     font-weight: 700;
 }
 
@@ -343,6 +347,7 @@ img{
 }
 
 .post-text {
+    color: black;
     margin-top: 6px;
     font-size: 15px;
     line-height: 1.6;
@@ -395,6 +400,17 @@ img{
 .check-btn:hover {
   background: rgba(29, 155, 240, 0.15);
 }
+.tag-space{
+    display: flex;
+    align-items: center;
+    border: 2px dotted rgb(255, 167, 66);
+    height: 60px;
+    margin: 10px auto 10px;
+    width: 90%;
+}
+.text-area-space{
+    margin-right: -60px;
+    margin-left: 60px;
 
 .post-footer {
   display: flex;
@@ -440,6 +456,7 @@ img{
     width: 300px;
     margin-top: 100px;
     font-size: 23px;
+    margin-bottom: 20px;
 }
 .tag-space{
     display: flex;
@@ -459,6 +476,11 @@ img{
     outline: none;
     font-size: 20px;
 }
+.tag-search-window{
+    border-radius: 100px;
+    height: 50px;
+    width: 90%;
+    padding-left: 5px;
 
 .text-area-space .text-function{
         display: flex;
@@ -568,7 +590,7 @@ img{
     transform: translateY(1px);
 }
 .tag-predict .tag-object p{
-    color: rgb(27, 153, 162);
+    color: black;
 }
 
 .tag-space .tag-object{
