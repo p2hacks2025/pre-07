@@ -73,6 +73,11 @@ fn PostScreen() -> impl IntoView {
 
     let (search_string, set_search_string) = signal(String::new());
 
+    let (title, set_title) = signal(String::new());
+    let (body, set_body) = signal(String::new());
+    let (advanced, set_advanced) = signal(false);
+
+
     Resource::new(move || search_string.get(), move |s| async move {
         log!("{:?}", &s);
         if !s.is_empty(){
@@ -103,7 +108,7 @@ fn PostScreen() -> impl IntoView {
         </div>
         <div class="outer">
                 <div class="post-function">
-                    <input class="title-space" type="text" placeholder="タイトル"/> <br/>
+                    <input class="title-space" type="text" placeholder="タイトル" on:input:target=move |ev| {set_title.set(ev.target().value())}/> <br/>
                     <div class="tag-space">
                         <For
                             each=move || select_tag.get()
@@ -114,7 +119,7 @@ fn PostScreen() -> impl IntoView {
                         </For>
                     </div>
                     <div class="text-area-space">
-                        <textarea class="text-space" placeholder="内容を入力"/> <br/>
+                        <textarea class="text-space" placeholder="内容を入力" on:input:target=move |ev| {set_body.set(ev.target().value())}/> <br/>
                         <div class="text-function">
                             <div class="picture-button">
                                 <img src="/images/seal_certificate_line72.png"/>
@@ -127,12 +132,18 @@ fn PostScreen() -> impl IntoView {
                 </div>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked></input>
-            <label class="form-check-label" for="flexRadioDefault1">
+            <input class="form-check-input" type="radio"
+                prop:checked=move || !advanced.get()
+                on:change=move |_| set_advanced.set(false)
+                ></input>
+            <label class="form-check-label" on:click=move |_| set_advanced.set(false)>
                 "初心者"
             </label>
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"></input>
-            <label class="form-check-label" for="flexRadioDefault2">
+            <input class="form-check-input" type="radio"
+                prop:checked=move || advanced.get()
+                on:change=move |_| set_advanced.set(true)
+            ></input>
+            <label class="form-check-label" on:click=move |_| set_advanced.set(true)>
                 "経験者"
             </label>
         </div>
