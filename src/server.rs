@@ -296,7 +296,7 @@ pub async fn search(tag: Option<String>) -> Result<Vec<Post>, ServerFnError> {
     }
 
     let mut out: Vec<Post> = vec![];
-    let mut result = db_post.find(filter).limit(10).await?;
+    let mut result = db_post.find(filter).limit(100).await?;
 
     while let Some(result) = result.next().await {
         out.push(result.unwrap().into())
