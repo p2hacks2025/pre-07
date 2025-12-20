@@ -241,6 +241,11 @@ fn MainScreen() -> impl IntoView {
         set_right_post.set(None);
     });
     view! {
+        <div class="cantlook">
+            <div class="cantlook-text">
+                記事が見つかりませんでした
+            </div>
+        </div>
         <div class="main-layout">
             <div class="timeline">
                 <For
