@@ -81,7 +81,8 @@ pub struct Post {
     name: String,
     body: String,
     tag: Vec<String>,
-    comment: Vec<(String, String)>
+    comment: Vec<(String, String)>,
+    is_advanced: bool
 }
 
 // 関数
@@ -205,12 +206,12 @@ pub async fn search_tag_with_prefix(tag: String, amount: i64) -> Result<Vec<Stri
 }
 
 #[server]
-pub async fn do_post(name: String, jwt: String, body: String, tag: Vec<String>) -> Result<PostResult, ServerFnError>{
+pub async fn do_post(name: String, jwt: String, body: String, tag: Vec<String>, is_advanced: bool) -> Result<PostResult, ServerFnError>{
     if !check_jwt(name.clone(), jwt).await{
         return Ok(PostResult::Refuse);
     }
     let db_post = get_db().await.collection::<Post>("posts");
-    let post = Post{name, body, tag, comment: vec![]};
+    let post = Post{name, body, tag, is_advanced, comment: vec![]};
     db_post.insert_one(post).await.unwrap();
     Ok(PostResult::Ok)
 }
