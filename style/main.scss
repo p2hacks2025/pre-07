@@ -323,7 +323,7 @@ body{
 
 .post-attribute {
     margin-left: 2px;
-    font-size: 16px;
+    font-size: clamp(1px,1.7vw,20px);
     font-weight: 500;
     border-radius: 30px;
     padding: 2px;
@@ -333,7 +333,7 @@ body{
 
 .post-attribute-experience {
     margin-left: 2px;
-    font-size: 16px;
+    font-size: clamp(1px,1.7vw,20px);
     font-weight: 500;
     border-radius: 30px;
     padding: 2px;
