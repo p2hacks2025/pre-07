@@ -274,6 +274,7 @@ pub async fn do_post(
         id: Some(ObjectId::new()),
     };
     db_post.insert_one(post).await.unwrap();
+    leptos_axum::redirect("/");
     Ok(PostResult::Ok)
 }
 

@@ -77,14 +77,19 @@ fn PostScreen() -> impl IntoView {
     let (body, set_body) = signal(String::new());
     let (advanced, set_advanced) = signal(false);
 
-    let post = |title, body, tag, is_advanced, user: Option<User>| {
-        task::spawn_local(async move {
+    let (is_sending, set_is_sending) = signal(false);
+
+    let post = move |title, body, tag, is_advanced, user: Option<User>, is_sending: bool| {
+        if !is_sending{
+            set_is_sending.set(true);
+            task::spawn_local(async move {
             if let Some(u) = user {
                 let x = server::do_post(u.name, u.jwt, title, body, Some(tag), is_advanced)
                     .await
                     .unwrap();
             }
-        })
+            set_is_sending.set(false);
+        })}
     };
 
     Resource::new(
@@ -130,7 +135,7 @@ fn PostScreen() -> impl IntoView {
                     </div>
                         <textarea class="text-area-space" placeholder="内容を入力" on:input:target=move |ev| {set_body.set(ev.target().value())}/>
                     <div class="post-button">
-                        <img src="/images/mailing_fill72.png" on:click=move |_| {post(title.get(), body.get(), select_tag.get(), advanced.get(), use_context::<ReadSignal<Option<User>>>().unwrap().get())}/>
+                        <img src="/images/mailing_fill72.png" on:click=move |_| {post(title.get(), body.get(), select_tag.get(), advanced.get(), use_context::<ReadSignal<Option<User>>>().unwrap().get(), is_sending.get())}/>
                     </div>
                 </div>
         </div>
