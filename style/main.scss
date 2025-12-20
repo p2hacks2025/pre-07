@@ -1,12 +1,15 @@
-@font-face {
-    font-family: mainfont;
-    src: url(/NotoSansJP-VariableFont_wght.ttf) format("truetype");
-}
-
 body{
-    font-family: mainfont, 'sans', system-ui, sans-serif;
     background-color: #defdec;
     font-size: 20px;
+}
+
+img{
+    user-select: none; /* 選択禁止 */
+    -webkit-user-drag: none; /* Webkitブラウザ（ChromeやSafari）向け */
+    -webkit-user-select: none;
+    -moz-user-select: none; /* Firefox向け */
+    -ms-user-select: none; /* IE向け */
+    //pointer-events: none; /* 右クリックや長押し禁止 */
 }
 
 .header{
@@ -82,6 +85,7 @@ body{
     height: calc(100vh - 60px);
     background: #F7FC66;
     transition: left 0.3s ease;
+    z-index: 10;
 }
 
 @font-face {
@@ -122,15 +126,10 @@ body{
     z-index: 5;
 }
 
-.sidebar {
-    z-index: 10;
-}
-
 #sidemenu:checked ~ .overlay {
     opacity: 1;
     pointer-events: auto;
 }
-
 
 .sidebar a:hover::after {
     width: 100%;
@@ -208,7 +207,6 @@ body{
     cursor: pointer;
 }
 
-
 .loginbtn{
     position: absolute;
     top: 80%;
@@ -249,13 +247,39 @@ body{
     src: url(/NotoSansJP-VariableFont_wght.ttf) format("truetype");
 }
 
+.main-layout {
+  display: flex;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0px auto 0;
+  padding-top: 60px;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.timeline {
+  flex: 3;
+  max-width: 700px;
+  overflow-y: auto;
+}
+
 .post-right {
-    margin-top: 10px;
-    flex: 5;
-    background: #ffffff;
-    border: 1px solid #e6ecf0;
-    border-radius: 16px;
-    padding: 20px;
+  flex: 5;
+  background: #ffffff;
+  border: 1px solid #e6ecf0;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.post-text-preview {
+  margin-top: 6px;
+  font-size: 15px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
 }
 
 .post {
@@ -304,7 +328,7 @@ body{
 
 .post-attribute {
     margin-left: 2px;
-    font-size: 16px;
+    font-size: clamp(1px,1.7vw,20px);
     font-weight: 500;
     border-radius: 30px;
     padding: 2px;
@@ -314,7 +338,7 @@ body{
 
 .post-attribute-experience {
     margin-left: 2px;
-    font-size: 16px;
+    font-size: clamp(1px,1.7vw,20px);
     font-weight: 500;
     border-radius: 30px;
     padding: 2px;
@@ -363,30 +387,47 @@ body{
 }
 
 .check-btn {
-    font-size: 13px;
-    color: #1d9bf0;
-    cursor: pointer;
+  font-size: 13px;
+  color: #1d9bf0;
+  cursor: pointer;
 
-    padding: 6px 12px;
-    border-radius: 999px;
+  padding: 6px 12px;
+  border-radius: 999px;
 
-    transition: background 0.15s ease, color 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .check-btn:hover {
-    background: rgba(29, 155, 240, 0.15);
+  background: rgba(29, 155, 240, 0.15);
 }
+.tag-space{
+    display: flex;
+    align-items: center;
+    border: 2px dotted rgb(255, 167, 66);
+    height: 60px;
+    margin: 10px auto 10px;
+    width: 90%;
+}
+.text-area-space{
+    margin-right: -60px;
+    margin-left: 60px;
 
 .post-footer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
 }
 
+#sidemenu:checked ~ .sidebar {
+    left: 0;
+*{
+    box-sizing: border-box;
+}
+}
 .box{
-    width: 25%;
+    width: 12%;
     height: 100%;
-    //background: red;
+    background: red;
     color: white;
 }
 
@@ -394,15 +435,19 @@ body{
     position: fixed;
     top: 60px;
     left: 0;
-    //background: #F7FC66;
+    background: #F7FC66;
 }
 
 .outer{
     height: 80%;
-    width: 50%;
-    margin: auto;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+.post-function{
+    text-align: center;
+}
 .title-space{
     padding: 10px;
     border-radius: 15px;
@@ -422,25 +467,28 @@ body{
     width: 90%;
 }
 .text-area-space{
-    margin-right: -60px;
-    margin-left: 60px;
-
-}
-.text-space{
-    top: 100px;
     border: 2px solid black;
     border-radius: 15px;
-    width: 100%;
-    margin: 200px auto 0;
-    padding: 10px;
+    width: 90%;
+    margin: 0 auto 0;
     height: 250px;
-    width: 100%;
     resize: none;
     outline: none;
-    //border-bottom: 1px solid black;
     font-size: 20px;
 }
+.tag-search-window{
+    border-radius: 100px;
+    height: 50px;
+    width: 90%;
+    padding-left: 5px;
 
+.text-area-space .text-function{
+        display: flex;
+        align-items: center;
+        //justify-content: left;
+        height: 50px;
+        width: 100%;
+}
 
 .button-container{
     margin-right: -10%;
@@ -451,8 +499,7 @@ body{
     justify-content: right;
 }
 .post-button img{
-    position: absolute;
-    right: 15%;
+    right: 0;
     border-radius: 30px;
     background-color: #fffac9;
     height: 70px;
@@ -524,6 +571,7 @@ body{
 
 .tag-predict p{
     margin-top: 5px;
+    font-size: 18px;
     color: rgb(73, 73, 73);
 }
 
@@ -533,10 +581,10 @@ body{
     border-radius: 15px;
     height: 40px;
     width: 90%;
-    background-color: white;
+    background: #e8f9f3;
 }
 .tag-predict .tag-object:hover{
-    background-color: lightgray;
+    background-color: rgb(169, 242, 230);
 }
 .tag-predict .tag-object:active{
     transform: translateY(1px);
@@ -551,7 +599,8 @@ body{
     border-radius: 15px;
     height: 40px;
     width: 150px;
-    background-color: white;
+    background-color: rgb(230, 247, 245);
+    color: rgb(27, 153, 162);
     display: flex;
     align-items: center;
     margin-left: 5px;
@@ -575,5 +624,20 @@ body{
     height: 25px;
 }
 .tag-space .tag-object .tag-cancel:hover{
-    background-color: lightgray;
+    background-color: rgb(211, 211, 211);
+}
+
+.cant-look {
+  position: relative;
+  width: 500px;
+  height: 300px;
+}
+
+.cant-look-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  color: #000;
 }

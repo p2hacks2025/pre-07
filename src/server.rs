@@ -14,7 +14,7 @@ use {
     jsonwebtoken::{
         decode, encode, Algorithm::HS256, DecodingKey, EncodingKey, Header, Validation,
     },
-    mongodb::{bson::doc, Client, Database},
+    mongodb::{bson::{doc, oid::ObjectId}, Client, Database},
     std::{fs, sync::LazyLock},
     tokio::sync::OnceCell,
 };
@@ -72,7 +72,30 @@ struct Tag {
 struct User {
     name: String,
     password_hash: String,
-    icon: Option<String>,
+}
+
+#[derive(Deserialize, Serialize, Clone)]
+pub struct Post {
+    pub name: String,
+    pub body: String,
+    pub tags: Vec<String>,
+    pub title: String,
+    pub comment: Vec<(String, String)>,
+    pub is_advanced: bool,
+    pub id: String
+}
+
+#[cfg(feature = "ssr")]
+#[derive(Deserialize, Serialize)]
+pub struct ServerPost{
+    pub name: String,
+    pub body: String,
+    pub tags: Vec<String>,
+    pub title: String,
+    pub comment: Vec<(String, String)>,
+    pub is_advanced: bool,
+    #[serde(rename = "_id", skip_serializing)]
+    pub id: Option<ObjectId>,
 }
 
 // 関数
@@ -84,9 +107,16 @@ static JWT_ENCODE_KEY: OnceCell<EncodingKey> = OnceCell::const_new();
 static JWT_DECODE_KEY: OnceCell<DecodingKey> = OnceCell::const_new();
 
 #[cfg(feature = "ssr")]
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Debug)]
 struct Claims {
     sub: String,
+    exp: i64,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub enum PostResult{
+    Ok,
+    Refuse
 }
 
 #[cfg(feature = "ssr")]
@@ -97,7 +127,7 @@ async fn make_jwt(name: String) -> String {
             EncodingKey::from_secret(setting.jwt.as_bytes())
         })
         .await;
-    encode(&Header::default(), &Claims { sub: name }, key).unwrap()
+    encode(&Header::default(), &Claims { sub: name, exp:1893423600}, key).unwrap() //2030年まで セキュリティ的にはあまりよろしくない
 }
 
 #[cfg(feature = "ssr")]
@@ -108,7 +138,9 @@ async fn check_jwt(name: String, jwt: String) -> bool {
             DecodingKey::from_secret(setting.jwt.as_bytes())
         })
         .await;
+
     let d: Result<jsonwebtoken::TokenData<Claims>, _> = decode(jwt, key, &Validation::new(HS256));
+    log!("{:?}", d);
     match d {
         Ok(token) => token.claims.sub == name,
         Err(_) => false,
@@ -181,10 +213,21 @@ pub async fn search_tag_with_exact(tag: String) -> Result<Option<String>, Server
 #[server]
 pub async fn search_tag_with_prefix(tag: String, amount: i64) -> Result<Vec<String>, ServerFnError>{
     let db_tag = get_db().await.collection::<Tag>("tags");
-    let mut result = db_tag.find(doc!{"tag": {"$regex": format!("^{}", tag)}}).limit(amount).await?;
+    let mut result = db_tag.find(doc!{"tag": {"$regex": format!("^{}", tag), "$options": "i"}}).limit(amount).await?;
     let mut out = vec![];
     while let Some(result) = result.next().await{
         out.push(result.unwrap().tag);
     }
     Ok(out)
+}
+
+#[server]
+pub async fn do_post(name: String, jwt: String, title:String, body: String, tag: Option<Vec<String>>, is_advanced: bool) -> Result<PostResult, ServerFnError>{
+    if !check_jwt(name.clone(), jwt).await{
+        return Ok(PostResult::Refuse);
+    }
+    let db_post = get_db().await.collection::<ServerPost>("posts");
+    let post = ServerPost{name, body, tags: tag.unwrap(), is_advanced, title, comment: vec![], id: Some(ObjectId::new())};
+    db_post.insert_one(post).await.unwrap();
+    Ok(PostResult::Ok)
 }
