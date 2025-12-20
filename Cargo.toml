@@ -13,19 +13,32 @@ axum = { version = "0.8.0", optional = true }
 console_error_panic_hook = { version = "0.1", optional = true }
 leptos_axum = { version = "0.8.0", optional = true }
 leptos_meta = { version = "0.8.0" }
-tokio = { version = "1", features = ["rt-multi-thread"], optional = true }
+tokio = { version = "1", features = ["rt-multi-thread", "sync"], optional = true }
 wasm-bindgen = { version = "=0.2.106", optional = true }
+once_cell = { version = "1.21.3", optional = true}
+mongodb = { version = "3.4.1", optional = true }
+serde = { version = "1.0.228", optional = true}
+futures = {version = "0.3.31", optional = true}
+jsonwebtoken = {version = "10.2.0", features = ["rust_crypto"],optional = true}
+argon2 = {version = "0.5.3", optional = true}
+
 
 [features]
 hydrate = [
     "leptos/hydrate",
     "dep:console_error_panic_hook",
     "dep:wasm-bindgen",
+    "dep:serde",
 ]
 ssr = [
     "dep:axum",
     "dep:tokio",
+    "dep:mongodb",
     "dep:leptos_axum",
+    "dep:futures",
+    "dep:serde",
+    "dep:jsonwebtoken",
+    "dep:argon2",
     "leptos/ssr",
     "leptos_meta/ssr",
     "leptos_router/ssr",
