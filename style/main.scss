@@ -386,9 +386,9 @@ body{
 }
 }
 .box{
-    width: 12%;
+    width: 25%;
     height: 100%;
-    background: red;
+    //background: red;
     color: white;
 }
 
@@ -396,19 +396,18 @@ body{
     position: fixed;
     top: 60px;
     left: 0;
-    background: #F7FC66;
+    //background: #F7FC66;
 }
 
 
 .outer{
     height: 80%;
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 50%;
+    margin: auto;
 }
-
 .post-function{
     text-align: center;
+    
 }
 .title-space{
     padding: 10px;
@@ -418,6 +417,7 @@ body{
     width: 300px;
     margin-top: 100px;
     font-size: 23px;
+    margin-bottom: 20px;
 }
 .tag-space{
     display: flex;
@@ -428,10 +428,12 @@ body{
     width: 90%;
 }
 .text-area-space{
+    top: 100px;
     border: 2px solid black;
     border-radius: 15px;
-    width: 90%;
-    margin: 0 auto 0;
+    width: 100%;
+    margin: 200px auto 0;
+    margin-right: -50px;
     overflow: hidden;
 }
 .text-area-space .text-space{
@@ -461,7 +463,8 @@ body{
     justify-content: right;
 }
 .post-button img{
-    right: 0;
+    position: absolute;
+    right: 15%;
     border-radius: 30px;
     background-color: #fffac9;
     height: 70px;
@@ -586,3 +589,133 @@ body{
 .tag-space .tag-object .tag-cancel:hover{
     background-color: lightgray;
 }
+
+//投稿文プレビュー（かいと作）
+.post-right {
+    margin-top: 10px;
+    flex: 5;
+    background: #ffffff;
+    border: 1px solid #e6ecf0;
+    border-radius: 16px;
+    padding: 20px;
+}
+.post {
+    display: flex;
+    gap: 12px;
+
+    padding: 16px;
+    margin-bottom: 12px;
+
+    background: #ffffff;
+    border: 1px solid #e6ecf0;
+    border-radius: 16px;
+
+    transition: background 0.2s ease;
+}
+.post:hover {
+    background: #f6faf5;
+}
+
+.post-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+.post-content {
+    flex: 1;
+}
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.post-title {
+    color: black;
+    font-weight: 700;
+}
+
+.post-username {
+    color: #536471;
+}
+
+.post-attribute {
+    margin-left: 2px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 30px;
+    padding: 2px;
+    color: #bbbb07;
+    border: solid #f7f46a;
+}
+.post-attribute-experience {
+    margin-left: 2px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 30px;
+    padding: 2px;
+    color:#e8890d;
+    border: solid #e8890d;
+}
+
+.post-text {
+    color: black;
+    margin-top: 6px;
+    font-size: 15px;
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.post-tag {
+    margin-top: 8px;
+    font-size: 14px;
+    background: #e8f9f3;
+    color: rgb(3, 190, 223);
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.post-tag::before {
+    content: "#";
+    margin-right: 2px;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.post-actions span {
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.post-actions span:hover {
+    color: #0d52e8;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: flex-end; /* 右寄せ */
+    margin-top: 12px;
+}
+.check-btn {
+    font-size: 13px;
+    color: #1d9bf0;
+    cursor: pointer;
+
+    padding: 6px 12px;
+    border-radius: 999px;
+
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.check-btn:hover {
+    background: rgba(29, 155, 240, 0.15);
+}
+//投稿文プレビューここまで

@@ -184,20 +184,37 @@ fn Login() -> impl IntoView {
 fn ResponceScreen() -> impl IntoView{
     view!{
         <div class="box" id="side-space-left">
-            <div class="tag-function">
-                <input class="tag-search-window" type="text" placeholder="タグを検索"/>
-                <div class="tag-predict">
-                    <p>"タグ候補"</p>
-                    <TagSelect tag="tag".to_string()/>
+        //仮　かいとの投稿文プレビュー
+        <div class="post-right">
+                <div class="post">
+                    <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
+                    <div class="post-content">
+                        <div class="post-header">
+                            <span class="post-title">最高の推し</span>
+                            <span class="post-username">ルビス</span>
+                            <span class="post-attribute">初心者</span>/*経験者の時post-attribute-experience*/
+                        </div>
+                        <div class="post-text">
+                        "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
+その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
+また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
+その強さを表現する語彙力がないことが実に口惜しい…！
+まさに銀河１のアイドルはあくたんしかいないと思っています！"
+                        </div>
+                        <div class="post-actions">
+                            <span class="post-tag">"推し活"</span>
+                            <span class="post-tag">"hololive"</span>
+                        </div>
+                        <div class="post-footer">
+                            <span class="check-btn">返信</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+            //仮　かいとの投稿文プレビュー　ここまで
         <div class="outer">
                 <div class="post-function">
-                    <input class="title-space" type="text" placeholder="タイトルを入力"/> <br/>
-                    <div class="tag-space">
-                        <TagSearch tag="tag".to_string()/>
-                    </div>
                     <div class="text-area-space">
                         <textarea class="text-space" placeholder="内容を入力"/> <br/>
                         <div class="text-function">
@@ -212,14 +229,15 @@ fn ResponceScreen() -> impl IntoView{
                 </div>
         </div>
         <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked></input>
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
             <label class="form-check-label" for="flexRadioDefault1">
                 "初心者"
             </label>
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"></input>
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked></input>
             <label class="form-check-label" for="flexRadioDefault2">
                 "経験者"
             </label>
         </div>
+
     }
 }
