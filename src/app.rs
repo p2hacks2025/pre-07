@@ -38,7 +38,6 @@ pub fn App() -> impl IntoView {
 #[component]
 fn PostScreen() -> impl IntoView{
     view!{
-        <div class="flex"></div>
         <div class="box" id="side-space-left">
             <div class="tag-function">
                 <input class="tag-search-window" type="text" placeholder="タグを検索"/>
