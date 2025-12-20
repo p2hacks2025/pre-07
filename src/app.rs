@@ -242,7 +242,7 @@ fn MainScreen() -> impl IntoView {
                     key=|post| post.id.clone()
                     let(post)
                 >
-                    <MainScreenPost post=post/>
+                    <MainScreenPost post=post is_preview=true/>
                 </For>
             </div>
             <div class="post-right">
@@ -277,7 +277,7 @@ fn MainScreen() -> impl IntoView {
 }
 
 #[component]
-fn MainScreenPost(post: server::Post) -> impl IntoView {
+fn MainScreenPost(post: server::Post, is_preview: bool) -> impl IntoView {
     let tags = post
         .tag
         .iter()
@@ -301,13 +301,18 @@ fn MainScreenPost(post: server::Post) -> impl IntoView {
                     }</span>/*経験者の時post-attribute-experience*/
                 </div>
 
-                <div class="post-text-preview">
-                    {post.body}
-                </div>
-                <div class="post-actions">
-                    {
-                        tags.collect_view()
-                    }
+                        <div class:post-text-preview = is_preview class:post-text = !is_preview>
+                            {post.body}
+                        </div>
+                        <div class="post-actions">
+                            {
+                                tags.collect_view()
+                            }
+                        </div>
+                        <div class="post-footer">
+                            <span class="check-btn">全文表示</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
