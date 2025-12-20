@@ -96,7 +96,7 @@ fn PostScreen() -> impl IntoView {
                         key=|tag| tag.clone()
                         let(tag)
                     >
-                    <TagSelect tag=tag set_select_tag=set_select_tag/>
+                        <TagSelect tag=tag set_select_tag=set_select_tag/>
                     </For>
                 </div>
             </div>
@@ -105,7 +105,13 @@ fn PostScreen() -> impl IntoView {
                 <div class="post-function">
                     <input class="title-space" type="text" placeholder="タイトル"/> <br/>
                     <div class="tag-space">
-                        <TagSearch tag="tag".to_string()/>
+                        <For
+                            each=move || select_tag.get()
+                            key=|tag| tag.clone()
+                            let(tag)
+                        >
+                            <TagSearch tag=tag set_select_tag=set_select_tag/>
+                        </For>
                     </div>
                     <div class="text-area-space">
                         <textarea class="text-space" placeholder="内容を入力"/> <br/>
@@ -149,13 +155,15 @@ fn TagSelect(tag: String, set_select_tag: WriteSignal<Vec<String>>) -> impl Into
 }
 
 #[component]
-fn TagSearch(tag: String) -> impl IntoView {
+fn TagSearch(tag: String, set_select_tag: WriteSignal<Vec<String>>) -> impl IntoView {
     view! {
         <div class="tag-object">//タグひとまとまり
             <div class="tag-name">
-                <p> {tag} </p>
+                <p> {tag.clone()} </p>
             </div>
-            <div class="tag-cancel">
+            <div class="tag-cancel" on:click=move |_| {
+                set_select_tag.write().retain(|x| *x != tag);
+            }>
                 "×"
             </div>
         </div>
