@@ -57,17 +57,6 @@ fn PostScreen() -> impl IntoView{
                             <div class="tag-name">
                                 <TagSelect tag="test1_tag".to_string()/>
                             </div>
-                            <div class="tag-status">
-                            <form>
-                                <label>
-                                    <select>
-                                        <option>"A"</option>
-                                        <option>"B"</option>
-                                        <option>"C"</option>
-                                    </select>
-                                </label>
-                                </form>
-                            </div>
                             <div class="tag-cancel">
                             "×"
                             </div>

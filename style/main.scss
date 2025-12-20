@@ -187,12 +187,7 @@
 .tag-space .tag-object .tag-name{
     text-align: center;
     justify-content: center;
-    width: 50%;
-}
-.tag-space .tag-object .tag-status{
-    align-items: center;
-    justify-content: center;
-    width: 30%;
+    width: 80%;
 }
 .tag-space .tag-object .tag-cancel{
     display: flex;
@@ -205,16 +200,4 @@
 }
 .tag-space .tag-object .tag-cancel:hover{
     background-color: lightgray;
-}
-
-
-.tag-status select{
-    justify-content: center;
-    border-radius: 20px;
-    width: 90%;
-    height: 35px;
-    margin: 0;
-}
-.tag-status option{
-    text-align: center;
 }
