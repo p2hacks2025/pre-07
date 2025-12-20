@@ -235,7 +235,8 @@ fn Header() -> impl IntoView {
 fn MainScreen() -> impl IntoView {
     let posts = use_context::<ReadSignal<Vec<server::Post>>>().unwrap();
     view! {
-            <div class="main-layout">
+        <div class="main-layout">
+            <div class="timeline">
                 <For
                     each=move || posts.get()
                     key=|post| post.id.clone()
@@ -243,34 +244,35 @@ fn MainScreen() -> impl IntoView {
                 >
                     <MainScreenPost post=post/>
                 </For>
-                <div class="post-right">
-                    <div class="post">
-                        <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
+            </div>
+            <div class="post-right">
+                <div class="post">
+                    <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
 
-                        <div class="post-content">
-                            <div class="post-header">
-                                <span class="post-title">最高の推し</span>
-                                <span class="post-username">ルビス</span>
-                                <span class="post-attribute">初心者</span>/*経験者の時post-attribute-experience*/
-                            </div>
-                            <div class="post-text">
-                            "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
-その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
-また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
-その強さを表現する語彙力がないことが実に口惜しい…！
-まさに銀河１のアイドルはあくたんしかいないと思っています！"
-                            </div>
-                            <div class="post-actions">
-                                <span class="post-tag">"推し活"</span>
-                                <span class="post-tag">"hololive"</span>
-                            </div>
-                            <div class="post-footer">
-                                <span class="check-btn">返信</span>
-                            </div>
+                    <div class="post-content">
+                        <div class="post-header">
+                            <span class="post-title">最高の推し</span>
+                            <span class="post-username">ルビス</span>
+                            <span class="post-attribute">初心者</span>/*経験者の時post-attribute-experience*/
+                        </div>
+                        <div class="post-text">
+                        "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
+    その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
+    また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
+    その強さを表現する語彙力がないことが実に口惜しい…！
+    まさに銀河１のアイドルはあくたんしかいないと思っています！"
+                        </div>
+                        <div class="post-actions">
+                            <span class="post-tag">"推し活"</span>
+                            <span class="post-tag">"hololive"</span>
+                        </div>
+                        <div class="post-footer">
+                            <span class="check-btn">返信</span>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     }
 }
 
@@ -283,36 +285,29 @@ fn MainScreenPost(post: server::Post) -> impl IntoView {
         .collect_view();
 
     view! {
-        <div class="main-layout">
-            <div class="timeline">
-                <div class="post">
-                    <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
+        <div class="post">
+            <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
 
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-title"> {post.title}</span>
-                            <span class="post-username"> {post.name} </span>
-                            <span class="post-attribute" class:post-attribute-experience=post.is_advanced> {
-                                if post.is_advanced{
-                                    "経験者"
-                                } else {
-                                    "初心者"
-                                }
-                            }</span>/*経験者の時post-attribute-experience*/
-                        </div>
+            <div class="post-content">
+                <div class="post-header">
+                    <span class="post-title"> {post.title}</span>
+                    <span class="post-username"> {post.name} </span>
+                    <span class="post-attribute" class:post-attribute-experience=post.is_advanced> {
+                        if post.is_advanced{
+                            "経験者"
+                        } else {
+                            "初心者"
+                        }
+                    }</span>/*経験者の時post-attribute-experience*/
+                </div>
 
-                        <div class="post-text-preview">
-                            {post.body}
-                        </div>
-                        <div class="post-actions">
-                            {
-                                tags.collect_view()
-                            }
-                        </div>
-                        <div class="post-footer">
-                            <span class="check-btn">全文表示</span>
-                        </div>
-                    </div>
+                <div class="post-text-preview">
+                    {post.body}
+                </div>
+                <div class="post-actions">
+                    {
+                        tags.collect_view()
+                    }
                 </div>
             </div>
         </div>

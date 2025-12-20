@@ -270,13 +270,15 @@ img{
 }
 
 .timeline {
-  display: inline;
-  flex: 3;
-  max-width: 700px;
+  display: column;
+  flex-direction: column;
+  flex: 6;
   overflow-y: auto;
+  width: 700px;
 }
 
 .post-right {
+  display: block;
   flex: 5;
   background: #ffffff;
   border: 1px solid #e6ecf0;
