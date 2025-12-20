@@ -1,4 +1,4 @@
-use leptos::{logging::log, prelude::*, tachys::html::style, task};
+use leptos::{logging::log, prelude::*, task};
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
 use leptos_router::{components::*, path};
 use serde::{Deserialize, Serialize};
@@ -37,6 +37,10 @@ pub fn App() -> impl IntoView {
     let (user, user_write) = signal(None as Option<User>);
     provide_context(user);
     provide_context(user_write);
+
+    let (post, set_post) = signal(None::<server::Post>);
+    provide_context(post);
+    provide_context(set_post);
 
     view! {
         // injects a stylesheet into the document <head>
@@ -253,7 +257,7 @@ fn MainScreen() -> impl IntoView {
             <Show
             when=move || {posts.get().is_empty()}>
             <div class="cantlook">
-                    <span>記事が見つかりませんでした</span>
+                    <span>"記事が見つかりませんでした"</span>
             </div>
         </Show>
             <div class="timeline">
@@ -262,12 +266,16 @@ fn MainScreen() -> impl IntoView {
                     key=|post| post.id.clone()
                     let(post)
                 >
-                    <MainScreenPost on:click=move |_| {set_right_post.set(Some(post.clone()));} post=post.clone() is_preview=true />
+                    <MainScreenPost on:click=move |_| {
+                        set_right_post.set(Some(post.clone()));
+                        let p = use_context::<WriteSignal<Option<server::Post>>>().unwrap();
+                        p.set(Some(post.clone()));
+                    } post=post.clone() is_preview=true has_responce=false/>
                 </For>
             </div>
             <Show when=move || {right_post.get().is_some()}>
                 <div class="post-right">
-                    <MainScreenPost post=(|| {right_post.get().unwrap()})() is_preview=false/>
+                    <MainScreenPost post=(|| {right_post.get().unwrap()})() is_preview=false has_responce=true/>
                 </div>
             </Show>
         </div>
@@ -275,7 +283,7 @@ fn MainScreen() -> impl IntoView {
 }
 
 #[component]
-fn MainScreenPost(post: server::Post, is_preview: bool) -> impl IntoView {
+fn MainScreenPost(post: server::Post, is_preview: bool, has_responce: bool) -> impl IntoView {
     let tags = post
         .tag
         .iter()
@@ -288,8 +296,8 @@ fn MainScreenPost(post: server::Post, is_preview: bool) -> impl IntoView {
 
             <div class="post-content">
                 <div class="post-header">
-                    <span class="post-title"> {post.title}</span>
-                    <span class="post-username"> {post.name} </span>
+                    <span class="post-title"> {post.title.clone()}</span>
+                    <span class="post-username"> {post.name.clone()} </span>
                     <span class="post-attribute" class:post-attribute-experience=post.is_advanced> {
                         if post.is_advanced{
                             "経験者"
@@ -299,18 +307,26 @@ fn MainScreenPost(post: server::Post, is_preview: bool) -> impl IntoView {
                     }</span>/*経験者の時post-attribute-experience*/
                 </div>
                 <div class:post-text-preview = is_preview class:post-text = !is_preview>
-                    {post.body}
+                    {post.body.clone()}
                 </div>
                 <div class="post-actions">
                     {
                         tags.collect_view()
                     }
                 </div>
-                <div class="post-footer">
-                    <div class="check-btn">
-                        返信
-                    </div>
-                </div>
+                {
+                    if has_responce{
+                        view!{
+                            <div class="post-footer">
+                                <div class="check-btn">
+                                    <A href="/responce"> "返信" </A>
+                                </div>
+                            </div>
+                        }.into_any()
+                    } else {
+                        view!{}.into_any()
+                    }
+                }
             </div>
         </div>
     }
@@ -396,39 +412,27 @@ fn Login() -> impl IntoView {
 
 #[component]
 fn ResponceScreen() -> impl IntoView{
+    let p = use_context::<ReadSignal<Option<server::Post>>>().unwrap();
+
+    let (post, set_post) = signal(String::new());
+
+    let user = use_context::<ReadSignal<Option<User>>>().unwrap();
+
     view!{
         <div class="box-responce" id="side-space-left">
-        <div class="post-right">
-                <div class="post">
-                    <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-title">最高の推し</span>
-                            <span class="post-username">ルビス</span>
-                            <span class="post-attribute">初心者</span>/*経験者の時post-attribute-experience*/
-                        </div>
-                        <div class="post-text">
-                        "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
-その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
-また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
-その強さを表現する語彙力がないことが実に口惜しい…！
-まさに銀河１のアイドルはあくたんしかいないと思っています！"
-                        </div>
-                        <div class="post-actions">
-                            <span class="post-tag">"推し活"</span>
-                            <span class="post-tag">"hololive"</span>
-                        </div>
-                        <div class="post-footer">
-                            <span class="check-btn">返信</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="post-right">
+                <MainScreenPost post=(move || {p.get_untracked().unwrap()})() is_preview=false has_responce=false/>
             </div>
         </div>
         <div class="outer-responce">
-                <textarea class="text-space" placeholder="内容を入力"/> <br/>
+                <textarea class="text-space" placeholder="内容を入力" on:input:target=move |ev| set_post.set(ev.target().value())/> <br/>
                 <div class="post-button-responce">
-                    <img src="/images/mailing_fill72.png"/>
+                    <img src="/images/mailing_fill72.png" on:click=move |_| {
+                        task::spawn_local(async move {
+                            let u = user.get().unwrap();
+                            //server::add_comment(p.get_untracked().unwrap().id, u.name, u.jwt, post.get()).await.unwrap();
+                        })}
+                    />
                 </div>
         </div>
     }
