@@ -206,7 +206,6 @@ fn Header() -> impl IntoView {
         <nav class="sidebar">
             <A href="/">"ホーム"</A>
             <A href="/post">"投稿"</A>
-            <a>"プロフ"</a>
             <img src="./images/bear.png" alt="熊" width="150px"/>
         </nav>
     }
