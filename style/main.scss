@@ -382,3 +382,209 @@ body{
 #sidemenu:checked ~ .sidebar {
     left: 0;
 }
+
+//ResponceScreen
+*{
+    box-sizing: border-box;
+}
+.box{
+    width: 12%;
+    height: 100%;
+    background: red;
+    color: white;
+}
+
+#side-space-left{
+    position: fixed;
+    top: 60px;
+    left: 0;
+    background: rgba(255, 230, 0, 0.993);
+}
+
+
+.outer{
+    height: 80%;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post-function{
+    text-align: center;
+}
+.title-space{
+    padding: 10px;
+    border-radius: 15px;
+    border-color: black;
+    height: 50px;
+    width: 300px;
+    margin-top: 100px;
+    font-size: 23px;
+}
+.tag-space{
+    display: flex;
+    align-items: center;
+    border: 2px dotted rgb(255, 167, 66);
+    height: 60px;
+    margin: 10px auto 10px;
+    width: 90%;
+}
+.text-area-space{
+    border: 2px solid black;
+    border-radius: 15px;
+    width: 90%;
+    margin: 0 auto 0;
+    overflow: hidden;
+}
+.text-area-space .text-space{
+        padding: 10px;
+        border: none;
+        height: 250px;
+        width: 100%;
+        resize: none;
+        outline: none;
+        border-bottom: 1px solid black;
+        font-size: 20px;
+}
+.text-area-space .text-function{
+        display: flex;
+        align-items: center;
+        //justify-content: left;
+        height: 50px;
+        width: 100%;
+}
+
+.button-container{
+    margin-right: -10%;
+    text-align: right;
+}
+.post-button{
+    display: flex;
+    justify-content: right;
+}
+.post-button img{
+    right: 0;
+    border-radius: 30px;
+    background-color: #fffac9;
+    height: 70px;
+    width: 80px;
+}
+.post-button img:hover{
+    background-color: #e4d65a;
+}
+.post-button img:active{
+    transform: translateY(1px);
+}
+
+.picture-button{
+    margin-left: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    background-color: lightgray;
+    height: 50px;
+    width: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.picture-button img  {
+    border-radius: 10px;
+    height: 90%;
+    width: 90%;
+}
+.picture-button:hover{
+    background-color: gray;
+}
+.picture-button:active{
+    transform: translateY(1px);
+}
+
+
+.form-check{
+    position:absolute;
+    top: 140px;
+    left: 87%;
+    width: 100px;
+    padding: 0.5em 1em;
+    margin: 2em 0;
+    font-weight: bold;
+    background: #FFF;
+    border-radius: 10px;
+}
+
+#side-space-left .tag-function{
+    margin-top: 60px;
+    text-align: center;
+}
+.tag-search-window{
+    border-radius: 100px;
+    height: 50px;
+    width: 90%;
+    padding-left: 5px;
+
+}
+
+.tag-predict{
+    border: 1px dashed black;
+    width: 90%;
+    height: 450px;
+    border-radius: 10px;
+    background: rgb(255, 243, 176);
+    margin: 10px auto;
+}
+
+.tag-predict p{
+    margin-top: 5px;
+    color: rgb(73, 73, 73);
+}
+
+.tag-predict .tag-object{
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 15px;
+    height: 40px;
+    width: 90%;
+    background-color: white;
+}
+.tag-predict .tag-object:hover{
+    background-color: lightgray;
+}
+.tag-predict .tag-object:active{
+    transform: translateY(1px);
+}
+.tag-predict .tag-object p{
+    color: black;
+}
+
+.tag-space .tag-object{
+
+    border: 1px solid black;
+    border-radius: 15px;
+    height: 40px;
+    width: 150px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    overflow: hidden;
+}
+.tag-space .tag-object p{
+    margin: 0;
+}
+.tag-space .tag-object .tag-name{
+    text-align: center;
+    justify-content: center;
+    width: 80%;
+}
+.tag-space .tag-object .tag-cancel{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+}
+.tag-space .tag-object .tag-cancel:hover{
+    background-color: lightgray;
+}
