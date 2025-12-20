@@ -537,10 +537,10 @@ img{
     height: 70px;
     width: 80px;
 }
-.post-button img .post-button-responce img:hover{
+.post-button img:hover,.post-button-responce img:hover{
     background-color: #e4d65a;
 }
-.post-button img .post-button-responce img:active{
+.post-button img:active,.post-button-responce img:active{
     transform: translateY(1px);
 }
 
