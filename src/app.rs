@@ -236,6 +236,10 @@ fn MainScreen() -> impl IntoView {
     let posts = use_context::<ReadSignal<Vec<server::Post>>>().unwrap();
 
     let (right_post, set_right_post) = signal(None::<server::Post>);
+    Effect::new(move |_| {
+        let _ = posts.get();
+        set_right_post.set(None);
+    });
     view! {
         <div class="main-layout">
             <div class="timeline">
