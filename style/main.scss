@@ -1,167 +1,10 @@
 @font-face {
-    font-family: sidefont;
-    src: url(/fonts/ShinRetroMaruGothic-Medium.ttf) format("truetype");
-}
-
-.sidebar a {
-    font-family: sidefont;
-    position: relative;
-    display: block;
-    margin-bottom: 20px;
-    text-decoration: none;
-    color: #66DAFC;
-}
-
-.sidebar a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 1.2em;
-    width: 0%;
-    height: 3px;
-    background: #464839;
-    transition: width 0.3s ease;
-}
-
-.overlay {
-    position: fixed;
-    top: 60px;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 5;
-}
-
-.sidebar {
-    z-index: 10;
-}
-
-#sidemenu:checked ~ .overlay {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-
-.sidebar a:hover::after {
-    width: 100%;
-}
-
-#sidemenu:checked ~ .sidebar {
-    left: 0;
-}
-
-// ログイン画面
-
-.backpicture {
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-}
-
-.login-board {
-    position: absolute;
-    top: 70%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 550px;
-    height: 300px;
-    padding: 40px;
-    background: rgba(255, 255, 255, 0.75);
-    border-radius: 20px;
-}
-
-
-.user-name{
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 600px;
-    height: 70px;
-    font-size: 40px;
-    border-radius: 10px;
-    border: 3px solid black;
-    padding: 10px;
-    box-sizing: border-box;
-    margin-bottom: 20px;
-}
-
-.password-wrap {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 600px;
-}
-
-.password {
-    width: 100%;
-    height: 70px;
-    font-size: 40px;
-    border-radius: 10px;
-    border: 3px solid black;
-    padding: 10px 60px 10px 10px;
-    box-sizing: border-box;
-}
-
-.eye-icon {
-    position: absolute;
-    top: 50%;
-    right: 15px;
-    transform: translateY(-50%);
-    width: 60px;
-    cursor: pointer;
-}
-
-
-.loginbtn{
-    position: absolute;
-    top: 80%;
-    left: 70%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 70px;
-    font-size: 40px;
-    border-radius: 10px;
-    border: 3px solid black;
-    background-color: white;
-    cursor: pointer;
-}
-
-.wrongpassword{
-    background: rgb(63, 228, 228);
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 15px;
-    color: red;
-}
-
-.signupbtn{
-    position: absolute;
-    top: 80%;
-    left: 30%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 70px;
-    font-size: 40px;
-    border-radius: 10px;
-    border: 3px solid black;
-    background-color: white;
-    cursor: pointer;
     font-family: mainfont;
     src: url(/NotoSansJP-VariableFont_wght.ttf) format("truetype");
 }
 
 body{
-    font-family: mainfont;
+    font-family: mainfont, 'sans', system-ui, sans-serif;
     background-color: #defdec;
     font-size: 20px;
 }
@@ -299,6 +142,247 @@ body{
     box-sizing: border-box;
 }
 }
+
+// ログイン画面
+
+.backpicture {
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+.login-board {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 550px;
+    height: 300px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 20px;
+}
+
+
+.user-name{
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 70px;
+    font-size: 40px;
+    border-radius: 10px;
+    border: 3px solid black;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.password-wrap {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+}
+
+.password {
+    width: 100%;
+    height: 70px;
+    font-size: 40px;
+    border-radius: 10px;
+    border: 3px solid black;
+    padding: 10px 60px 10px 10px;
+    box-sizing: border-box;
+}
+
+.eye-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 60px;
+    cursor: pointer;
+}
+
+
+.loginbtn{
+    position: absolute;
+    top: 80%;
+    left: 70%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 70px;
+    font-size: 40px;
+    border-radius: 10px;
+    border: 3px solid black;
+    background-color: white;
+    cursor: pointer;
+}
+
+.wrongpassword{
+    background: rgb(63, 228, 228);
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 15px;
+    color: red;
+}
+
+.signupbtn{
+    position: absolute;
+    top: 80%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 70px;
+    font-size: 40px;
+    border-radius: 10px;
+    border: 3px solid black;
+    background-color: white;
+    cursor: pointer;
+    font-family: mainfont;
+    src: url(/NotoSansJP-VariableFont_wght.ttf) format("truetype");
+}
+
+.post-right {
+    margin-top: 10px;
+    flex: 5;
+    background: #ffffff;
+    border: 1px solid #e6ecf0;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.post {
+    display: flex;
+    gap: 12px;
+
+    padding: 16px;
+    margin-bottom: 12px;
+
+    background: #ffffff;
+    border: 1px solid #e6ecf0;
+    border-radius: 16px;
+
+    transition: background 0.2s ease;
+}
+
+.post:hover {
+    background: #f6faf5;
+}
+
+.post-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.post-content {
+    flex: 1;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.post-title {
+    color: black;
+    font-weight: 700;
+}
+
+.post-username {
+    color: #536471;
+}
+
+.post-attribute {
+    margin-left: 2px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 30px;
+    padding: 2px;
+    color: #bbbb07;
+    border: solid #f7f46a;
+}
+
+.post-attribute-experience {
+    margin-left: 2px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 30px;
+    padding: 2px;
+    color:#e8890d;
+    border: solid #e8890d;
+}
+
+.post-text {
+    color: black;
+    margin-top: 6px;
+    font-size: 15px;
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.post-tag {
+    margin-top: 8px;
+    font-size: 14px;
+    background: #e8f9f3;
+    color: rgb(3, 190, 223);
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.post-tag::before {
+    content: "#";
+    margin-right: 2px;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.post-actions span {
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.post-actions span:hover {
+    color: #0d52e8;
+}
+
+.check-btn {
+    font-size: 13px;
+    color: #1d9bf0;
+    cursor: pointer;
+
+    padding: 6px 12px;
+    border-radius: 999px;
+
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.check-btn:hover {
+    background: rgba(29, 155, 240, 0.15);
+}
+
+.post-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+}
+
 .box{
     width: 25%;
     height: 100%;
@@ -312,7 +396,6 @@ body{
     left: 0;
     //background: #F7FC66;
 }
-
 
 .outer{
     height: 80%;
@@ -494,133 +577,3 @@ body{
 .tag-space .tag-object .tag-cancel:hover{
     background-color: lightgray;
 }
-
-//投稿文プレビュー（かいと作）
-.post-right {
-    margin-top: 10px;
-    flex: 5;
-    background: #ffffff;
-    border: 1px solid #e6ecf0;
-    border-radius: 16px;
-    padding: 20px;
-}
-.post {
-    display: flex;
-    gap: 12px;
-
-    padding: 16px;
-    margin-bottom: 12px;
-
-    background: #ffffff;
-    border: 1px solid #e6ecf0;
-    border-radius: 16px;
-
-    transition: background 0.2s ease;
-}
-.post:hover {
-    background: #f6faf5;
-}
-
-.post-icon {
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
-}
-.post-content {
-    flex: 1;
-}
-.post-header {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-}
-
-.post-title {
-    color: black;
-    font-weight: 700;
-}
-
-.post-username {
-    color: #536471;
-}
-
-.post-attribute {
-    margin-left: 2px;
-    font-size: 16px;
-    font-weight: 500;
-    border-radius: 30px;
-    padding: 2px;
-    color: #bbbb07;
-    border: solid #f7f46a;
-}
-.post-attribute-experience {
-    margin-left: 2px;
-    font-size: 16px;
-    font-weight: 500;
-    border-radius: 30px;
-    padding: 2px;
-    color:#e8890d;
-    border: solid #e8890d;
-}
-
-.post-text {
-    color: black;
-    margin-top: 6px;
-    font-size: 15px;
-    line-height: 1.6;
-
-    white-space: pre-wrap;
-    word-break: break-word;
-}
-
-.post-tag {
-    margin-top: 8px;
-    font-size: 14px;
-    background: #e8f9f3;
-    color: rgb(3, 190, 223);
-    cursor: pointer;
-    transition: color 0.15s ease;
-}
-
-.post-tag::before {
-    content: "#";
-    margin-right: 2px;
-}
-
-.post-actions {
-    display: flex;
-    justify-content: flex-start;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.post-actions span {
-    cursor: pointer;
-    transition: color 0.15s ease;
-}
-
-.post-actions span:hover {
-    color: #0d52e8;
-}
-
-.post-footer {
-    display: flex;
-    justify-content: flex-end; /* 右寄せ */
-    margin-top: 12px;
-}
-.check-btn {
-    font-size: 13px;
-    color: #1d9bf0;
-    cursor: pointer;
-
-    padding: 6px 12px;
-    border-radius: 999px;
-
-    transition: background 0.15s ease, color 0.15s ease;
-}
-
-.check-btn:hover {
-    background: rgba(29, 155, 240, 0.15);
-}
-//投稿文プレビューここまで
