@@ -306,6 +306,11 @@ fn MainScreenPost(post: server::Post, is_preview: bool) -> impl IntoView {
                         tags.collect_view()
                     }
                 </div>
+                <div class="post-footer">
+                    <div class="check-btn">
+                        返信
+                    </div>
+                </div>
             </div>
         </div>
     }
