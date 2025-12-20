@@ -1,6 +1,6 @@
 use leptos::{logging::log, prelude::*, task};
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
-use leptos_router::{components::*, path, hooks::use_navigate};
+use leptos_router::{components::*, path};
 use serde::{Deserialize, Serialize};
 
 use crate::server;
@@ -186,7 +186,6 @@ fn TagSearch(tag: String, set_select_tag: WriteSignal<Vec<String>>) -> impl Into
 
 #[component]
 fn Header() -> impl IntoView {
-    let navigate = use_navigate();
     view! {
         <header class="header">
             <label for="sidemenu" style="margin-left: 10px">
@@ -215,7 +214,7 @@ fn Header() -> impl IntoView {
 
 #[component]
 fn MainScreen() -> impl IntoView{
-    let (posts, set_posts) = signal(vec![server::ClientPost{title: "最強の推し".to_string(),id: "id".to_string(), name: "ルビス".to_string(), body: "最近はまっているのはツクリちゃん！\nツクリちゃんの歌うロミオとシンデレラを初めて聞いたときは脳を打ち抜かれました…！\nマルチクリエイティブVtuberということもあり、作曲、歌唱、MIX、動画制作などすべてできるものすごいお方！\n落ち着いた声もかっこいい歌声も最高なので１度聞いてみてほしいです！".to_string(), tags: vec!["推し活".to_string(), "ミリプロ".to_string()]}]);
+    let (posts, set_posts) = signal(vec![server::Post{title: "最強の推し".to_string(),id: "id".to_string(), name: "ルビス".to_string(), body: "最近はまっているのはツクリちゃん！\nツクリちゃんの歌うロミオとシンデレラを初めて聞いたときは脳を打ち抜かれました…！\nマルチクリエイティブVtuberということもあり、作曲、歌唱、MIX、動画制作などすべてできるものすごいお方！\n落ち着いた声もかっこいい歌声も最高なので１度聞いてみてほしいです！".to_string(), tags: vec!["推し活".to_string(), "ミリプロ".to_string()], is_advanced: true, comment:vec![]}]);
     view!{
         <div class="main-layout">
             <For
@@ -257,7 +256,7 @@ fn MainScreen() -> impl IntoView{
 }
 
 #[component]
-fn MainScreenPost(post: server::ClientPost) -> impl IntoView {
+fn MainScreenPost(post: server::Post) -> impl IntoView {
     let tags = post
         .tags
         .iter()
@@ -274,7 +273,13 @@ fn MainScreenPost(post: server::ClientPost) -> impl IntoView {
                         <div class="post-header">
                             <span class="post-title"> {post.title}</span>
                             <span class="post-username"> {post.name} </span>
-                            <span class="post-attribute">初心者</span>/*経験者の時post-attribute-experience*/
+                            <span class="post-attribute" class:post-attribute-experience=post.is_advanced> {
+                                if post.is_advanced{
+                                    "経験者"
+                                } else {
+                                    "初心者"
+                                }
+                            }</span>/*経験者の時post-attribute-experience*/
                         </div>
 
                         <div class="post-text-preview">

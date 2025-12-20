@@ -14,7 +14,7 @@ use {
     jsonwebtoken::{
         decode, encode, Algorithm::HS256, DecodingKey, EncodingKey, Header, Validation,
     },
-    mongodb::{bson::doc, Client, Database},
+    mongodb::{bson::{doc, oid::ObjectId}, Client, Database},
     std::{fs, sync::LazyLock},
     tokio::sync::OnceCell,
 };
@@ -75,15 +75,28 @@ struct User {
     icon: Option<String>,
 }
 
+#[derive(Deserialize, Serialize, Clone)]
+pub struct Post {
+    pub name: String,
+    pub body: String,
+    pub tags: Vec<String>,
+    pub title: String,
+    pub comment: Vec<(String, String)>,
+    pub is_advanced: bool,
+    pub id: String
+}
+
 #[cfg(feature = "ssr")]
 #[derive(Deserialize, Serialize)]
-pub struct Post {
-    name: String,
-    body: String,
-    tag: Vec<String>,
-    title: String,
-    comment: Vec<(String, String)>,
-    is_advanced: bool
+pub struct ServerPost{
+    pub name: String,
+    pub body: String,
+    pub tags: Vec<String>,
+    pub title: String,
+    pub comment: Vec<(String, String)>,
+    pub is_advanced: bool,
+    #[serde(rename = "_id", skip_serializing)]
+    pub id: Option<ObjectId>,
 }
 
 // 関数
@@ -214,8 +227,8 @@ pub async fn do_post(name: String, jwt: String, title:String, body: String, tag:
     if !check_jwt(name.clone(), jwt).await{
         return Ok(PostResult::Refuse);
     }
-    let db_post = get_db().await.collection::<Post>("posts");
-    let post = Post{name, body, tag: tag.unwrap(), is_advanced, title, comment: vec![]};
+    let db_post = get_db().await.collection::<ServerPost>("posts");
+    let post = ServerPost{name, body, tags: tag.unwrap(), is_advanced, title, comment: vec![], id: Some(ObjectId::new())};
     db_post.insert_one(post).await.unwrap();
     Ok(PostResult::Ok)
 }
