@@ -46,6 +46,62 @@ pub fn App() -> impl IntoView {
 
         // sets the document title
         //<Title text="Welcome to Leptos"/>
+        <PostScreen/>
+    }
+}
+
+#[component]
+fn PostScreen() -> impl IntoView{
+    view!{
+        <div class="box" id="side-space-left">
+            <div class="tag-function">
+                <input class="tag-search-window" type="text" placeholder="タグを検索"/>
+                <div class="tag-predict">
+                    <p>"タグ候補"</p>
+                    <div class="tag-object">
+                        <TagSelect tag="test_tag".to_string()/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="outer">
+                <div class="post-function">
+                    <input class="title-space" type="text" placeholder="タイトルを入力"/> <br/>
+                    <div class="tag-space">
+                        <div class="tag-object">//タグひとまとまり
+                            <div class="tag-name">
+                                <TagSelect tag="test1_tag".to_string()/>
+                            </div>
+                            <div class="tag-cancel">
+                            "×"
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-area-space">
+                        <textarea class="text-space" placeholder="内容を入力"/> <br/>
+                        <div class="text-function">
+                            <div class="picture-button">
+                                <img src="/images/seal_certificate_line72.png"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-button">
+                        <img src="/images/mailing_fill72.png"/>
+                    </div>
+                </div>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked></input>
+            <label class="form-check-label" for="flexRadioDefault1">
+                "初心者"
+            </label>
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2"></input>
+            <label class="form-check-label" for="flexRadioDefault2">
+                "経験者"
+            </label>
+        </div>
+    }
+}
 
         <Title text="Biestar"/>
         <Show when=move || {
