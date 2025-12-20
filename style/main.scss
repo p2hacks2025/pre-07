@@ -604,3 +604,18 @@ img{
 .tag-space .tag-object .tag-cancel:hover{
     background-color: rgb(211, 211, 211);
 }
+
+.cant-look {
+  position: relative;
+  width: 500px;
+  height: 300px;
+}
+
+.cant-look-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2em;
+  color: #000;
+}
