@@ -58,7 +58,7 @@ pub fn App() -> impl IntoView {
 
         <Router>
             <Routes fallback=|| "NotFound">
-                <Route path=path!("/") view=PostScreen/>
+                <Route path=path!("/post") view=PostScreen/>
             </Routes>
         </Router>
 
