@@ -81,7 +81,7 @@ fn PostScreen() -> impl IntoView{
         </div>
         <div class="outer">
                 <div class="post-function">
-                    <input class="title-space" type="text" placeholder="タイトルを入力"/> <br/>
+                    <input class="title-space" type="text" placeholder="タイトル"/> <br/>
                     <div class="tag-space">
                         <TagSearch tag="tag".to_string()/>
                     </div>

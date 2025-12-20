@@ -542,16 +542,16 @@ body{
     border-radius: 15px;
     height: 40px;
     width: 90%;
-    background-color: white;
+    background: #e8f9f3;
 }
 .tag-predict .tag-object:hover{
-    background-color: lightgray;
+    background-color: rgb(169, 242, 230);
 }
 .tag-predict .tag-object:active{
     transform: translateY(1px);
 }
 .tag-predict .tag-object p{
-    color: black;
+    color: rgb(27, 153, 162);
 }
 
 .tag-space .tag-object{
@@ -560,7 +560,8 @@ body{
     border-radius: 15px;
     height: 40px;
     width: 150px;
-    background-color: white;
+    background-color: rgb(230, 247, 245);
+    color: rgb(27, 153, 162);
     display: flex;
     align-items: center;
     margin-left: 5px;
@@ -584,5 +585,5 @@ body{
     height: 25px;
 }
 .tag-space .tag-object .tag-cancel:hover{
-    background-color: lightgray;
+    background-color: rgb(211, 211, 211);
 }
