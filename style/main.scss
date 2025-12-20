@@ -49,11 +49,20 @@ img{
 }
 
 .search-icon {
+    display: inline-block;
     position: absolute;
     top: 40%;
     left: 12px;
     width: 24px;
-    pointer-events: none;
+    border-radius: 6px;
+    background-color: transparent;
+    transition: background-color 160ms ease;
+}
+
+.search-icon:hover,
+.search-icon:focus-visible {
+  cursor: pointer;
+  background-color: rgba(0, 123, 255, 0.256); /* 微かな色付き */
 }
 
 .divider {
