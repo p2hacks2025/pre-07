@@ -75,6 +75,15 @@ struct User {
     icon: Option<String>,
 }
 
+#[derive(Clone, Deserialize, Serialize)]
+pub struct ClientPost {
+    pub name: String,
+    pub title: String,
+    pub body: String,
+    pub tags: Vec<String>,
+    pub id: String,
+}
+
 // 関数
 
 #[cfg(feature = "ssr")]

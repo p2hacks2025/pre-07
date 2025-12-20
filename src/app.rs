@@ -194,6 +194,7 @@ fn Profile() -> impl IntoView {
             </div>
         </div>
     </div>
+    //ここからしたアイコン選択画面
     <div class="overlay-icon">
     <div class="icon-modal">
         <button class="close-button">"×"</button>
