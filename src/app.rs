@@ -57,6 +57,7 @@ pub fn App() -> impl IntoView {
         <Router>
             <Header/>
             <Routes fallback=|| "NotFound">
+                <Route path=path!("/") view=MainScreen/>
                 <Route path=path!("/post") view=PostScreen/>
             </Routes>
         </Router>
@@ -213,10 +214,84 @@ fn Header() -> impl IntoView {
 }
 
 #[component]
-fn Test() -> impl IntoView {
-    // 後で消してください
+fn MainScreen() -> impl IntoView{
+    let (posts, set_posts) = signal(vec![server::ClientPost{title: "最強の推し".to_string(),id: "id".to_string(), name: "ルビス".to_string(), body: "最近はまっているのはツクリちゃん！\nツクリちゃんの歌うロミオとシンデレラを初めて聞いたときは脳を打ち抜かれました…！\nマルチクリエイティブVtuberということもあり、作曲、歌唱、MIX、動画制作などすべてできるものすごいお方！\n落ち着いた声もかっこいい歌声も最高なので１度聞いてみてほしいです！".to_string(), tags: vec!["推し活".to_string(), "ミリプロ".to_string()]}]);
+    view!{
+        <div class="main-layout">
+            <For
+                each=move || posts.get()
+                key=|post| post.id.clone()
+                let(post)
+            >
+                <MainScreenPost post=post/>
+            </For>
+            <div class="post-right">
+                <div class="post">
+                    <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
+
+                    <div class="post-content">
+                        <div class="post-header">
+                            <span class="post-title">最高の推し</span>
+                            <span class="post-username">ルビス</span>
+                            <span class="post-attribute">初心者</span>/*経験者の時post-attribute-experience*/
+                        </div>
+                        <div class="post-text">
+                        "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
+その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
+また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
+その強さを表現する語彙力がないことが実に口惜しい…！
+まさに銀河１のアイドルはあくたんしかいないと思っています！"
+                        </div>
+                        <div class="post-actions">
+                            <span class="post-tag">"推し活"</span>
+                            <span class="post-tag">"hololive"</span>
+                        </div>
+                        <div class="post-footer">
+                            <span class="check-btn">返信</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+}
+}
+
+#[component]
+fn MainScreenPost(post: server::ClientPost) -> impl IntoView {
+    let tags = post
+        .tags
+        .iter()
+        .map(|t| view! {<span class="post-tag"> "#" {t.to_string()} </span>})
+        .collect_view();
+
     view! {
-        <h1> "TEST" </h1>
+        <div class="main-layout">
+            <div class="timeline">
+                <div class="post">
+                    <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
+
+                    <div class="post-content">
+                        <div class="post-header">
+                            <span class="post-title"> {post.title}</span>
+                            <span class="post-username"> {post.name} </span>
+                            <span class="post-attribute">初心者</span>/*経験者の時post-attribute-experience*/
+                        </div>
+
+                        <div class="post-text-preview">
+                            {post.body}
+                        </div>
+                        <div class="post-actions">
+                            {
+                                tags.collect_view()
+                            }
+                        </div>
+                        <div class="post-footer">
+                            <span class="check-btn">全文表示</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     }
 }
 
