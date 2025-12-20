@@ -241,11 +241,14 @@ fn MainScreen() -> impl IntoView {
         set_right_post.set(None);
     });
     view! {
-        <div class="cantlook">
-            <div class="cantlook-text">
-                記事が見つかりませんでした
+        <Show
+            when=move || {posts.get().is_empty()}>
+            <div class="cantlook">
+                <div class="cantlook-text">
+                    記事が見つかりませんでした
+                </div>
             </div>
-        </div>
+        </Show>
         <div class="main-layout">
             <div class="timeline">
                 <For
