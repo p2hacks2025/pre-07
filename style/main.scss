@@ -256,12 +256,11 @@ body{
 .timeline {
   flex: 3;
   max-width: 700px;
-  margin-left:15%;
   overflow-y: auto;
 }
 
 .post-right {
-  flex: 2;
+  flex: 5;
   background: #ffffff;
   border: 1px solid #e6ecf0;
   border-radius: 16px;
