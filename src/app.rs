@@ -95,9 +95,17 @@ fn Header() -> impl IntoView {
 
 #[component]
 fn MainScreen() -> impl IntoView{
+     let (posts, set_posts) = signal(vec![server::ClientPost{title: "最強の推し".to_string(),id: "id".to_string(), name: "ルビス".to_string(), body: "最近はまっているのはツクリちゃん！\nツクリちゃんの歌うロミオとシンデレラを初めて聞いたときは脳を打ち抜かれました…！\nマルチクリエイティブVtuberということもあり、作曲、歌唱、MIX、動画制作などすべてできるものすごいお方！\n落ち着いた声もかっこいい歌声も最高なので１度聞いてみてほしいです！".to_string(), tags: vec!["推し活".to_string(), "ミリプロ".to_string()]}]);
     view!{
         <div class="main-layout">
         <div class="timeline">
+        <For
+            each=move || posts.get()
+            key=|post| post.id.clone()
+            let(post)
+            >
+            <MainScreenPost post=post/>
+        </For>
     <div class="post">
         <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
 
@@ -176,6 +184,42 @@ fn MainScreen() -> impl IntoView{
     </div>
   </div>
 }
+}
+
+#[component]
+fn MainScreenPost(post: server::ClientPost) -> impl IntoView {
+    let tags = post
+        .tags
+        .iter()
+        .map(|t| view! {<span class="post-tag"> "#" {t.to_string()} </span>})
+        .collect_view();
+
+    view! {
+        <div class="timeline">
+            <div class="post">
+                <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
+
+                <div class="post-content">
+                    <div class="post-header">
+                        <span class="post-title"> {post.title}</span>
+                        <span class="post-username"> {post.name} </span>
+                    </div>
+
+                    <div class="post-text">
+                        {post.body}
+                    </div>
+                    <div class="post-actions">
+                        {
+                            tags.collect_view()
+                        }
+                    </div>
+                    <div class="post-footer">
+                        <span class="reply-btn">返信</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
 }
 
 //ログイン画面
