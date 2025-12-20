@@ -85,7 +85,7 @@ fn PostScreen() -> impl IntoView {
             set_is_sending.set(true);
             task::spawn_local(async move {
             if let Some(u) = user {
-                let x = server::do_post(u.name, u.jwt, title, body, Some(tag), is_advanced)
+                server::do_post(u.name, u.jwt, title, body, Some(tag), is_advanced)
                     .await
                     .unwrap();
             }
@@ -431,16 +431,5 @@ fn ResponceScreen() -> impl IntoView{
                     <img src="/images/mailing_fill72.png"/>
                 </div>
         </div>
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"></input>
-            <label class="form-check-label" for="flexRadioDefault1">
-                "初心者"
-            </label>
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked></input>
-            <label class="form-check-label" for="flexRadioDefault2">
-                "経験者"
-            </label>
-        </div>
-
     }
 }
