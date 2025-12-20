@@ -422,6 +422,11 @@ img{
     background: red;
     color: white;
 }
+.box-responce{
+    width: 25%;
+    height: 100%;
+    color: white;
+}
 
 #side-space-left{
     position: fixed;
@@ -435,6 +440,12 @@ img{
     width: 70%;
     margin-left: auto;
     margin-right: auto;
+}
+.outer-responce{
+    height: 80%;
+    width: 50%;
+    margin: auto;
+    margin-left: 30%;
 }
 
 .post-function{
@@ -469,6 +480,20 @@ img{
     font-size: 20px;
 }
 
+.text-space{
+    top: 80px;
+    border: 2px solid black;
+    border-radius: 15px;
+    width: 100%;
+    margin: 100px auto 0;
+    padding: 10px;
+    height: 400px;
+    width: 100%;
+    resize: none;
+    outline: none;
+    font-size: 20px;
+}
+
 .text-area-space .text-function{
         display: flex;
         align-items: center;
@@ -481,7 +506,7 @@ img{
     margin-right: -10%;
     text-align: right;
 }
-.post-button{
+.post-button .post-button-responce{
     display: flex;
     justify-content: right;
 }
@@ -492,10 +517,18 @@ img{
     height: 70px;
     width: 80px;
 }
-.post-button img:hover{
+.post-button-responce img{
+    position: absolute;
+    right: 15%;
+    border-radius: 30px;
+    background-color: #fffac9;
+    height: 70px;
+    width: 80px;
+}
+.post-button img .post-button-responce img:hover{
     background-color: #e4d65a;
 }
-.post-button img:active{
+.post-button img .post-button-responce img:active{
     transform: translateY(1px);
 }
 
@@ -593,18 +626,7 @@ img{
     margin-left: 5px;
     overflow: hidden;
 }
-/*.tag-space{
-    display: flex;
-    align-items: center;
-    border: 2px dotted rgb(255, 167, 66);
-    height: 60px;
-    margin: 10px auto 10px;
-    width: 90%;
-}*/
-.text-area-space{
-    margin-right: -60px;
-    margin-left: 60px;
-}
+
 .tag-space .tag-object p{
     margin: 0;
 }

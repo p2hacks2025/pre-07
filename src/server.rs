@@ -179,7 +179,6 @@ pub async fn sign_up(
             .hash_password(password.as_bytes(), &salt)
             .unwrap()
             .to_string(),
-        icon: None,
     };
     let _ = db_user.insert_one(account).await.unwrap();
     Ok(Ok(make_jwt(name).await))

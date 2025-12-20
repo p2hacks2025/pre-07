@@ -59,7 +59,8 @@ pub fn App() -> impl IntoView {
             <Routes fallback=|| "NotFound">
                 <Route path=path!("/") view=MainScreen/>
                 <Route path=path!("/post") view=PostScreen/>
-            </Routes>
+                <Route path=path!("/responce") view=ResponceScreen/>
+                </Routes>
         </Router>
 
         </Show>
@@ -380,8 +381,7 @@ fn Login() -> impl IntoView {
 #[component]
 fn ResponceScreen() -> impl IntoView{
     view!{
-        <div class="box" id="side-space-left">
-        //仮　かいとの投稿文プレビュー
+        <div class="box-responce" id="side-space-left">
         <div class="post-right">
                 <div class="post">
                     <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
@@ -409,12 +409,9 @@ fn ResponceScreen() -> impl IntoView{
                 </div>
             </div>
         </div>
-            //仮　かいとの投稿文プレビュー　ここまで
-        <div class="outer">
-                <div class="text-area-space">
-                    <textarea class="text-space" placeholder="内容を入力"/> <br/>
-                </div>
-                <div class="post-button">
+        <div class="outer-responce">
+                <textarea class="text-space" placeholder="内容を入力"/> <br/>
+                <div class="post-button-responce">
                     <img src="/images/mailing_fill72.png"/>
                 </div>
         </div>
