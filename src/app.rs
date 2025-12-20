@@ -75,9 +75,7 @@ fn PostScreen() -> impl IntoView{
                 <input class="tag-search-window" type="text" placeholder="タグを検索"/>
                 <div class="tag-predict">
                     <p>"タグ候補"</p>
-                    <div class="tag-object">
-                        <TagSelect tag="test_tag".to_string()/>
-                    </div>
+                    <TagSelect tag="tag".to_string()/>
                 </div>
             </div>
         </div>
@@ -85,14 +83,7 @@ fn PostScreen() -> impl IntoView{
                 <div class="post-function">
                     <input class="title-space" type="text" placeholder="タイトルを入力"/> <br/>
                     <div class="tag-space">
-                        <div class="tag-object">//タグひとまとまり
-                            <div class="tag-name">
-                                <TagSelect tag="test1_tag".to_string()/>
-                            </div>
-                            <div class="tag-cancel">
-                            "×"
-                            </div>
-                        </div>
+                        <TagSearch tag="tag".to_string()/>
                     </div>
                     <div class="text-area-space">
                         <textarea class="text-space" placeholder="内容を入力"/> <br/>
@@ -123,14 +114,23 @@ fn PostScreen() -> impl IntoView{
 #[component]
 fn TagSelect(tag: String) -> impl IntoView{
     view!{
-        <p> {tag} </p>
+        <div class="tag-object">
+            <p> {tag} </p>
+        </div>
     }
 }
 
 #[component]
-fn TagPreview(tag: String) -> impl IntoView{
+fn TagSearch(tag: String) -> impl IntoView{
     view!{
-        <p> {tag} </p>
+        <div class="tag-object">//タグひとまとまり
+            <div class="tag-name">
+                <p> {tag} </p>
+            </div>
+            <div class="tag-cancel">
+                "×"
+            </div>
+        </div>
     }
 }
 
