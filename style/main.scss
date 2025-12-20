@@ -270,6 +270,7 @@ img{
 }
 
 .timeline {
+  display: inline;
   flex: 3;
   max-width: 700px;
   overflow-y: auto;
