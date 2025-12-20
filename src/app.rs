@@ -218,7 +218,7 @@ fn ProfilePost(post: server::ClientPost) -> impl IntoView {
         .collect_view();
 
     view! {
-        <div class="main-layout">
+        <div class="profile-layout">
             <div class="timeline">
                 <div class="post">
                     <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
