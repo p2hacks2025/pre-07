@@ -250,6 +250,164 @@ img{
     src: url(/NotoSansJP-VariableFont_wght.ttf) format("truetype");
 }
 
+.main-layout {
+  display: flex;
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0px auto 0;
+  padding-top: 60px;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.timeline {
+  flex: 3;
+  max-width: 700px;
+  overflow-y: auto;
+}
+
+.post-right {
+  flex: 5;
+  background: #ffffff;
+  border: 1px solid #e6ecf0;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.post-text-preview {
+  margin-top: 6px;
+  font-size: 15px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+}
+
+.post {
+    display: flex;
+    gap: 12px;
+
+    padding: 16px;
+    margin-bottom: 12px;
+
+    background: #ffffff;
+    border: 1px solid #e6ecf0;
+    border-radius: 16px;
+
+    transition: background 0.2s ease;
+}
+
+.post:hover {
+    background: #f6faf5;
+}
+
+.post-icon {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.post-content {
+    flex: 1;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.post-title {
+    font-weight: 700;
+}
+
+.post-username {
+    color: #536471;
+}
+
+.post-attribute {
+    margin-left: 2px;
+    font-size: clamp(1px,1.7vw,20px);
+    font-weight: 500;
+    border-radius: 30px;
+    padding: 2px;
+    color: #bbbb07;
+    border: solid #f7f46a;
+}
+
+.post-attribute-experience {
+    margin-left: 2px;
+    font-size: clamp(1px,1.7vw,20px);
+    font-weight: 500;
+    border-radius: 30px;
+    padding: 2px;
+    color:#e8890d;
+    border: solid #e8890d;
+}
+
+.post-text {
+    margin-top: 6px;
+    font-size: 15px;
+    line-height: 1.6;
+
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.post-tag {
+    margin-top: 8px;
+    font-size: 14px;
+    background: #e8f9f3;
+    color: rgb(3, 190, 223);
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.post-tag::before {
+    content: "#";
+    margin-right: 2px;
+}
+
+.post-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.post-actions span {
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.post-actions span:hover {
+    color: #0d52e8;
+}
+
+.check-btn {
+  font-size: 13px;
+  color: #1d9bf0;
+  cursor: pointer;
+
+  padding: 6px 12px;
+  border-radius: 999px;
+
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.check-btn:hover {
+  background: rgba(29, 155, 240, 0.15);
+}
+
+.post-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 #sidemenu:checked ~ .sidebar {
     left: 0;
 *{
@@ -307,7 +465,9 @@ img{
     outline: none;
     font-size: 20px;
 }
+.text-area-space .text-space{
 
+}
 .text-area-space .text-function{
         display: flex;
         align-items: center;

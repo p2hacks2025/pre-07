@@ -260,7 +260,7 @@ fn MainScreenPost(post: server::Post) -> impl IntoView {
     let tags = post
         .tags
         .iter()
-        .map(|t| view! {<span class="post-tag"> "#" {t.to_string()} </span>})
+        .map(|t| view! {<span class="post-tag"> {t.to_string()} </span>})
         .collect_view();
 
     view! {
