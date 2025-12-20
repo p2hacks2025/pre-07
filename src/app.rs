@@ -59,7 +59,7 @@ pub fn App() -> impl IntoView {
 
         <Router>
             <Routes fallback=|| "NotFound">
-                <Route path=path!("/test") view=Test/>
+                <Route path=path!("/") view=Profile/>
             </Routes>
         </Router>
 
@@ -178,5 +178,33 @@ fn Login() -> impl IntoView {
             </Show>
             <button class="signupbtn" on:click={move |_| signup((name.get(), password.get()))}>"新規登録"</button>
             </div>
+    }
+}
+
+#[component]
+fn Profile() -> impl IntoView {
+    view! {
+    <div class="profile-page">
+        <div class="profile-header">
+            <div class="profile-name-board">
+                <img src="./images/kariicon.jpg" class="profile-icon" />
+                <div class="profile-text">
+                    <p class="profile-name">ルビス</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay-icon">
+    <div class="icon-modal">
+        <button class="close-button">"×"</button>
+        <h3>アイコンを選択</h3>
+        <div class="icon-grid">
+            <img src="./images/kariicon.jpg" class="selectable-icon" />
+            <img src="./images/kariicon1.png" class="selectable-icon" />
+            <img src="./images/kariicon2.png" class="selectable-icon" />
+        </div>
+    </div>
+    </div>
+
     }
 }

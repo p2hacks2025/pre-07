@@ -382,3 +382,86 @@ body{
 #sidemenu:checked ~ .sidebar {
     left: 0;
 }
+
+// プロフィールページ
+
+.profile-page {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profile-header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-icon {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #5e6460;
+  position: absolute;
+  top: 37px;
+  left: -37px;
+  z-index: 2;
+}
+
+.profile-name-board {
+  background: #d2faf8;
+  padding: 10px 20px 10px 50px;
+  border-radius: 20px;
+  margin-top: 60px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  position: relative;
+}
+
+.profile-name {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.overlay-icon{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 100;
+}
+
+.close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 24px;
+  color: #333;
+  text-decoration: none;
+}
+
+.icon-modal {
+  background: #fff;
+  padding: 24px;
+  border-radius: 20px;
+  width: 320px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.selectable-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
