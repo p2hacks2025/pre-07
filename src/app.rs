@@ -1,6 +1,6 @@
 use leptos::{logging::log, prelude::*, task};
-use leptos_router::{components::*, path};
 use leptos_meta::{provide_meta_context, MetaTags, Stylesheet, Title};
+use leptos_router::{components::*, path};
 use serde::{Deserialize, Serialize};
 
 use crate::server;
@@ -28,7 +28,6 @@ struct User {
     jwt: String,
     name: String,
 }
-
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -68,14 +67,37 @@ pub fn App() -> impl IntoView {
 }
 
 #[component]
-fn PostScreen() -> impl IntoView{
-    view!{
+fn PostScreen() -> impl IntoView {
+    let (search_tag, set_search_tag) = signal(Vec::<String>::new());
+    let (select_tag, set_select_tag) = signal(Vec::<String>::new());
+
+    let (search_string, set_search_string) = signal(String::new());
+
+    Resource::new(move || search_string.get(), move |s| async move {
+        log!("{:?}", &s);
+        if !s.is_empty(){
+                task::spawn_local(async move {
+                    set_search_tag.set(server::search_tag_with_prefix(s, 3).await.unwrap());
+                }
+            );
+        } else {
+            set_search_tag.set(vec![]);
+        }
+    });
+
+    view! {
         <div class="box" id="side-space-left">
             <div class="tag-function">
-                <input class="tag-search-window" type="text" placeholder="タグを検索"/>
+                <input class="tag-search-window" type="text" placeholder="タグを検索" on:input:target=move |ev| {set_search_string.set(ev.target().value())}/>
                 <div class="tag-predict">
                     <p>"タグ候補"</p>
-                    <TagSelect tag="tag".to_string()/>
+                    <For
+                        each=move || search_tag.get()
+                        key=|tag| tag.clone()
+                        let(tag)
+                    >
+                    <TagSelect tag=tag/>
+                    </For>
                 </div>
             </div>
         </div>
@@ -112,8 +134,8 @@ fn PostScreen() -> impl IntoView{
 }
 
 #[component]
-fn TagSelect(tag: String) -> impl IntoView{
-    view!{
+fn TagSelect(tag: String) -> impl IntoView {
+    view! {
         <div class="tag-object">
             <p> {tag} </p>
         </div>
@@ -121,8 +143,8 @@ fn TagSelect(tag: String) -> impl IntoView{
 }
 
 #[component]
-fn TagSearch(tag: String) -> impl IntoView{
-    view!{
+fn TagSearch(tag: String) -> impl IntoView {
+    view! {
         <div class="tag-object">//タグひとまとまり
             <div class="tag-name">
                 <p> {tag} </p>
@@ -147,12 +169,12 @@ fn Header() -> impl IntoView {
                 <img src="./images/search_fill48.png" class="search-icon" />
                 <input type="text" class="searchbar" placeholder="タグ検索"/>
             </div>
-            <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/> 
-            <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/> 
-        </header> 
-        <input type="checkbox" id="sidemenu" hidden/> 
+            <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/>
+            <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/>
+        </header>
+        <input type="checkbox" id="sidemenu" hidden/>
         <label for="sidemenu" class="overlay"></label>
-        <nav class="sidebar"> 
+        <nav class="sidebar">
             <a>"ホーム"</a>
             <a>"投稿"</a>
             <a>"プロフ"</a>
