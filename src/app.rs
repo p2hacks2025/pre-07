@@ -186,6 +186,26 @@ fn TagSearch(tag: String, set_select_tag: WriteSignal<Vec<String>>) -> impl Into
 
 #[component]
 fn Header() -> impl IntoView {
+    let (posts, set_posts) = signal(vec![server::Post{title: "最強の推し".to_string(),id: "id".to_string(), name: "ルビス".to_string(), body: "最近はまっているのはツクリちゃん！\nツクリちゃんの歌うロミオとシンデレラを初めて聞いたときは脳を打ち抜かれました…！\nマルチクリエイティブVtuberということもあり、作曲、歌唱、MIX、動画制作などすべてできるものすごいお方！\n落ち着いた声もかっこいい歌声も最高なので１度聞いてみてほしいです！".to_string(), tag: vec!["推し活".to_string(), "ミリプロ".to_string()], is_advanced: true, comment:vec![]}]);
+
+    provide_context(posts);
+
+    let search = move |query: String| {
+        task::spawn_local(async move {
+            let q = {
+                if query.is_empty() {
+                    None
+                } else {
+                    Some(query)
+                }
+            };
+            let result = server::search(q).await.unwrap();
+            set_posts.set(result);
+        });
+    };
+
+    let (query, set_query) = signal(String::new());
+
     view! {
         <header class="header">
             <label for="sidemenu" style="margin-left: 10px">
@@ -194,8 +214,8 @@ fn Header() -> impl IntoView {
             <div class="divider"></div>
             <img src="./images/tabicon.JPG" alt="アイコン" class="logo" height="40px"/>
             <div class="search-wrap">
-                <img src="./images/search_fill48.png" class="search-icon" />
-                <input type="text" class="searchbar" placeholder="タグ検索"/>
+                <img src="./images/search_fill48.png" class="search-icon" on:click=move |_| {search(query.get())}/>
+                <input type="text" class="searchbar" placeholder="タグ検索" on:input:target=move |ev| set_query.set(ev.target().value())/>
             </div>
             <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/>
             <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/>
@@ -213,7 +233,7 @@ fn Header() -> impl IntoView {
 
 #[component]
 fn MainScreen() -> impl IntoView {
-    let (posts, set_posts) = signal(vec![server::Post{title: "最強の推し".to_string(),id: "id".to_string(), name: "ルビス".to_string(), body: "最近はまっているのはツクリちゃん！\nツクリちゃんの歌うロミオとシンデレラを初めて聞いたときは脳を打ち抜かれました…！\nマルチクリエイティブVtuberということもあり、作曲、歌唱、MIX、動画制作などすべてできるものすごいお方！\n落ち着いた声もかっこいい歌声も最高なので１度聞いてみてほしいです！".to_string(), tag: vec!["推し活".to_string(), "ミリプロ".to_string()], is_advanced: true, comment:vec![]}]);
+    let posts = use_context::<ReadSignal<Vec<server::Post>>>().unwrap();
     view! {
             <div class="main-layout">
                 <For
