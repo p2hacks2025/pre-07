@@ -7,23 +7,15 @@ body{
     font-family: mainfont, 'sans', system-ui, sans-serif;
     background-color: #defdec;
     font-size: 20px;
-    user-select:none;
-    -webkit-user-select:none;
-    -ms-user-select: none;
-    -moz-user-select:none;
-    -khtml-user-select:none;
-    -webkit-user-drag:none;
-    -khtml-user-drag:none;
 }
 
 img{
-    user-drag: none; /* ドラッグ禁止 */
     user-select: none; /* 選択禁止 */
     -webkit-user-drag: none; /* Webkitブラウザ（ChromeやSafari）向け */
     -webkit-user-select: none;
     -moz-user-select: none; /* Firefox向け */
     -ms-user-select: none; /* IE向け */
-    pointer-events: none; /* 右クリックや長押し禁止 */
+    //pointer-events: none; /* 右クリックや長押し禁止 */
 }
 
 .header{
