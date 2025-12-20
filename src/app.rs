@@ -78,14 +78,19 @@ fn PostScreen() -> impl IntoView {
     let (body, set_body) = signal(String::new());
     let (advanced, set_advanced) = signal(false);
 
-    let post = |title, body, tag, is_advanced, user:Option<User>| {
-        task::spawn_local(async move {
+    let (is_sending, set_is_sending) = signal(false);
+
+    let post = move |title, body, tag, is_advanced, user: Option<User>, is_sending: bool| {
+        if !is_sending{
+            set_is_sending.set(true);
+            task::spawn_local(async move {
             if let Some(u) = user {
                 let x = server::do_post(u.name, u.jwt, title, body, Some(tag), is_advanced)
                     .await
                     .unwrap();
             }
-        })
+            set_is_sending.set(false);
+        })}
     };
 
     Resource::new(
@@ -131,7 +136,7 @@ fn PostScreen() -> impl IntoView {
                     </div>
                         <textarea class="text-area-space" placeholder="内容を入力" on:input:target=move |ev| {set_body.set(ev.target().value())}/>
                     <div class="post-button">
-                        <img src="/images/mailing_fill72.png" on:click=move |_| {post(title.get(), body.get(), select_tag.get(), advanced.get(), use_context::<ReadSignal<Option<User>>>().unwrap().get())}/>
+                        <img src="/images/mailing_fill72.png" on:click=move |_| {post(title.get(), body.get(), select_tag.get(), advanced.get(), use_context::<ReadSignal<Option<User>>>().unwrap().get(), is_sending.get())}/>
                     </div>
                 </div>
         </div>
@@ -187,6 +192,28 @@ fn TagSearch(tag: String, set_select_tag: WriteSignal<Vec<String>>) -> impl Into
 
 #[component]
 fn Header() -> impl IntoView {
+    let (posts, set_posts) = signal(vec![]);
+
+    provide_context(posts);
+
+    let search = move |query: String| {
+        task::spawn_local(async move {
+            let q = {
+                if query.is_empty() {
+                    None
+                } else {
+                    Some(query)
+                }
+            };
+            let result = server::search(q).await.unwrap();
+            set_posts.set(result);
+        });
+    };
+
+    search(String::new());
+
+    let (query, set_query) = signal(String::new());
+
     view! {
         <header class="header">
             <label for="sidemenu" style="margin-left: 10px">
@@ -195,8 +222,8 @@ fn Header() -> impl IntoView {
             <div class="divider"></div>
             <img src="./images/tabicon.JPG" alt="アイコン" class="logo" height="40px"/>
             <div class="search-wrap">
-                <img src="./images/search_fill48.png" class="search-icon" />
-                <input type="text" class="searchbar" placeholder="タグ検索"/>
+                <img src="./images/search_fill48.png" class="search-icon" on:click=move |_| {search(query.get())}/>
+                <input type="text" class="searchbar" placeholder="タグ検索" on:input:target=move |ev| set_query.set(ev.target().value())/>
             </div>
             <img src="./images/beru.png" alt="アイコン" class="beru" height="40px"/>
             <img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/>
@@ -213,87 +240,71 @@ fn Header() -> impl IntoView {
 }
 
 #[component]
-fn MainScreen() -> impl IntoView{
-    let (posts, set_posts) = signal(vec![server::Post{title: "最強の推し".to_string(),id: "id".to_string(), name: "ルビス".to_string(), body: "最近はまっているのはツクリちゃん！\nツクリちゃんの歌うロミオとシンデレラを初めて聞いたときは脳を打ち抜かれました…！\nマルチクリエイティブVtuberということもあり、作曲、歌唱、MIX、動画制作などすべてできるものすごいお方！\n落ち着いた声もかっこいい歌声も最高なので１度聞いてみてほしいです！".to_string(), tags: vec!["推し活".to_string(), "ミリプロ".to_string()], is_advanced: true, comment:vec![]}]);
-    view!{
-        <div class="main-layout">
-            <For
-                each=move || posts.get()
-                key=|post| post.id.clone()
-                let(post)
-            >
-                <MainScreenPost post=post/>
-            </For>
-            <div class="post-right">
-                <div class="post">
-                    <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
+fn MainScreen() -> impl IntoView {
+    let posts = use_context::<ReadSignal<Vec<server::Post>>>().unwrap();
 
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-title">最高の推し</span>
-                            <span class="post-username">ルビス</span>
-                            <span class="post-attribute">初心者</span>/*経験者の時post-attribute-experience*/
-                        </div>
-                        <div class="post-text">
-                        "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
-その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
-また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
-その強さを表現する語彙力がないことが実に口惜しい…！
-まさに銀河１のアイドルはあくたんしかいないと思っています！"
-                        </div>
-                        <div class="post-actions">
-                            <span class="post-tag">"推し活"</span>
-                            <span class="post-tag">"hololive"</span>
-                        </div>
-                        <div class="post-footer">
-                            <span class="check-btn">返信</span>
-                        </div>
-                    </div>
-                </div>
+    let (right_post, set_right_post) = signal(None::<server::Post>);
+    Effect::new(move |_| {
+        let _ = posts.get();
+        set_right_post.set(None);
+    });
+    view! {
+        <div class="main-layout">
+            <Show
+            when=move || {posts.get().is_empty()}>
+            <div class="cantlook">
+                    <span>記事が見つかりませんでした</span>
             </div>
+        </Show>
+            <div class="timeline">
+                <For
+                    each=move || posts.get()
+                    key=|post| post.id.clone()
+                    let(post)
+                >
+                    <MainScreenPost on:click=move |_| {set_right_post.set(Some(post.clone()));} post=post.clone() is_preview=true />
+                </For>
+            </div>
+            <Show when=move || {right_post.get().is_some()}>
+                <div class="post-right">
+                    <MainScreenPost post=(|| {right_post.get().unwrap()})() is_preview=false/>
+                </div>
+            </Show>
         </div>
-}
+    }
 }
 
 #[component]
-fn MainScreenPost(post: server::Post) -> impl IntoView {
+fn MainScreenPost(post: server::Post, is_preview: bool) -> impl IntoView {
     let tags = post
-        .tags
+        .tag
         .iter()
         .map(|t| view! {<span class="post-tag"> {t.to_string()} </span>})
         .collect_view();
 
     view! {
-        <div class="main-layout">
-            <div class="timeline">
-                <div class="post">
-                    <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
+        <div class="post">
+            <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
 
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-title"> {post.title}</span>
-                            <span class="post-username"> {post.name} </span>
-                            <span class="post-attribute" class:post-attribute-experience=post.is_advanced> {
-                                if post.is_advanced{
-                                    "経験者"
-                                } else {
-                                    "初心者"
-                                }
-                            }</span>/*経験者の時post-attribute-experience*/
-                        </div>
-
-                        <div class="post-text-preview">
-                            {post.body}
-                        </div>
-                        <div class="post-actions">
-                            {
-                                tags.collect_view()
-                            }
-                        </div>
-                        <div class="post-footer">
-                            <span class="check-btn">全文表示</span>
-                        </div>
-                    </div>
+            <div class="post-content">
+                <div class="post-header">
+                    <span class="post-title"> {post.title}</span>
+                    <span class="post-username"> {post.name} </span>
+                    <span class="post-attribute" class:post-attribute-experience=post.is_advanced> {
+                        if post.is_advanced{
+                            "経験者"
+                        } else {
+                            "初心者"
+                        }
+                    }</span>/*経験者の時post-attribute-experience*/
+                </div>
+                <div class:post-text-preview = is_preview class:post-text = !is_preview>
+                    {post.body}
+                </div>
+                <div class="post-actions">
+                    {
+                        tags.collect_view()
+                    }
                 </div>
             </div>
         </div>
