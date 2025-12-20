@@ -432,17 +432,13 @@ body{
     border-radius: 15px;
     width: 90%;
     margin: 0 auto 0;
-    overflow: hidden;
+    height: 250px;
+    resize: none;
+    outline: none;
+    font-size: 20px;
 }
 .text-area-space .text-space{
-        padding: 10px;
-        border: none;
-        height: 250px;
-        width: 100%;
-        resize: none;
-        outline: none;
-        border-bottom: 1px solid black;
-        font-size: 20px;
+
 }
 .text-area-space .text-function{
         display: flex;

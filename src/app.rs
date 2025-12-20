@@ -113,14 +113,7 @@ fn PostScreen() -> impl IntoView {
                             <TagSearch tag=tag set_select_tag=set_select_tag/>
                         </For>
                     </div>
-                    <div class="text-area-space">
-                        <textarea class="text-space" placeholder="内容を入力"/> <br/>
-                        <div class="text-function">
-                            <div class="picture-button">
-                                <img src="/images/seal_certificate_line72.png"/>
-                            </div>
-                        </div>
-                    </div>
+                        <textarea class="text-area-space" placeholder="内容を入力"/>
                     <div class="post-button">
                         <img src="/images/mailing_fill72.png"/>
                     </div>
