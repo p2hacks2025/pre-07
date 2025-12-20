@@ -234,6 +234,8 @@ fn Header() -> impl IntoView {
 #[component]
 fn MainScreen() -> impl IntoView {
     let posts = use_context::<ReadSignal<Vec<server::Post>>>().unwrap();
+
+    let (right_post, set_right_post) = signal(None::<server::Post>);
     view! {
         <div class="main-layout">
             <div class="timeline">
@@ -242,36 +244,38 @@ fn MainScreen() -> impl IntoView {
                     key=|post| post.id.clone()
                     let(post)
                 >
-                    <MainScreenPost post=post is_preview=true/>
+                    <MainScreenPost on:click=move |_| {set_right_post.set(Some(post.clone()));} post=post.clone() is_preview=true />
                 </For>
             </div>
-            <div class="post-right">
-                <div class="post">
-                    <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
+            <Show when=move || {right_post.get().is_some()}>
+                <div class="post-right">
+                    <div class="post">
+                        <div class="post-icon"><img src="./images/kariicon.jpg" alt="アイコン" class="kariicon" height="40px"/></div>
 
-                    <div class="post-content">
-                        <div class="post-header">
-                            <span class="post-title">最高の推し</span>
-                            <span class="post-username">ルビス</span>
-                            <span class="post-attribute">初心者</span>/*経験者の時post-attribute-experience*/
-                        </div>
-                        <div class="post-text">
-                        "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
-    その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
-    また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
-    その強さを表現する語彙力がないことが実に口惜しい…！
-    まさに銀河１のアイドルはあくたんしかいないと思っています！"
-                        </div>
-                        <div class="post-actions">
-                            <span class="post-tag">"推し活"</span>
-                            <span class="post-tag">"hololive"</span>
-                        </div>
-                        <div class="post-footer">
-                            <span class="check-btn">返信</span>
+                        <div class="post-content">
+                            <div class="post-header">
+                                <span class="post-title">最高の推し</span>
+                                <span class="post-username">ルビス</span>
+                                <span class="post-attribute">初心者</span>/*経験者の時post-attribute-experience*/
+                            </div>
+                            <div class="post-text">
+                            "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
+        その歌声は万物をいやし、落ち込んだ心を救済すること間違いなし！
+        また、得意とするAPEXでは常人では目の追いつかないほどの速度で敵を打ち倒す！
+        その強さを表現する語彙力がないことが実に口惜しい…！
+        まさに銀河１のアイドルはあくたんしかいないと思っています！"
+                            </div>
+                            <div class="post-actions">
+                                <span class="post-tag">"推し活"</span>
+                                <span class="post-tag">"hololive"</span>
+                            </div>
+                            <div class="post-footer">
+                                <span class="check-btn">返信</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </Show>
         </div>
     }
 }
@@ -301,18 +305,16 @@ fn MainScreenPost(post: server::Post, is_preview: bool) -> impl IntoView {
                     }</span>/*経験者の時post-attribute-experience*/
                 </div>
 
-                        <div class:post-text-preview = is_preview class:post-text = !is_preview>
-                            {post.body}
-                        </div>
-                        <div class="post-actions">
-                            {
-                                tags.collect_view()
-                            }
-                        </div>
-                        <div class="post-footer">
-                            <span class="check-btn">全文表示</span>
-                        </div>
-                    </div>
+                <div class:post-text-preview = is_preview class:post-text = !is_preview>
+                    {post.body}
+                </div>
+                <div class="post-actions">
+                    {
+                        tags.collect_view()
+                    }
+                </div>
+                <div class="post-footer">
+                    <span class="check-btn">全文表示</span>
                 </div>
             </div>
         </div>
