@@ -46,7 +46,24 @@ pub fn App() -> impl IntoView {
 
         // sets the document title
         //<Title text="Welcome to Leptos"/>
-        <PostScreen/>
+
+        <Title text="Biestar"/>
+        <Show when=move || {
+            match user.get(){
+                None => false,
+                Some(_) => true
+            }
+        } fallback=Login>
+
+        <Header/>
+
+        <Router>
+            <Routes fallback=|| "NotFound">
+                <Route path=path!("/") view=PostScreen/>
+            </Routes>
+        </Router>
+
+        </Show>
     }
 }
 
@@ -103,24 +120,17 @@ fn PostScreen() -> impl IntoView{
     }
 }
 
-        <Title text="Biestar"/>
-        <Show when=move || {
-            match user.get(){
-                None => false,
-                Some(_) => true
-            }
-        } fallback=Login>
+#[component]
+fn TagSelect(tag: String) -> impl IntoView{
+    view!{
+        <p> {tag} </p>
+    }
+}
 
-        <Header/>
-
-        <Router>
-            <Routes fallback=|| "NotFound">
-                <Route path=path!("/test") view=Test/>
-            </Routes>
-        </Router>
-
-        </Show>
-
+#[component]
+fn TagPreview(tag: String) -> impl IntoView{
+    view!{
+        <p> {tag} </p>
     }
 }
 
