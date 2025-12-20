@@ -186,7 +186,7 @@ fn TagSearch(tag: String, set_select_tag: WriteSignal<Vec<String>>) -> impl Into
 
 #[component]
 fn Header() -> impl IntoView {
-    let (posts, set_posts) = signal(vec![server::Post{title: "最強の推し".to_string(),id: "id".to_string(), name: "ルビス".to_string(), body: "最近はまっているのはツクリちゃん！\nツクリちゃんの歌うロミオとシンデレラを初めて聞いたときは脳を打ち抜かれました…！\nマルチクリエイティブVtuberということもあり、作曲、歌唱、MIX、動画制作などすべてできるものすごいお方！\n落ち着いた声もかっこいい歌声も最高なので１度聞いてみてほしいです！".to_string(), tag: vec!["推し活".to_string(), "ミリプロ".to_string()], is_advanced: true, comment:vec![]}]);
+    let (posts, set_posts) = signal(vec![]);
 
     provide_context(posts);
 
@@ -203,6 +203,8 @@ fn Header() -> impl IntoView {
             set_posts.set(result);
         });
     };
+
+    search(String::new());
 
     let (query, set_query) = signal(String::new());
 
