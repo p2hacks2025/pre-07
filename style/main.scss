@@ -384,6 +384,7 @@ body{
 *{
     box-sizing: border-box;
 }
+}
 .box{
     width: 12%;
     height: 100%;
@@ -393,7 +394,7 @@ body{
 
 #side-space-left{
     position: fixed;
-    top: 0;
+    top: 60px;
     left: 0;
     background: rgba(255, 230, 0, 0.993);
 }
@@ -499,7 +500,7 @@ body{
     position:absolute;
     top: 140px;
     left: 87%;
-    width: 110px;
+    width: 100px;
     padding: 0.5em 1em;
     margin: 2em 0;
     font-weight: bold;
