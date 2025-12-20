@@ -381,11 +381,9 @@ body{
 
 #sidemenu:checked ~ .sidebar {
     left: 0;
-}
-
-//ResponceScreen
 *{
     box-sizing: border-box;
+}
 }
 .box{
     width: 12%;
@@ -398,7 +396,7 @@ body{
     position: fixed;
     top: 60px;
     left: 0;
-    background: rgba(255, 230, 0, 0.993);
+    background: #F7FC66;
 }
 
 
