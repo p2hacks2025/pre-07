@@ -321,6 +321,22 @@ body{
     color: #536471;
 }
 
+.post-attribute {
+    margin-left: 2px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 30px;
+    padding: 2px;
+
+    /*初心者の時*/
+    color: #bbbb07;
+    border: solid #f7f46a;
+
+    /*経験者の時*/
+    color:#e8890d;
+    border: solid #e8890d;
+}
+
 .post-text {
     margin-top: 6px;
     font-size: 15px;

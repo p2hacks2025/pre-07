@@ -113,6 +113,7 @@ fn MainScreen() -> impl IntoView{
                         <div class="post-header">
                             <span class="post-title">最高の推し</span>
                             <span class="post-username">ルビス</span>
+                            <span class="post-attribute">経験者</span>
                         </div>
                         <div class="post-text">
                         "最推しはあくたん！なんといっても彼女の魅力はそのかわいらしい声とゲームのうまさ！
@@ -153,6 +154,7 @@ fn MainScreenPost(post: server::ClientPost) -> impl IntoView {
                         <div class="post-header">
                             <span class="post-title"> {post.title}</span>
                             <span class="post-username"> {post.name} </span>
+                            <span class="post-attribute">経験者</span>
                         </div>
 
                         <div class="post-text-preview">
